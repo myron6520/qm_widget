@@ -37,7 +37,7 @@ class ThemeButton extends StatelessWidget {
   final double? height;
   final double? width;
   final EdgeInsets? padding;
-  final Widget Function() childBuilder;
+  final Widget Function(ButtonState state) childBuilder;
   final Function()? onClick;
   final ButtonController? controller;
 
@@ -51,7 +51,7 @@ class ThemeButton extends StatelessWidget {
       descBuilder: (state) {
         if (state == ButtonState.normal)
           return ButtonDesc(
-              child: childBuilder.call(),
+              child: childBuilder.call(state),
               decoration: normalDecoration ??
                   BoxDecoration(
                       color: backgroundColor,
@@ -61,7 +61,7 @@ class ThemeButton extends StatelessWidget {
                       borderRadius: BorderRadius.circular(borderRadius)));
         if (state == ButtonState.highlight)
           return ButtonDesc(
-              child: childBuilder.call(),
+              child: childBuilder.call(state),
               decoration: highlightDecoration ??
                   BoxDecoration(
                       color: highlightColor,
@@ -72,7 +72,7 @@ class ThemeButton extends StatelessWidget {
                       borderRadius: BorderRadius.circular(borderRadius)));
         if (state == ButtonState.disable)
           return ButtonDesc(
-              child: childBuilder.call(),
+              child: childBuilder.call(state),
               decoration: BoxDecoration(
                   color: disableColor,
                   border: disableBorderColor == null
