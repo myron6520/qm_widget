@@ -13,3 +13,6 @@ export 'package:qm_widget/style/qm_color.dart';
 export 'package:qm_widget/line/dotted_line.dart';
 
 export 'package:qm_widget/animation/slide_transition_widget.dart';
+
+export 'package:qm_widget/widgets/ref_status_widget.dart';
+export 'package:qm_widget/widgets/tab_widget.dart';
