@@ -234,5 +234,5 @@ class Item {
   bool open = false;
   List<Item> children = [];
 
-  Item({this.title = "", this.superTitle = ""});
+  Item({this.title = "", this.superTitle = "", this.children = const []});
 }
