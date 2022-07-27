@@ -1,4 +1,6 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_constructors_in_immutables, sort_child_properties_last
+
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:qm_dart_ex/qm_dart_ex.dart';
@@ -32,6 +34,7 @@ class _ReorderListWidgetState extends State<ReorderListWidget> {
             List<Item> children = List.from(superItem.children);
             children.insert(0, item);
             superItem.children = children;
+            superItem.open = true;
           }
           dragInIndex = -1;
           dragingIndex = -1;
@@ -40,32 +43,72 @@ class _ReorderListWidgetState extends State<ReorderListWidget> {
       );
   Widget buildItemWidget(int index) => [
         DragTarget(
-          builder: (_, __, ___) => [items[index].title.toText().expanded]
-              .toRow()
-              .applyBackground(
-                padding: EdgeInsets.all(16),
-                color: dragInIndex == index
-                    ? (dragInIndex == dragingIndex ? Colors.amber : Colors.blue)
-                    : Colors.white,
-              ),
+          builder: (_, __, ___) => [
+            LongPressDraggable(
+                axis: Axis.vertical,
+                onDragStarted: () => dragingIndex = index,
+                onDragCompleted: () {
+                  if (dragInIndex == dragingIndex) return;
+                  Item item = items[dragingIndex];
+                  if (item.children.isEmpty) {
+                    Item superItem = items[dragInIndex];
+                    items.remove(item);
+                    item.superTitle = superItem.title;
+                    List<Item> children = List.from(superItem.children);
+                    children.insert(0, item);
+                    superItem.children = children;
+                    superItem.open = true;
+                  } else {}
+                  dragInIndex = -1;
+                  dragingIndex = -1;
+                  setState(() {});
+                },
+                child: [items[index].title.toText().expanded]
+                    .toRow()
+                    .applyBackground(
+                      padding: EdgeInsets.all(16),
+                      color: dragInIndex == index
+                          ? (dragInIndex == dragingIndex
+                              ? Colors.amber
+                              : Colors.blue)
+                          : Colors.white,
+                    ),
+                feedback: [items[index].title.toText().expanded]
+                    .toRow()
+                    .applyBackground(
+                      padding: EdgeInsets.all(16),
+                      width: MediaQuery.of(context).size.width,
+                      alignment: Alignment.centerLeft,
+                      color: Colors.red,
+                    )).expanded,
+            Container(
+              width: 120,
+              height: 40,
+              color: Colors.amber,
+            )
+          ].toRow().onClick(() {
+            items[index].open = !items[index].open;
+            setState(() {});
+          }),
           onWillAccept: (_) {
             dragInIndex = index;
             setState(() {});
             return true;
           },
         ),
-        items[index]
-            .children
-            .isNotEmpty
+        (items[index].children.isNotEmpty && items[index].open)
             .toWidget(() => buildChildWidget(index, items[index].children)),
       ].toColumn().applyBackground(
-            key: ValueKey("${items[index].title}_${items.length}"),
+            key: ValueKey(
+                "${items[index].title}_${items[index].children.length}"),
           );
   @override
   Widget build(BuildContext context) {
     return ReorderableListView.builder(
+        key: ValueKey(items.length),
         itemBuilder: (_, idx) => buildItemWidget(idx),
         itemCount: items.length,
+        // proxyDecorator: _proxyDecorator,
         onReorder: (int oldIndex, int newIndex) {
           if (oldIndex > newIndex) {
             items.insert(newIndex, items.removeAt(oldIndex));
@@ -73,6 +116,27 @@ class _ReorderListWidgetState extends State<ReorderListWidget> {
             items.insert(newIndex - 1, items.removeAt(oldIndex));
           }
         });
+  }
+
+  Widget _proxyDecorator(Widget child, int index, Animation<double> animation) {
+    return AnimatedBuilder(
+      animation: animation,
+      builder: (BuildContext context, Widget? child) {
+        final double animValue = Curves.easeInOut.transform(animation.value);
+        final double elevation = lerpDouble(0, 6, animValue)!;
+        return Material(
+          elevation: elevation,
+          child: [items[index].title.toText().expanded].toRow().applyBackground(
+                padding: EdgeInsets.all(16),
+                color: Colors.red,
+              ),
+        );
+      },
+      child: [items[index].title.toText().expanded].toRow().applyBackground(
+            padding: EdgeInsets.all(16),
+            color: Colors.red,
+          ),
+    );
   }
 
   List<Item> items = [

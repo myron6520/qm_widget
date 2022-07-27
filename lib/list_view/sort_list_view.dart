@@ -231,7 +231,7 @@ class _SortListViewState extends State<SortListView> {
 class Item {
   final String title;
   String superTitle;
-  bool open = false;
+  bool open = true;
   List<Item> children = [];
 
   Item({this.title = "", this.superTitle = "", this.children = const []});
