@@ -48,17 +48,18 @@ class _ReorderListWidgetState extends State<ReorderListWidget> {
                 axis: Axis.vertical,
                 onDragStarted: () => dragingIndex = index,
                 onDragCompleted: () {
-                  if (dragInIndex == dragingIndex) return;
-                  Item item = items[dragingIndex];
-                  if (item.children.isEmpty) {
-                    Item superItem = items[dragInIndex];
-                    items.remove(item);
-                    item.superTitle = superItem.title;
-                    List<Item> children = List.from(superItem.children);
-                    children.insert(0, item);
-                    superItem.children = children;
-                    superItem.open = true;
-                  } else {}
+                  if (dragInIndex != dragingIndex) {
+                    Item item = items[dragingIndex];
+                    if (item.children.isEmpty) {
+                      Item superItem = items[dragInIndex];
+                      items.remove(item);
+                      item.superTitle = superItem.title;
+                      List<Item> children = List.from(superItem.children);
+                      children.insert(0, item);
+                      superItem.children = children;
+                      superItem.open = true;
+                    } else {}
+                  }
                   dragInIndex = -1;
                   dragingIndex = -1;
                   setState(() {});
