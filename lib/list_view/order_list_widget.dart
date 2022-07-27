@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, sort_child_properties_last, prefer_const_constructors_in_immutables
 
 import 'package:flutter/material.dart';
 import 'package:qm_dart_ex/qm_dart_ex.dart';
@@ -6,9 +6,11 @@ import 'package:qm_widget/list_view/sort_list_view.dart';
 
 class OrderListWidget extends StatefulWidget {
   final List<Item> items;
+  final void Function(int)? onDragStarted;
   final void Function(int)? onDragCompleted;
 
-  OrderListWidget({Key? key, required this.items, this.onDragCompleted})
+  OrderListWidget(
+      {Key? key, required this.items, this.onDragCompleted, this.onDragStarted})
       : super(key: key);
 
   @override
@@ -32,6 +34,7 @@ class _OrderListWidgetState extends State<OrderListWidget> {
             widget.onDragCompleted?.call(index);
             setState(() {});
           },
+          onDragStarted: () => widget.onDragStarted?.call(index),
         ).expanded,
         Container(
           width: 120,

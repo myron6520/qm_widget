@@ -17,6 +17,7 @@ class _ReorderListWidgetState extends State<ReorderListWidget> {
   Widget buildChildWidget(int index, List<Item> children) => OrderListWidget(
         key: ValueKey(children.length),
         items: children,
+        onDragStarted: (childIndex) => dragingIndex = index,
         onDragCompleted: (childIndex) {
           Item item = children[childIndex];
           Item superItem = items[dragInIndex];
@@ -33,16 +34,20 @@ class _ReorderListWidgetState extends State<ReorderListWidget> {
             superItem.children = children;
           }
           dragInIndex = -1;
+          dragingIndex = -1;
           setState(() {});
         },
       );
   Widget buildItemWidget(int index) => [
         DragTarget(
-          builder: (_, __, ___) =>
-              [items[index].title.toText().expanded].toRow().applyBackground(
-                    padding: EdgeInsets.all(16),
-                    color: dragInIndex == index ? Colors.blue : Colors.white,
-                  ),
+          builder: (_, __, ___) => [items[index].title.toText().expanded]
+              .toRow()
+              .applyBackground(
+                padding: EdgeInsets.all(16),
+                color: dragInIndex == index
+                    ? (dragInIndex == dragingIndex ? Colors.amber : Colors.blue)
+                    : Colors.white,
+              ),
           onWillAccept: (_) {
             dragInIndex = index;
             setState(() {});
@@ -88,4 +93,5 @@ class _ReorderListWidgetState extends State<ReorderListWidget> {
     Item(title: "TRX"),
   ];
   int dragInIndex = -1;
+  int dragingIndex = -1;
 }
