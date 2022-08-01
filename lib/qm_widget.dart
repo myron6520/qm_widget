@@ -14,5 +14,16 @@ export 'package:qm_widget/line/dotted_line.dart';
 
 export 'package:qm_widget/animation/slide_transition_widget.dart';
 
+export 'package:qm_widget/overlay/overlay_manager.dart';
+
 export 'package:qm_widget/widgets/ref_status_widget.dart';
 export 'package:qm_widget/widgets/tab_widget.dart';
+
+export 'package:qm_widget/pub/widget_default_builder.dart';
+
+export 'package:qm_widget/net/net_request.dart';
+export 'package:qm_widget/net/net_action.dart';
+export 'package:qm_widget/net/net_resp.dart';
+
+export 'package:qm_widget/provider/net_widget.dart';
+export 'package:qm_widget/provider/page_widget.dart';

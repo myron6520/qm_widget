@@ -38,6 +38,18 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "dio",
+      "rootUri": "file:///Users/wt01/.pub-cache/hosted/pub.flutter-io.cn/dio-4.0.6",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "easy_refresh",
+      "rootUri": "file:///Users/wt01/.pub-cache/hosted/pub.flutter-io.cn/easy_refresh-3.0.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.13"
+    },
+    {
       "name": "fake_async",
       "rootUri": "file:///Users/wt01/.pub-cache/hosted/pub.flutter-io.cn/fake_async-1.3.0",
       "packageUri": "lib/",
@@ -60,6 +72,12 @@
       "rootUri": "file:///Users/wt01/flutter/packages/flutter_test",
       "packageUri": "lib/",
       "languageVersion": "2.17"
+    },
+    {
+      "name": "http_parser",
+      "rootUri": "file:///Users/wt01/.pub-cache/hosted/pub.flutter-io.cn/http_parser-4.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "lints",
@@ -86,8 +104,32 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "nested",
+      "rootUri": "file:///Users/wt01/.pub-cache/hosted/pub.flutter-io.cn/nested-1.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "path",
       "rootUri": "file:///Users/wt01/.pub-cache/hosted/pub.flutter-io.cn/path-1.8.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "path_drawing",
+      "rootUri": "file:///Users/wt01/.pub-cache/hosted/pub.flutter-io.cn/path_drawing-1.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "path_parsing",
+      "rootUri": "file:///Users/wt01/.pub-cache/hosted/pub.flutter-io.cn/path_parsing-1.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "provider",
+      "rootUri": "file:///Users/wt01/.pub-cache/hosted/pub.flutter-io.cn/provider-6.0.3",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -140,6 +182,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "typed_data",
+      "rootUri": "file:///Users/wt01/.pub-cache/hosted/pub.flutter-io.cn/typed_data-1.3.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "vector_math",
       "rootUri": "file:///Users/wt01/.pub-cache/hosted/pub.flutter-io.cn/vector_math-2.1.2",
       "packageUri": "lib/",
@@ -152,7 +200,7 @@
       "languageVersion": "2.17"
     }
   ],
-  "generated": "2022-07-22T02:13:03.014024Z",
+  "generated": "2022-08-01T09:50:54.316382Z",
   "generator": "pub",
   "generatorVersion": "2.17.6"
 }
