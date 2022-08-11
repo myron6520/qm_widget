@@ -27,3 +27,4 @@ export 'package:qm_widget/net/net_resp.dart';
 
 export 'package:qm_widget/provider/net_widget.dart';
 export 'package:qm_widget/provider/page_widget.dart';
+export 'package:qm_widget/provider/list_widget.dart';

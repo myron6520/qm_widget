@@ -13,7 +13,7 @@ class ListWidget<T> extends StatefulWidget {
     this.separatorBuilder,
     this.autoLoad = true,
     this.didGetProvider,
-    this.contentPadding,
+    this.contentPadding = EdgeInsets.zero,
     this.pageSize = 10,
   }) : super(key: key);
   final Future<NetResp<List<T>>> Function(int page, int pageSize) loadFunc;
