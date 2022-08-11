@@ -30,14 +30,26 @@ class NetRequest {
       } else {
         resp.data = data as T;
       }
+    } else {
+      if (convertFunc != null) {
+        return convertFunc.call({
+          "code": res?.statusCode ?? -1,
+          "message": res?.statusMessage ?? "",
+        });
+      }
     }
     return resp;
   }
 
-  Future<NetResp<T>> handleError<T>(DioError e) async {
+  Future<NetResp<T>> handleError<T>(
+    DioError e, {
+    NetResp<T> Function(Map dataMap)? convertFunc,
+    NetResp<T> Function(Response? res)? respConvertFunc,
+  }) async {
     return (NetRequest.onError ??
-            (it) {
+            (DioError it) {
               String msg = it.message;
+              int code = -1;
               switch (it.type) {
                 case DioErrorType.sendTimeout:
                   msg = "发送超时";
@@ -52,13 +64,17 @@ class NetRequest {
                   msg = "连接超时";
                   break;
                 case DioErrorType.response:
-                  break;
+                  return handleResponse(
+                    it.response,
+                    convertFunc: convertFunc,
+                    respConvertFunc: respConvertFunc,
+                  );
                 case DioErrorType.other:
                   msg = "${it.error}";
                   break;
               }
               debugPrint("handleError:$it");
-              return NetResp(msg: msg);
+              return NetResp<T>(msg: msg, code: code);
             })
         .call(e);
   }
@@ -81,10 +97,9 @@ class NetRequest {
         ),
       );
     } catch (e) {
-      debugPrint("Http Error:$url");
-      debugPrint("Http Error:$e");
       if (e is DioError) {
-        return handleError(e);
+        return handleError(e,
+            convertFunc: convertFunc, respConvertFunc: respConvertFunc);
       }
       return NetResp(msg: ERROR_UNDEFINED);
     }
@@ -110,10 +125,9 @@ class NetRequest {
         ),
       );
     } catch (e) {
-      debugPrint("Http Error:$url");
-      debugPrint("Http Error:$e");
       if (e is DioError) {
-        return handleError(e);
+        return handleError(e,
+            convertFunc: convertFunc, respConvertFunc: respConvertFunc);
       }
       return NetResp(msg: ERROR_UNDEFINED);
     }
@@ -147,7 +161,10 @@ class NetRequest {
                   ContentType.parse("application/x-www-form-urlencoded")
                       .value));
     } catch (e) {
-      debugPrint("Http Error:$e");
+      if (e is DioError) {
+        return handleError(e,
+            convertFunc: convertFunc, respConvertFunc: respConvertFunc);
+      }
     }
     return handleResponse<T>(res,
         convertFunc: convertFunc, respConvertFunc: respConvertFunc);
@@ -173,7 +190,10 @@ class NetRequest {
             headers: headers,
           ));
     } catch (e) {
-      debugPrint("Http Error:$e");
+      if (e is DioError) {
+        return handleError(e,
+            convertFunc: convertFunc, respConvertFunc: respConvertFunc);
+      }
     }
     return handleResponse<T>(res,
         convertFunc: convertFunc, respConvertFunc: respConvertFunc);
@@ -191,7 +211,10 @@ class NetRequest {
       res = await client.get(url,
           queryParameters: params, options: Options(headers: headers));
     } catch (e) {
-      debugPrint("Http Error:$e");
+      if (e is DioError) {
+        return handleError(e,
+            convertFunc: convertFunc, respConvertFunc: respConvertFunc);
+      }
     }
     return handleResponse<T>(res,
         convertFunc: convertFunc, respConvertFunc: respConvertFunc);
@@ -209,7 +232,10 @@ class NetRequest {
       res = await client.delete(url,
           queryParameters: params, options: Options(headers: headers));
     } catch (e) {
-      debugPrint("Http Error:$e");
+      if (e is DioError) {
+        return handleError(e,
+            convertFunc: convertFunc, respConvertFunc: respConvertFunc);
+      }
     }
     return handleResponse<T>(res,
         convertFunc: convertFunc, respConvertFunc: respConvertFunc);
