@@ -24,11 +24,10 @@ class NetRequest {
       return respConvertFunc.call(res);
     }
     if ((res?.statusCode ?? -1) == 200) {
-      Map data = res?.data ?? {};
       if (convertFunc != null) {
-        return convertFunc.call(data);
+        return convertFunc.call(res?.data);
       } else {
-        resp.data = data as T;
+        resp.data = res?.data as T;
       }
     } else {
       if (convertFunc != null) {
