@@ -61,7 +61,7 @@ class QM {
     OverlayEntry overlay = OverlayEntry(
       builder: (_) => (builder ?? (p) => p).call(
         [
-          Container().onClick(() {
+          Container().onClick(click: () {
             overlayRef.remove();
           }).expanded,
           SlideTransitionWidget(

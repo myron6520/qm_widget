@@ -100,7 +100,7 @@ class RespWidget extends StatelessWidget {
       return finalChild;
     }
     if (onTap != null) {
-      finalChild = finalChild.onClick(onTap!);
+      finalChild = finalChild.onClick(click: onTap!);
     }
     return finalChild;
   }

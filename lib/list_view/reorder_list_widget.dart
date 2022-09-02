@@ -87,7 +87,7 @@ class _ReorderListWidgetState extends State<ReorderListWidget> {
               height: 40,
               color: Colors.amber,
             )
-          ].toRow().onClick(() {
+          ].toRow().onClick(click: () {
             items[index].open = !items[index].open;
             setState(() {});
           }),
