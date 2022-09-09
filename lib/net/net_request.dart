@@ -186,6 +186,8 @@ class NetRequest {
           cancelToken: cancelToken,
           onReceiveProgress: onReceiveProgress,
           options: Options(
+            responseType: ResponseType.stream,
+            followRedirects: false,
             headers: headers,
           ));
     } catch (e) {
