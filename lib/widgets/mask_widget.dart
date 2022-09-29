@@ -41,15 +41,21 @@ class MaskWidget extends StatelessWidget {
   }
 
   static Future<T?> show<T>(
-      BuildContext context, double topSpan, Widget Function() childBuilder,
-      {bool barrierDismissible = true, Color? barrierColor}) {
+    BuildContext context,
+    Widget Function() childBuilder, {
+    bool barrierDismissible = true,
+    Color? barrierColor,
+    EdgeInsets margin = EdgeInsets.zero,
+    EdgeInsets padding = EdgeInsets.zero,
+  }) {
     return showDialog<T>(
       barrierDismissible: barrierDismissible,
       context: context,
       barrierColor: Colors.transparent,
       useSafeArea: false,
       builder: (_) => MaskWidget(
-        padding: EdgeInsets.only(top: topSpan),
+        padding: padding,
+        margin: margin,
         barrierDismissible: barrierDismissible,
         childBuilder: childBuilder,
         barrierColor: barrierColor,
