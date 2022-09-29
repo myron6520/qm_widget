@@ -1,0 +1,36 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "haas-ui: Build-Debug",
+      "type": "shell",
+      "command": "aiot-cli",
+      "args": [
+        "-p"
+      ],
+      "presentation": {
+        "focus": true
+      }
+    },
+    {
+      "label": "haas-ui: Build-Release",
+      "type": "shell",
+      "command": "aiot-cli",
+      "args": [
+        "-c",
+        "-q",
+        "-p"
+      ],
+      "presentation": {
+        "focus": true
+      }
+    }
+  ],
+  "osx": {
+    "options": {
+      "env": {
+        "PATH": "/Users/wt01/.aliot/miniconda3/envs/_aos_env:/Users/wt01/.aliot/miniconda3/envs/_aos_env/bin:${env:PATH}"
+      }
+    }
+  }
+}

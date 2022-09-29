@@ -18,6 +18,7 @@ export 'package:qm_widget/overlay/overlay_manager.dart';
 
 export 'package:qm_widget/widgets/ref_status_widget.dart';
 export 'package:qm_widget/widgets/tab_widget.dart';
+export 'package:qm_widget/widgets/mask_widget.dart';
 
 export 'package:qm_widget/pub/widget_default_builder.dart';
 
