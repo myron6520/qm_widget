@@ -20,41 +20,57 @@ extension NameExOnWidget on Widget {
 
 class App {
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey();
-  static Future<T?>? push<T extends Object?>(Widget page, {String? name}) =>
-      pushRoute<T>(MaterialPageRoute(
-        builder: (_) => page,
-        settings: RouteSettings(name: name ?? page.name),
-      ));
+  static NavigatorState? findNavigatorState({BuildContext? context}) =>
+      context == null ? navigatorKey.currentState : Navigator.of(context);
+  static Future<T?>? push<T extends Object?>(Widget page,
+          {String? name, BuildContext? context}) =>
+      pushRoute<T>(
+        MaterialPageRoute(
+          builder: (_) => page,
+          settings: RouteSettings(name: name ?? page.name),
+        ),
+        context,
+      );
 
-  static Future<T?>? pushRoute<T extends Object?>(Route<T> route) =>
-      navigatorKey.currentState?.push<T>(route);
+  static Future<T?>? pushRoute<T extends Object?>(
+          Route<T> route, BuildContext? context) =>
+      findNavigatorState(context: context)?.push<T>(route);
 
-  static Future<T?>? replace<T extends Object?>(Widget page, {String? name}) =>
-      replaceRoute<T>(MaterialPageRoute(
-        builder: (_) => page,
-        settings: RouteSettings(name: name ?? page.name),
-      ));
-  static Future<T?>? replaceRoute<T extends Object?>(Route<T> route) =>
-      navigatorKey.currentState?.pushReplacement(route);
+  static Future<T?>? replace<T extends Object?>(Widget page,
+          {String? name, BuildContext? context}) =>
+      replaceRoute<T>(
+          MaterialPageRoute(
+            builder: (_) => page,
+            settings: RouteSettings(name: name ?? page.name),
+          ),
+          context);
+  static Future<T?>? replaceRoute<T extends Object?>(
+          Route<T> route, BuildContext? context) =>
+      findNavigatorState(context: context)?.pushReplacement(route);
   static Future<T?>? pushAndRemoveAll<T extends Object?>(Widget page,
-          {String? name}) =>
-      pushRouteAndRemoveAll(MaterialPageRoute(
-        builder: (_) => page,
-        settings: RouteSettings(name: name ?? page.name),
-      ));
-  static Future<T?>? pushRouteAndRemoveAll<T extends Object?>(Route<T> route) =>
-      navigatorKey.currentState
+          {String? name, BuildContext? context}) =>
+      pushRouteAndRemoveAll(
+          MaterialPageRoute(
+            builder: (_) => page,
+            settings: RouteSettings(name: name ?? page.name),
+          ),
+          context);
+  static Future<T?>? pushRouteAndRemoveAll<T extends Object?>(
+          Route<T> route, BuildContext? context) =>
+      findNavigatorState(context: context)
           ?.pushAndRemoveUntil(route, (Route<dynamic> route) => false);
 
-  static void pop<T extends Object?>([T? data]) =>
-      navigatorKey.currentState?.pop(data);
-  static void tryToPop<T extends Object?>([T? data]) {
-    if (canPop) {
-      navigatorKey.currentState?.pop(data);
+  static void pop<T extends Object?>({BuildContext? context, T? data}) =>
+      findNavigatorState(context: context)?.pop(data);
+  static void tryToPop<T extends Object?>({BuildContext? context, T? data}) {
+    if (canPop(context: context)) {
+      findNavigatorState(context: context)?.pop(data);
     }
   }
 
-  static bool get canPop => navigatorKey.currentState?.canPop() ?? false;
-  static void popUntil(String pageName) =>
-      navigatorKey.currentState?.popUntil(ModalRoute.withName(pageName));
+  static bool canPop({BuildContext? context}) =>
+      findNavigatorState(context: context)?.canPop() ?? false;
+  static void popUntil(String pageName, {BuildContext? context}) =>
+      findNavigatorState(context: context)
+          ?.popUntil(ModalRoute.withName(pageName));
 }
