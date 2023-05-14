@@ -15,11 +15,13 @@ class ListWidget<T> extends StatefulWidget {
     this.didGetProvider,
     this.contentPadding = EdgeInsets.zero,
     this.pageSize = 10,
+    this.dataChanged,
   }) : super(key: key);
   final Future<NetResp<List<T>>> Function(int page, int pageSize) loadFunc;
   final Widget Function(BuildContext context, int index, T itemData)
       itemBuilder;
   final Widget Function(BuildContext context, int index)? separatorBuilder;
+  final Function(NetResp<List<T>> resp)? dataChanged;
 
   final bool autoLoad;
   final Function(PageProvider<T> provider)? didGetProvider;
@@ -40,6 +42,7 @@ class _ListWidgetState<T> extends State<ListWidget<T>>
       pageSize: widget.pageSize,
       autoLoad: widget.autoLoad,
       didGetProvider: widget.didGetProvider,
+      dataChanged: widget.dataChanged,
       builder: (_, provider) => ListView.separated(
           padding: widget.contentPadding,
           itemBuilder: (ctx, index) =>
@@ -64,13 +67,14 @@ class ListRefWidget<T> extends StatefulWidget {
     this.autoLoad = true,
     this.didGetProvider,
     this.pageSize = 10,
+    this.dataChanged,
   }) : super(key: key);
   final ValueNotifier<RefStatus> refStatus;
   final Future<NetResp<List<T>>> Function(int page, int pageSize) loadFunc;
   final Widget Function(BuildContext context, int index, T itemData)
       itemBuilder;
   final Widget Function(BuildContext context, int index)? separatorBuilder;
-
+  final Function(NetResp<List<T>> resp)? dataChanged;
   final bool autoLoad;
   final Function(PageProvider<T> provider)? didGetProvider;
   final int pageSize;
@@ -90,6 +94,7 @@ class _ListRefWidgetState<T> extends State<ListRefWidget<T>>
       separatorBuilder: widget.separatorBuilder,
       autoLoad: widget.autoLoad,
       pageSize: widget.pageSize,
+      dataChanged: widget.dataChanged,
       didGetProvider: (p) => provider = p,
     ).applyRefStatus(widget.refStatus, () async => provider?.reloadData());
   }
