@@ -5,37 +5,37 @@ import 'package:qm_widget/style/qm_color.dart';
 
 import '../button/theme_button.dart';
 
-class SRHandleStyle {
+class QMHandleStyle {
   String title = '确定';
   Color backgroundColor = QMColor.COLOR_00B276;
   Color highlightColor = QMColor.COLOR_00B276.applyOpacity(0.4);
   double fontSize = 14;
   Color textColor = Colors.white;
   double textHeight = 24 / 16;
-  SRHandleStyle.primary({this.title = "确定"});
-  SRHandleStyle.cancel({this.title = "取消"}) {
+  QMHandleStyle.primary({this.title = "确定"});
+  QMHandleStyle.cancel({this.title = "取消"}) {
     backgroundColor = QMColor.COLOR_F1FBF5;
     highlightColor = QMColor.COLOR_F1FBF5.applyOpacity(0.4);
     textColor = QMColor.COLOR_00B276;
   }
-  SRHandleStyle.delete({this.title = "删除"}) {
+  QMHandleStyle.delete({this.title = "删除"}) {
     backgroundColor = QMColor.COLOR_FF3F3F;
     highlightColor = QMColor.COLOR_FF3F3F.applyOpacity(0.4);
   }
-  SRHandleStyle.gray({this.title = "取消"}) {
+  QMHandleStyle.gray({this.title = "取消"}) {
     backgroundColor = QMColor.COLOR_F2F2F2;
     highlightColor = QMColor.COLOR_F2F2F2.applyOpacity(0.4);
     textColor = QMColor.COLOR_030319;
   }
 }
 
-class SRAlertWidget extends StatelessWidget {
+class QMAlertWidget extends StatelessWidget {
   final void Function()? onConfirm;
-  final void Function(int idx, SRHandleStyle style)? onHandleItemClick;
+  final void Function(int idx, QMHandleStyle style)? onHandleItemClick;
   final String title;
   final String message;
-  final List<SRHandleStyle>? handles;
-  const SRAlertWidget({
+  final List<QMHandleStyle>? handles;
+  const QMAlertWidget({
     Key? key,
     this.onConfirm,
     this.title = "完成认证",
