@@ -8,12 +8,14 @@ class DottedLine extends StatelessWidget {
   final double height;
   final Color color;
   final Axis direction;
+  final double dashWidth;
 
   const DottedLine({
-    Key? key,
+    super.key,
     this.height = 1,
     this.color = QMColor.COLOR_D7D9D8,
     this.direction = Axis.horizontal,
+    this.dashWidth = 10,
   });
 
   @override
@@ -23,7 +25,6 @@ class DottedLine extends StatelessWidget {
         final boxWidth = direction == Axis.horizontal
             ? constraints.constrainWidth()
             : constraints.constrainHeight();
-        const dashWidth = 10.0;
         final dashHeight = height;
         final dashCount = (boxWidth / (2 * dashWidth)).floor();
         return Flex(
