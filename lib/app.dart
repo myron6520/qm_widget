@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 extension NameExOnWidget on Widget {
   String get name {
@@ -25,7 +25,7 @@ class App {
   static Future<T?>? push<T extends Object?>(Widget page,
           {String? name, BuildContext? context}) =>
       pushRoute<T>(
-        MaterialPageRoute(
+        CupertinoPageRoute(
           builder: (_) => page,
           settings: RouteSettings(name: name ?? page.name),
         ),
@@ -39,7 +39,7 @@ class App {
   static Future<T?>? replace<T extends Object?>(Widget page,
           {String? name, BuildContext? context}) =>
       replaceRoute<T>(
-          MaterialPageRoute(
+          CupertinoPageRoute(
             builder: (_) => page,
             settings: RouteSettings(name: name ?? page.name),
           ),
@@ -50,7 +50,7 @@ class App {
   static Future<T?>? pushAndRemoveAll<T extends Object?>(Widget page,
           {String? name, BuildContext? context}) =>
       pushRouteAndRemoveAll(
-          MaterialPageRoute(
+          CupertinoPageRoute(
             builder: (_) => page,
             settings: RouteSettings(name: name ?? page.name),
           ),
