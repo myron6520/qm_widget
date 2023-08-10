@@ -15,8 +15,9 @@ dependencies:
     path: ../qm_dart_ex
   dio: ^4.0.6
   provider: ^6.0.3
-  easy_refresh: ^3.0.4
+  # easy_refresh: ^3.0.4
   flutter_svg: ^2.0.6
+  pull_to_refresh: ^2.0.0
 
 dev_dependencies:
   flutter_test:

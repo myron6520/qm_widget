@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:easy_refresh/easy_refresh.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:qm_widget/net/net_resp.dart';
 
 class PageProvider<T> extends RespProvider {
@@ -185,6 +185,19 @@ class PageRefWidget<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // return PageWidget<T>(
+    //   loadFunc,
+    //   sliver: sliver,
+    //   autoLoad: autoLoad,
+    //   didGetProvider: didGetProvider,
+    //   statusWidgetBuilder: statusWidgetBuilder,
+    //   onStatusWidgetClick: onStatusWidgetClick,
+    //   dataChanged: dataChanged,
+    //   checkNoData: checkNoData,
+    //   pageSize: pageSize,
+    //   builder: (ctx, provider) => builder.call(ctx, provider),
+    // );
+    late RefreshController controller = RefreshController();
     return PageWidget<T>(
       loadFunc,
       sliver: sliver,
@@ -195,11 +208,21 @@ class PageRefWidget<T> extends StatelessWidget {
       dataChanged: dataChanged,
       checkNoData: checkNoData,
       pageSize: pageSize,
-      builder: (ctx, provider) => EasyRefresh(
-        header: MaterialHeader(),
-        // footer: ClassicalFooter(showInfo: false),
-        onRefresh: () async => await provider.reloadData(),
-        onLoad: provider.isEnd ? null : () async => await provider.loadMore(),
+      builder: (ctx, provider) => SmartRefresher(
+        controller: controller,
+        enablePullUp: !provider.isEnd,
+        enablePullDown: true,
+        header: WaterDropHeader(),
+        onRefresh: () async {
+          await provider.reloadData();
+          controller.refreshCompleted(resetFooterState: true);
+        },
+        onLoading: provider.isEnd
+            ? null
+            : () async {
+                await provider.loadMore();
+                controller.loadComplete();
+              },
         child: builder.call(ctx, provider),
       ),
     );

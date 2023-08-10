@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:qm_dart_ex/qm_dart_ex.dart';
 import 'package:qm_widget/net/net_resp.dart';
 
 class NetProvider<T> extends RespProvider {
@@ -45,7 +47,8 @@ class NetWidget<T> extends StatelessWidget {
       this.sliver = false,
       this.statusWidgetBuilder,
       this.dataChanged,
-      this.autoLoad = true})
+      this.autoLoad = true,
+      this.refreshEnable = false})
       : super(key: key);
   final Future<NetResp<T>> Function()? loadFunc;
   final Function(NetProvider<T>)? didGetProvider;
@@ -54,6 +57,7 @@ class NetWidget<T> extends StatelessWidget {
   final bool autoLoad;
   final Widget? Function(NetProvider<T>)? statusWidgetBuilder;
   final Function(NetResp<T?> resp)? dataChanged;
+  final bool refreshEnable;
 
   void _loadData(NetProvider<T> provider) {
     provider.status = RespStatus.loading;
@@ -62,6 +66,7 @@ class NetWidget<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    late RefreshController controller = RefreshController();
     return ChangeNotifierProvider<NetProvider<T>>(
       create: (_) {
         var p = NetProvider<T>(loadFunc: loadFunc, dataChanged: dataChanged);
@@ -78,7 +83,19 @@ class NetWidget<T> extends StatelessWidget {
           statusWidgetBuilder: statusWidgetBuilder != null
               ? (_) => statusWidgetBuilder?.call(provider)
               : null,
-          builder: (_) => builder.call(ctx, provider),
+          builder: (_) => refreshEnable
+              ? SmartRefresher(
+                  controller: controller,
+                  enablePullUp: false,
+                  enablePullDown: true,
+                  header: WaterDropHeader(),
+                  onRefresh: () async {
+                    await provider.loadData();
+                    controller.refreshCompleted(resetFooterState: true);
+                  },
+                  child: builder.call(ctx, provider),
+                )
+              : builder.call(ctx, provider),
           onTap: () => _loadData(provider),
         ),
       ),
