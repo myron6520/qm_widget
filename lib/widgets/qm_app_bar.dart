@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:qm_dart_ex/qm_dart_ex.dart';
+import 'package:qm_widget/pub/scale_util.dart';
 import 'package:qm_widget/style/qm_color.dart';
 import 'package:qm_widget/style/qm_icon.dart';
 
@@ -35,7 +36,7 @@ class QMAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: titleWidget ??
           title.toText(
             color: tintColor,
-            fontSize: 18,
+            fontSize: 18.s,
             fontWeight: FontWeight.w500,
             height: 24 / 18,
           ),
@@ -43,13 +44,13 @@ class QMAppBar extends StatelessWidget implements PreferredSizeWidget {
       leading: leading ??
           SvgPicture.string(
             QMIcon.POP,
-            width: 24,
-            height: 24,
+            width: 24.s,
+            height: 24.s,
             colorFilter: ColorFilter.mode(tintColor, BlendMode.srcIn),
           )
               .applyBackground(
-            width: 44,
-            height: 44,
+            width: 44.s,
+            height: 44.s,
             alignment: Alignment.center,
           )
               .onClick(click: () {
@@ -59,5 +60,5 @@ class QMAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(44);
+  Size get preferredSize => Size.fromHeight(44.s);
 }
