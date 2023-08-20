@@ -14,13 +14,19 @@ class WTCellWidget extends StatelessWidget {
   final String detail;
   final bool showBottomLine;
   final Widget? right;
+  final EdgeInsets? padding;
+  final EdgeInsets? margin;
+  final double? rightSpan;
   const WTCellWidget(
       {Key? key,
       required this.title,
       this.subTitle = "",
       this.detail = "",
       this.showBottomLine = true,
-      this.right})
+      this.right,
+      this.padding,
+      this.margin,
+      this.rightSpan})
       : super(key: key);
 
   @override
@@ -45,8 +51,8 @@ class WTCellWidget extends StatelessWidget {
           ),
           12.s.inRow,
         ].toRow().applyBackground(
-            padding: EdgeInsets.symmetric(vertical: 16.s),
-            margin: EdgeInsets.symmetric(horizontal: 16.s),
+            padding: padding ?? EdgeInsets.symmetric(vertical: 16.s),
+            margin: margin ?? EdgeInsets.symmetric(horizontal: 16.s),
             decoration: BoxDecoration(
               color: Colors.white,
               border: showBottomLine
@@ -63,6 +69,6 @@ class WTCellWidget extends StatelessWidget {
                   colorFilter:
                       ColorFilter.mode(QMColor.COLOR_E0E0E0, BlendMode.srcIn),
                 ))
-            .toPositioned(right: 16.s, top: 0, bottom: 0)
+            .toPositioned(right: rightSpan ?? 16.s, top: 0, bottom: 0)
       ].toStack();
 }

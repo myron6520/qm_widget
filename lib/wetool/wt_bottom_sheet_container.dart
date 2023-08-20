@@ -29,7 +29,7 @@ class WTBottomSheetContailer extends StatelessWidget {
     ].toColumn(mainAxisSize: MainAxisSize.min).applyBackground(
             decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(16.s),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(16.s)),
         ));
   }
 }
