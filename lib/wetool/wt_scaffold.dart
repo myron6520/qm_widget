@@ -10,15 +10,18 @@ class WTScaffold extends StatelessWidget {
   final Color backgroundColor;
   final String title;
   final SystemUiOverlayStyle? systemOverlayStyle;
+  final List<Widget>? actions;
   const WTScaffold(
       {super.key,
       this.body,
       this.backgroundColor = QMColor.COLOR_F7F9FA,
       this.title = "",
-      this.systemOverlayStyle});
+      this.systemOverlayStyle,
+      this.actions});
 
   @override
   Widget build(BuildContext context) => Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: backgroundColor,
         appBar: QMAppBar(
           title: title,
@@ -27,6 +30,7 @@ class WTScaffold extends StatelessWidget {
                 systemNavigationBarColor: QMColor.COLOR_F7F9FA,
               ),
           backgroundColor: QMColor.COLOR_F7F9FA,
+          actions: actions,
         ),
         body: body,
       );

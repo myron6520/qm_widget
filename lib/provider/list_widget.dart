@@ -36,7 +36,6 @@ class _ListWidgetState<T> extends State<ListWidget<T>>
     with AutomaticKeepAliveClientMixin<ListWidget<T>> {
   @override
   Widget build(BuildContext context) {
-    debugPrint("${widget.runtimeType} build");
     super.build(context);
     return PageRefWidget<T>(
       widget.loadFunc,
@@ -58,14 +57,6 @@ class _ListWidgetState<T> extends State<ListWidget<T>>
   @override
   bool get wantKeepAlive => true;
   late ScrollController controller = ScrollController();
-  @override
-  void initState() {
-    super.initState();
-    // controller.addListener(() {
-    //   debugPrint(
-    //       "on Scroll:${controller.offset} ${controller.position.maxScrollExtent}");
-    // });
-  }
 }
 
 class ListRefWidget<T> extends StatefulWidget {

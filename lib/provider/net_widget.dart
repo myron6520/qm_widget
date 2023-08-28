@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:qm_dart_ex/qm_dart_ex.dart';
-import 'package:qm_widget/net/net_resp.dart';
+import 'package:qm_widget/pub/scale_util.dart';
+import 'package:qm_widget/qm_widget.dart';
 
 class NetProvider<T> extends RespProvider {
   NetProvider({required this.loadFunc, this.dataChanged}) : super();
@@ -40,16 +40,20 @@ class NetProvider<T> extends RespProvider {
 }
 
 class NetWidget<T> extends StatelessWidget {
-  const NetWidget(this.loadFunc,
-      {Key? key,
-      this.didGetProvider,
-      required this.builder,
-      this.sliver = false,
-      this.statusWidgetBuilder,
-      this.dataChanged,
-      this.autoLoad = true,
-      this.refreshEnable = false})
-      : super(key: key);
+  const NetWidget(
+    this.loadFunc, {
+    Key? key,
+    this.didGetProvider,
+    required this.builder,
+    this.sliver = false,
+    this.statusWidgetBuilder,
+    this.dataChanged,
+    this.autoLoad = true,
+    this.refreshEnable = false,
+    this.refreshColor = QMColor.COLOR_00B276,
+    this.waterDropColor = Colors.white,
+    this.refreshHeader,
+  }) : super(key: key);
   final Future<NetResp<T>> Function()? loadFunc;
   final Function(NetProvider<T>)? didGetProvider;
   final Widget Function(BuildContext context, NetProvider<T> provider) builder;
@@ -58,6 +62,9 @@ class NetWidget<T> extends StatelessWidget {
   final Widget? Function(NetProvider<T>)? statusWidgetBuilder;
   final Function(NetResp<T?> resp)? dataChanged;
   final bool refreshEnable;
+  final Widget? refreshHeader;
+  final Color refreshColor;
+  final Color waterDropColor;
 
   void _loadData(NetProvider<T> provider) {
     provider.status = RespStatus.loading;
@@ -88,7 +95,28 @@ class NetWidget<T> extends StatelessWidget {
                   controller: controller,
                   enablePullUp: false,
                   enablePullDown: true,
-                  header: WaterDropHeader(),
+                  header: refreshHeader ??
+                      WaterDropHeader(
+                        waterDropColor: waterDropColor,
+                        idleIcon: Icon(
+                          Icons.autorenew,
+                          size: 16.s,
+                          color: refreshColor,
+                        ),
+                        refresh: SizedBox(
+                          width: 20.s,
+                          height: 20.s,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2.0.s,
+                            color: waterDropColor,
+                          ),
+                        ),
+                        complete: Icon(
+                          Icons.done,
+                          color: waterDropColor,
+                          size: 20.s,
+                        ),
+                      ),
                   onRefresh: () async {
                     await provider.loadData();
                     controller.refreshCompleted(resetFooterState: true);

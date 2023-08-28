@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:qm_widget/net/net_resp.dart';
+import 'package:qm_widget/pub/scale_util.dart';
+
+import '../style/qm_color.dart';
 
 class PageProvider<T> extends RespProvider {
   PageProvider(
@@ -158,19 +161,21 @@ class PageWidget<T> extends StatelessWidget {
 }
 
 class PageRefWidget<T> extends StatelessWidget {
-  const PageRefWidget(
-    this.loadFunc, {
-    Key? key,
-    required this.builder,
-    this.sliver = false,
-    this.autoLoad = true,
-    this.didGetProvider,
-    this.statusWidgetBuilder,
-    this.onStatusWidgetClick,
-    this.dataChanged,
-    this.checkNoData = true,
-    this.pageSize = 10,
-  }) : super(key: key);
+  const PageRefWidget(this.loadFunc,
+      {Key? key,
+      required this.builder,
+      this.sliver = false,
+      this.autoLoad = true,
+      this.didGetProvider,
+      this.statusWidgetBuilder,
+      this.onStatusWidgetClick,
+      this.dataChanged,
+      this.checkNoData = true,
+      this.pageSize = 10,
+      this.refreshColor = Colors.white,
+      this.waterDropColor = QMColor.COLOR_00B276,
+      this.refreshHeader})
+      : super(key: key);
   final Future<NetResp<List<T>>> Function(int page, int pageSize) loadFunc;
   final Widget Function(BuildContext context, PageProvider<T> provinder)
       builder;
@@ -182,21 +187,12 @@ class PageRefWidget<T> extends StatelessWidget {
   final Function(NetResp<List<T>> resp)? dataChanged;
   final bool checkNoData;
   final int pageSize;
+  final Widget? refreshHeader;
+  final Color refreshColor;
+  final Color waterDropColor;
 
   @override
   Widget build(BuildContext context) {
-    // return PageWidget<T>(
-    //   loadFunc,
-    //   sliver: sliver,
-    //   autoLoad: autoLoad,
-    //   didGetProvider: didGetProvider,
-    //   statusWidgetBuilder: statusWidgetBuilder,
-    //   onStatusWidgetClick: onStatusWidgetClick,
-    //   dataChanged: dataChanged,
-    //   checkNoData: checkNoData,
-    //   pageSize: pageSize,
-    //   builder: (ctx, provider) => builder.call(ctx, provider),
-    // );
     late RefreshController controller = RefreshController();
     return PageWidget<T>(
       loadFunc,
@@ -212,7 +208,39 @@ class PageRefWidget<T> extends StatelessWidget {
         controller: controller,
         enablePullUp: !provider.isEnd,
         enablePullDown: true,
-        header: WaterDropHeader(),
+        footer: ClassicFooter(
+          loadingText: "",
+          loadingIcon: SizedBox(
+            width: 20.s,
+            height: 20.s,
+            child: CircularProgressIndicator(
+              strokeWidth: 2.0.s,
+              color: waterDropColor,
+            ),
+          ),
+        ),
+        header: refreshHeader ??
+            WaterDropHeader(
+              waterDropColor: waterDropColor,
+              idleIcon: Icon(
+                Icons.autorenew,
+                size: 16.s,
+                color: refreshColor,
+              ),
+              refresh: SizedBox(
+                width: 20.s,
+                height: 20.s,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2.0.s,
+                  color: waterDropColor,
+                ),
+              ),
+              complete: Icon(
+                Icons.done,
+                color: waterDropColor,
+                size: 20.s,
+              ),
+            ),
         onRefresh: () async {
           await provider.reloadData();
           controller.refreshCompleted(resetFooterState: true);

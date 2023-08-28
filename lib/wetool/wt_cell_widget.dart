@@ -43,12 +43,16 @@ class WTCellWidget extends StatelessWidget {
                       height: 20 / 14)
                   .applyPadding(EdgeInsets.only(top: 4.s)),
             ),
-          ].toColumn(crossAxisAlignment: CrossAxisAlignment.start).expanded,
-          detail.toText(
-            color: QMColor.COLOR_8F92A1,
-            fontSize: 14.fs,
-            height: 20 / 14,
-          ),
+          ].toColumn(crossAxisAlignment: CrossAxisAlignment.start),
+          8.s.inRow,
+          detail
+              .toText(
+                color: QMColor.COLOR_8F92A1,
+                fontSize: 14.fs,
+                height: 20 / 14,
+                textAlign: TextAlign.right,
+              )
+              .expanded,
           12.s.inRow,
         ].toRow().applyBackground(
             padding: padding ?? EdgeInsets.symmetric(vertical: 16.s),
