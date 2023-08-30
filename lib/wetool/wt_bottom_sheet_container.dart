@@ -1,6 +1,4 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:qm_dart_ex/qm_dart_ex.dart';
 import 'package:qm_widget/pub/scale_util.dart';
 import 'package:qm_widget/style/qm_color.dart';
@@ -26,7 +24,7 @@ class WTBottomSheetContailer extends StatelessWidget {
           )
           .applyBackground(padding: EdgeInsets.symmetric(vertical: 8.s))),
       child
-    ].toColumn(mainAxisSize: MainAxisSize.min).applyBackground(
+    ].toColumn(mainAxisSize: MainAxisSize.min).toSafe().applyBackground(
             decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.vertical(top: Radius.circular(16.s)),

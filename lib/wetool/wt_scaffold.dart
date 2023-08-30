@@ -1,23 +1,30 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
+import 'package:qm_dart_ex/qm_dart_ex.dart';
+import 'package:qm_widget/pub/scale_util.dart';
 import 'package:qm_widget/style/qm_color.dart';
 import 'package:qm_widget/widgets/qm_app_bar.dart';
 
 class WTScaffold extends StatelessWidget {
   final Widget? body;
   final Color backgroundColor;
+  final Color appBarBackgroundColor;
   final String title;
   final SystemUiOverlayStyle? systemOverlayStyle;
   final List<Widget>? actions;
-  const WTScaffold(
-      {super.key,
-      this.body,
-      this.backgroundColor = QMColor.COLOR_F7F9FA,
-      this.title = "",
-      this.systemOverlayStyle,
-      this.actions});
+  final Widget? footer;
+  final Color footerBackgroundColor;
+  const WTScaffold({
+    super.key,
+    this.body,
+    this.backgroundColor = QMColor.COLOR_F7F9FA,
+    this.title = "",
+    this.systemOverlayStyle,
+    this.actions,
+    this.appBarBackgroundColor = QMColor.COLOR_F7F9FA,
+    this.footer,
+    this.footerBackgroundColor = Colors.white,
+  });
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -27,11 +34,17 @@ class WTScaffold extends StatelessWidget {
           title: title,
           systemOverlayStyle: systemOverlayStyle ??
               SystemUiOverlayStyle.dark.copyWith(
-                systemNavigationBarColor: QMColor.COLOR_F7F9FA,
+                systemNavigationBarColor: backgroundColor,
               ),
-          backgroundColor: QMColor.COLOR_F7F9FA,
+          backgroundColor: appBarBackgroundColor,
           actions: actions,
         ),
-        body: body,
+        body: [
+          (body ?? Container()).expanded,
+          (footer != null).toWidget(() => footer!.toSafe().applyBackground(
+                padding: EdgeInsets.symmetric(horizontal: 16.s, vertical: 8.s),
+                color: footerBackgroundColor,
+              ))
+        ].toColumn(),
       );
 }
