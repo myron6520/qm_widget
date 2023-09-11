@@ -10,6 +10,8 @@ import '../style/qm_color.dart';
 
 class WTCellWidget extends StatelessWidget {
   final String title;
+  final Color titleColor;
+  final Widget? Function(String title)? titleBuilder;
   final String subTitle;
   final String detail;
   final bool showBottomLine;
@@ -26,15 +28,18 @@ class WTCellWidget extends StatelessWidget {
       this.right,
       this.padding,
       this.margin,
-      this.rightSpan})
+      this.rightSpan,
+      this.titleColor = QMColor.COLOR_030319,
+      this.titleBuilder})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) => [
         [
           [
-            title.toText(
-                color: QMColor.COLOR_030319, fontSize: 16.s, height: 24 / 16),
+            titleBuilder?.call(title) ??
+                title.toText(
+                    color: titleColor, fontSize: 16.s, height: 24 / 16),
             subTitle.isNotEmpty.toWidget(
               () => subTitle
                   .toText(

@@ -4,13 +4,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:qm_dart_ex/qm_dart_ex.dart';
 import 'package:qm_widget/pub/scale_util.dart';
 import 'package:qm_widget/style/qm_color.dart';
-import 'package:qm_widget/wetool/wt_cell_widget.dart';
 import 'package:qm_widget/wetool/wt_icon.dart';
 
 class WTInputWidget extends StatefulWidget {
   final String title;
   final Color titleColor;
   final double? titleWidth;
+  final Widget Function(String title)? titleBuilder;
   final String hint;
   final bool enable;
   final TextInputType? keyboardType;
@@ -37,7 +37,8 @@ class WTInputWidget extends StatefulWidget {
       this.titleWidth,
       this.contentPadding,
       this.left,
-      this.showInputBottomBorder = true});
+      this.showInputBottomBorder = true,
+      this.titleBuilder});
 
   @override
   State<WTInputWidget> createState() => _WTInputWidgetState();
@@ -78,16 +79,18 @@ class _WTInputWidgetState extends State<WTInputWidget> {
   Widget build(BuildContext context) {
     return [
       widget.title.isNotEmpty.toWidget(
-        () => widget.title
-            .toText(
-              color: widget.titleColor,
-              fontSize: 16.fs,
-              height: 24 / 16,
-            )
-            .applyBackground(
-              width: widget.titleWidth ?? 88.s,
-              margin: EdgeInsets.only(right: 12.s),
-            ),
+        () =>
+            widget.titleBuilder?.call(widget.title) ??
+            widget.title
+                .toText(
+                  color: widget.titleColor,
+                  fontSize: 16.fs,
+                  height: 24 / 16,
+                )
+                .applyBackground(
+                  width: widget.titleWidth ?? 88.s,
+                  margin: EdgeInsets.only(right: 12.s),
+                ),
       ),
       [
         [
