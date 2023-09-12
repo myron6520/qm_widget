@@ -75,10 +75,12 @@ class TextWidget extends StatelessWidget {
         textBuilder?.call(textWidget) ?? textWidget,
         (rightDrawable != null)
             .toWidget(() => rightDrawable!.applyPadding(rightDrawablePadding)),
-      ].toRow(),
+      ].toRow(mainAxisAlignment: MainAxisAlignment.center),
       (bottomDrawable != null)
           .toWidget(() => bottomDrawable!.applyPadding(bottomDrawablePadding)),
-    ].toColumn(mainAxisSize: MainAxisSize.min);
+    ].toColumn(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center);
   }
 }
 

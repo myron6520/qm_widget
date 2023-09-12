@@ -7,6 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:qm_dart_ex/qm_dart_ex.dart';
 import 'package:qm_widget/pub/scale_util.dart';
 import 'package:qm_widget/style/qm_color.dart';
+import 'package:qm_widget/wetool/tree_widget/wt_tree_widget.dart';
 import 'package:qm_widget/wetool/wt_icon.dart';
 
 class TreeNode<T> {
@@ -107,7 +108,33 @@ class _WTTreeWidgetState<T> extends State<WTTreeWidget<T>> {
   @override
   Widget build(BuildContext context) {
     return widget.nodes
-        .map((e) => buildNodeWidget(e))
+        .map((e) => WTTreeNodeWidget(
+            title: "title",
+            children: ["123", "123", "345"],
+            isExpanded: true,
+            childBuilder: (name, idx, isSelected) => [
+                  (isSelected ? QMColor.COLOR_00B276 : Colors.white)
+                      .toContainer(
+                    width: 3.s,
+                    height: 16.s,
+                  ),
+                  11.s.inRow,
+                  '${name}'
+                      .toText(
+                        fontSize: 15.s,
+                        height: 20 / 15,
+                        fontWeight:
+                            isSelected ? FontWeight.w500 : FontWeight.normal,
+                        color: isSelected
+                            ? QMColor.COLOR_00B276
+                            : QMColor.COLOR_8F92A1,
+                      )
+                      .expanded,
+                  28.s.inRow,
+                ].toRow().applyBackground(
+                      padding: EdgeInsets.symmetric(vertical: 14.s),
+                      color: Colors.white,
+                    )))
         .toList()
         .toColumn()
         .toScrollView();
