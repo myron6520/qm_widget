@@ -8,23 +8,23 @@ import 'package:qm_widget/pub/scale_util.dart';
 import '../../style/qm_color.dart';
 import '../wt_icon.dart';
 
-class WTTreeNodeWidget<T> extends StatefulWidget {
+class WTTreeNodeWidget extends StatefulWidget {
   final String title;
   final bool isExpanded;
-  final List<T> children;
-  final Widget? Function(T, int, bool)? childBuilder;
+  final bool showRightArrow;
+  final Widget? Function()? childBuilder;
   const WTTreeNodeWidget(
       {super.key,
       required this.title,
       this.isExpanded = false,
-      this.children = const [],
-      this.childBuilder});
+      this.childBuilder,
+      this.showRightArrow = true});
 
   @override
   State<WTTreeNodeWidget> createState() => _WTTreeNodeWidgetState();
 }
 
-class _WTTreeNodeWidgetState<T> extends State<WTTreeNodeWidget<T>> {
+class _WTTreeNodeWidgetState extends State<WTTreeNodeWidget> {
   @override
   Widget build(BuildContext context) {
     return Theme(
@@ -44,20 +44,21 @@ class _WTTreeNodeWidgetState<T> extends State<WTTreeNodeWidget<T>> {
         tilePadding: EdgeInsets.zero,
         childrenPadding: EdgeInsets.zero,
         initiallyExpanded: isExpanded,
-        trailing: RotatedBox(
-          quarterTurns: isExpanded ? 2 : 0,
-          child: widget.children.isNotEmpty.toWidget(() => SvgPicture.string(
+        onExpansionChanged: (val) {
+          isExpanded = val;
+          setState(() {});
+        },
+        trailing: widget.showRightArrow.toWidget(() => RotatedBox(
+              quarterTurns: isExpanded ? 2 : 0,
+              child: SvgPicture.string(
                 WTIcon.ARROW_FILLED,
                 width: 12.s,
                 height: 12.s,
-              )),
-        ).applyBackground(width: 28.s, alignment: Alignment.center),
+              ),
+            ).applyBackground(width: 28.s, alignment: Alignment.center)),
         children: List.generate(
-          widget.children.length,
-          (idx) =>
-              widget.childBuilder
-                  ?.call(widget.children[idx], idx, index == idx) ??
-              Container(),
+          1,
+          (idx) => widget.childBuilder?.call() ?? Container(),
         ),
       ),
     );
