@@ -24,7 +24,7 @@ class _WTTreeContentWidgetState extends State<WTTreeContentWidget> {
                 height: 16.s,
               ),
               11.s.inRow,
-              "123"
+              el.title
                   .toText(
                     fontSize: 15.s,
                     height: 20 / 15,
