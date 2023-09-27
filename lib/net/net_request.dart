@@ -81,6 +81,7 @@ class NetRequest {
   Future<NetResp<T>> post<T>(
     String url, {
     required dynamic params,
+    CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     NetResp<T> Function(Map dataMap)? convertFunc,
     NetResp<T> Function(Response? res)? respConvertFunc,
@@ -90,6 +91,7 @@ class NetRequest {
     try {
       res = await client.post<Map>(
         url,
+        cancelToken: cancelToken,
         data: params,
         options: Options(
           headers: headers,
@@ -110,6 +112,7 @@ class NetRequest {
   Future<NetResp<T>> put<T>(
     String url, {
     required dynamic params,
+    CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     NetResp<T> Function(Map dataMap)? convertFunc,
     NetResp<T> Function(Response? res)? respConvertFunc,
@@ -118,6 +121,7 @@ class NetRequest {
     try {
       res = await client.put<Map>(
         url,
+        cancelToken: cancelToken,
         data: params,
         options: Options(
           headers: headers,
@@ -203,6 +207,7 @@ class NetRequest {
   Future<NetResp<T>> get<T>(
     String url, {
     required Map<String, dynamic> params,
+    CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     NetResp<T> Function(Map dataMap)? convertFunc,
     NetResp<T> Function(Response? res)? respConvertFunc,
@@ -210,7 +215,9 @@ class NetRequest {
     Response? res;
     try {
       res = await client.get(url,
-          queryParameters: params, options: Options(headers: headers));
+          cancelToken: cancelToken,
+          queryParameters: params,
+          options: Options(headers: headers));
     } catch (e) {
       if (e is DioError) {
         return handleError(e,
@@ -224,6 +231,7 @@ class NetRequest {
   Future<NetResp<T>> delete<T>(
     String url, {
     required Map<String, dynamic> params,
+    CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     NetResp<T> Function(Map dataMap)? convertFunc,
     NetResp<T> Function(Response? res)? respConvertFunc,
@@ -231,7 +239,9 @@ class NetRequest {
     Response? res;
     try {
       res = await client.delete(url,
-          queryParameters: params, options: Options(headers: headers));
+          cancelToken: cancelToken,
+          queryParameters: params,
+          options: Options(headers: headers));
     } catch (e) {
       if (e is DioError) {
         return handleError(e,

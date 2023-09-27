@@ -10,12 +10,14 @@ class NetAction {
   static Future<NetResp<T>> post<T>(
     String url, {
     required dynamic params,
+    CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     NetResp<T> Function(Map dataMap)? convertFunc,
     NetResp<T> Function(Response? res)? respConvertFunc,
   }) =>
       client.post<T>(
         url,
+        cancelToken: cancelToken,
         params: params,
         headers: headers,
         convertFunc: convertFunc,
@@ -25,6 +27,7 @@ class NetAction {
   static Future<NetResp<T>> put<T>(
     String url, {
     required dynamic params,
+    CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     NetResp<T> Function(Map dataMap)? convertFunc,
     NetResp<T> Function(Response? res)? respConvertFunc,
@@ -32,6 +35,7 @@ class NetAction {
       client.put<T>(
         url,
         params: params,
+        cancelToken: cancelToken,
         headers: headers,
         convertFunc: convertFunc,
         respConvertFunc: respConvertFunc,
@@ -82,6 +86,7 @@ class NetAction {
   static Future<NetResp<T>> get<T>(
     String url, {
     required Map<String, dynamic> params,
+    CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     NetResp<T> Function(Map dataMap)? convertFunc,
     NetResp<T> Function(Response? res)? respConvertFunc,
@@ -89,6 +94,7 @@ class NetAction {
       client.get<T>(
         url,
         params: params,
+        cancelToken: cancelToken,
         headers: headers,
         convertFunc: convertFunc,
         respConvertFunc: respConvertFunc,
@@ -96,6 +102,7 @@ class NetAction {
   static Future<NetResp<T>> delete<T>(
     String url, {
     required Map<String, dynamic> params,
+    CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     NetResp<T> Function(Map dataMap)? convertFunc,
     NetResp<T> Function(Response? res)? respConvertFunc,
@@ -103,6 +110,7 @@ class NetAction {
       client.delete<T>(
         url,
         params: params,
+        cancelToken: cancelToken,
         headers: headers,
         convertFunc: convertFunc,
         respConvertFunc: respConvertFunc,

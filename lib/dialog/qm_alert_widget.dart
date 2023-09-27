@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:qm_dart_ex/qm_dart_ex.dart';
 import 'package:qm_widget/style/qm_color.dart';
@@ -34,6 +33,7 @@ class QMAlertWidget extends StatelessWidget {
   final void Function(int idx, QMHandleStyle style)? onHandleItemClick;
   final String title;
   final String message;
+  final Widget? Function(String)? messageBuilder;
   final List<QMHandleStyle>? handles;
   const QMAlertWidget({
     Key? key,
@@ -42,6 +42,7 @@ class QMAlertWidget extends StatelessWidget {
     this.message = "是否已通过支付宝和微信支付的商户号认证",
     this.handles,
     this.onHandleItemClick,
+    this.messageBuilder,
   }) : super(key: key);
 
   @override
@@ -54,16 +55,17 @@ class QMAlertWidget extends StatelessWidget {
         fontWeight: FontWeight.w500,
       ),
       12.inColumn,
-      message
-          .toText(
-            color: QMColor.COLOR_8F92A1,
-            fontSize: 14,
-            height: 20 / 14,
-            textAlign: TextAlign.center,
-            maxLines: 5,
-          )
-          .expanded
-          .toRow(),
+      messageBuilder?.call(message) ??
+          message
+              .toText(
+                color: QMColor.COLOR_8F92A1,
+                fontSize: 14,
+                height: 20 / 14,
+                textAlign: TextAlign.center,
+                maxLines: 5,
+              )
+              .expanded
+              .toRow(),
       24.inColumn,
       (handles ?? []).isNotEmpty.toWidget(
             () => (handles!
