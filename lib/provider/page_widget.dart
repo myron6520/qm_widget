@@ -12,6 +12,7 @@ class PageProvider<T> extends RespProvider {
   PageProvider(
     this.loadFunc, {
     this.dataChanged,
+    this.appendDataFunc,
     this.isEndCheckFunc,
     this.startPage = 1,
     this.pageSize = 10,
@@ -21,6 +22,7 @@ class PageProvider<T> extends RespProvider {
   final int startPage;
   final int pageSize;
   final bool checkNoData;
+  final List<T> Function(List<T>, NetResp<List<T>> resp)? appendDataFunc;
   Function(NetResp<List<T>> resp)? dataChanged;
   bool Function(NetResp<List<T>> resp)? isEndCheckFunc;
 
@@ -62,7 +64,10 @@ class PageProvider<T> extends RespProvider {
       if (res.data == null) {
         status = RespStatus.error;
       } else {
-        data.addAll(res.data ?? []);
+        data = (appendDataFunc ??
+                (container, resp) => container..addAll(resp.data ?? []))
+            .call(data, res);
+        // data.addAll(res.data ?? []);
         if (checkNoData && data.isEmpty) {
           isEnd = true;
           status = RespStatus.empty;
@@ -110,6 +115,7 @@ class PageWidget<T> extends StatelessWidget {
     this.dataChanged,
     this.checkNoData = true,
     this.pageSize = 10,
+    this.appendDataFunc,
   }) : super(key: key);
   final Future<NetResp<List<T>>> Function(int page, int pageSize) loadFunc;
   final Widget Function(BuildContext context, PageProvider<T> provinder)
@@ -122,6 +128,7 @@ class PageWidget<T> extends StatelessWidget {
   final Function(PageProvider<T>)? onStatusWidgetClick;
   final Function(NetResp<List<T>> resp)? dataChanged;
   final bool checkNoData;
+  final List<T> Function(List<T>, NetResp<List<T>> resp)? appendDataFunc;
 
   @override
   Widget build(BuildContext context) {
@@ -130,6 +137,7 @@ class PageWidget<T> extends StatelessWidget {
         var p = PageProvider<T>(loadFunc,
             dataChanged: dataChanged,
             checkNoData: checkNoData,
+            appendDataFunc: appendDataFunc,
             pageSize: pageSize);
         didGetProvider?.call(p);
         if (autoLoad) {
@@ -174,7 +182,8 @@ class PageRefWidget<T> extends StatelessWidget {
       this.pageSize = 10,
       this.refreshColor = Colors.white,
       this.waterDropColor = QMColor.COLOR_00B276,
-      this.refreshHeader})
+      this.refreshHeader,
+      this.appendDataFunc})
       : super(key: key);
   final Future<NetResp<List<T>>> Function(int page, int pageSize) loadFunc;
   final Widget Function(BuildContext context, PageProvider<T> provinder)
@@ -185,6 +194,7 @@ class PageRefWidget<T> extends StatelessWidget {
   final Widget? Function(PageProvider<T>)? statusWidgetBuilder;
   final Function(PageProvider<T>)? onStatusWidgetClick;
   final Function(NetResp<List<T>> resp)? dataChanged;
+  final List<T> Function(List<T>, NetResp<List<T>> resp)? appendDataFunc;
   final bool checkNoData;
   final int pageSize;
   final Widget? refreshHeader;
@@ -203,6 +213,7 @@ class PageRefWidget<T> extends StatelessWidget {
       onStatusWidgetClick: onStatusWidgetClick,
       dataChanged: dataChanged,
       checkNoData: checkNoData,
+      appendDataFunc: appendDataFunc,
       pageSize: pageSize,
       builder: (ctx, provider) => SmartRefresher(
         controller: controller,

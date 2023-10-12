@@ -16,6 +16,7 @@ class ListWidget<T> extends StatefulWidget {
     this.contentPadding = EdgeInsets.zero,
     this.pageSize = 10,
     this.dataChanged,
+    this.appendDataFunc,
   }) : super(key: key);
   final Future<NetResp<List<T>>> Function(int page, int pageSize) loadFunc;
   final Widget Function(BuildContext context, int index, T itemData)
@@ -23,6 +24,7 @@ class ListWidget<T> extends StatefulWidget {
   final Widget Function(BuildContext context, int index)? separatorBuilder;
   final Function(NetResp<List<T>> resp)? dataChanged;
 
+  final List<T> Function(List<T>, NetResp<List<T>> resp)? appendDataFunc;
   final bool autoLoad;
   final Function(PageProvider<T> provider)? didGetProvider;
   final EdgeInsetsGeometry? contentPadding;
@@ -43,6 +45,7 @@ class _ListWidgetState<T> extends State<ListWidget<T>>
       autoLoad: widget.autoLoad,
       didGetProvider: widget.didGetProvider,
       dataChanged: widget.dataChanged,
+      appendDataFunc: widget.appendDataFunc,
       builder: (_, provider) => ListView.separated(
           controller: controller,
           padding: widget.contentPadding,

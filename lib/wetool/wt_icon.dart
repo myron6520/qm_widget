@@ -80,4 +80,9 @@ class WTIcon {
 <path d="M25 22L25 28" stroke="#8F92A1" stroke-width="1.5"/>
 </svg>
 ''';
+  static String FILTER = '''
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M3.33398 3.33333L6.66732 8.66666V12L9.33398 13.3333V8.66666L12.6673 3.33333H3.33398Z" stroke="#030319" stroke-linejoin="round"/>
+</svg>
+''';
 }
