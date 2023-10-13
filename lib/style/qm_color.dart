@@ -24,4 +24,6 @@ class QMColor {
   static const Color COLOR_EBF9F4 = Color(0xFFEBF9F4);
   static const Color COLOR_EAF6F2 = Color(0xFFEAF6F2);
   static const Color COLOR_FFF1EC = Color(0xFFFFF1EC);
+  static const Color COLOR_FFB240 = Color(0xFFFFB240);
+  static const Color COLOR_360000 = Color(0xFF360000);
 }

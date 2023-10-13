@@ -22,23 +22,26 @@ class WTInputWidget extends StatefulWidget {
   final Color bottomBorderColor;
   final EdgeInsets? contentPadding;
   final bool showInputBottomBorder;
-  const WTInputWidget(
-      {super.key,
-      this.title = "",
-      this.hint = "",
-      this.enable = true,
-      this.controller,
-      this.keyboardType,
-      this.right,
-      this.textAlign = TextAlign.left,
-      this.onInputChanged,
-      this.bottomBorderColor = Colors.white,
-      this.titleColor = QMColor.COLOR_030319,
-      this.titleWidth,
-      this.contentPadding,
-      this.left,
-      this.showInputBottomBorder = true,
-      this.titleBuilder});
+  final bool autofocus;
+  const WTInputWidget({
+    super.key,
+    this.title = "",
+    this.hint = "",
+    this.enable = true,
+    this.controller,
+    this.keyboardType,
+    this.right,
+    this.textAlign = TextAlign.left,
+    this.onInputChanged,
+    this.bottomBorderColor = Colors.white,
+    this.titleColor = QMColor.COLOR_030319,
+    this.titleWidth,
+    this.contentPadding,
+    this.left,
+    this.showInputBottomBorder = true,
+    this.titleBuilder,
+    this.autofocus = false,
+  });
 
   @override
   State<WTInputWidget> createState() => _WTInputWidgetState();
@@ -49,6 +52,7 @@ class _WTInputWidgetState extends State<WTInputWidget> {
         controller: controller,
         focusNode: focusNode,
         enabled: widget.enable,
+        autofocus: widget.autofocus,
         cursorColor: QMColor.COLOR_030319,
         style: TextStyle(
           color: QMColor.COLOR_030319,
