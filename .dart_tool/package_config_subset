@@ -78,10 +78,10 @@ provider
 2.12
 file:///Users/wetool/.pub-cache/hosted/pub.flutter-io.cn/provider-6.0.5/
 file:///Users/wetool/.pub-cache/hosted/pub.flutter-io.cn/provider-6.0.5/lib/
-pull_to_refresh
-2.12
-file:///Users/wetool/.pub-cache/hosted/pub.flutter-io.cn/pull_to_refresh-2.0.0/
-file:///Users/wetool/.pub-cache/hosted/pub.flutter-io.cn/pull_to_refresh-2.0.0/lib/
+pull_to_refresh_flutter3
+3.0
+file:///Users/wetool/.pub-cache/hosted/pub.flutter-io.cn/pull_to_refresh_flutter3-2.0.2/
+file:///Users/wetool/.pub-cache/hosted/pub.flutter-io.cn/pull_to_refresh_flutter3-2.0.2/lib/
 source_span
 2.18
 file:///Users/wetool/.pub-cache/hosted/pub.flutter-io.cn/source_span-1.10.0/

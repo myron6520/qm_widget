@@ -2,7 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
+import 'package:qm_dart_ex/extensions/num_ex2.dart';
+import 'package:qm_dart_ex/qm_dart_ex.dart';
 import 'package:qm_widget/net/net_resp.dart';
 import 'package:qm_widget/pub/scale_util.dart';
 
@@ -64,16 +66,17 @@ class PageProvider<T> extends RespProvider {
       if (res.data == null) {
         status = RespStatus.error;
       } else {
+        int len = data.length;
         data = (appendDataFunc ??
                 (container, resp) => container..addAll(resp.data ?? []))
             .call(data, res);
+        int appendLen = data.length - len;
         // data.addAll(res.data ?? []);
         if (checkNoData && data.isEmpty) {
           isEnd = true;
           status = RespStatus.empty;
         } else {
-          isEnd =
-              isEndCheckFunc?.call(res) ?? ((res.data?.length ?? 0) < pageSize);
+          isEnd = isEndCheckFunc?.call(res) ?? (appendLen < pageSize);
           status = RespStatus.ok;
         }
       }
@@ -183,7 +186,9 @@ class PageRefWidget<T> extends StatelessWidget {
       this.refreshColor = Colors.white,
       this.waterDropColor = QMColor.COLOR_00B276,
       this.refreshHeader,
-      this.appendDataFunc})
+      this.appendDataFunc,
+      this.refreshController,
+      this.enablePullUp = true})
       : super(key: key);
   final Future<NetResp<List<T>>> Function(int page, int pageSize) loadFunc;
   final Widget Function(BuildContext context, PageProvider<T> provinder)
@@ -200,10 +205,12 @@ class PageRefWidget<T> extends StatelessWidget {
   final Widget? refreshHeader;
   final Color refreshColor;
   final Color waterDropColor;
+  final RefreshController? refreshController;
+  final bool enablePullUp;
 
   @override
   Widget build(BuildContext context) {
-    late RefreshController controller = RefreshController();
+    RefreshController controller = refreshController ?? RefreshController();
     return PageWidget<T>(
       loadFunc,
       sliver: sliver,
@@ -217,10 +224,18 @@ class PageRefWidget<T> extends StatelessWidget {
       pageSize: pageSize,
       builder: (ctx, provider) => SmartRefresher(
         controller: controller,
-        enablePullUp: !provider.isEnd,
+        // enablePullUp:enablePullUp,
         enablePullDown: true,
+        enablePullUp: enablePullUp && !provider.isEnd,
         footer: ClassicFooter(
           loadingText: "",
+          noDataText: "",
+          outerBuilder: (child) => child,
+          noMoreIcon: "已加载完全部".toText(
+            color: QMColor.COLOR_BDBDBD,
+            fontSize: 14.fs,
+            height: 20 / 14,
+          ),
           loadingIcon: SizedBox(
             width: 20.s,
             height: 20.s,

@@ -38,17 +38,17 @@ class QMTagStyle {
 class QMTag extends StatelessWidget {
   final String tag;
   final Color textColor;
-  final double fontSize;
+  final double? fontSize;
   final String? fontFamily;
-  final double textHeight;
+  final double? textHeight;
   final FontWeight fontWeight;
   final QMTagStyle? tagStyle;
   const QMTag(
       {super.key,
       required this.tag,
       this.textColor = Colors.white,
-      this.fontSize = 10,
-      this.textHeight = 1.3,
+      this.fontSize,
+      this.textHeight,
       this.fontFamily,
       this.fontWeight = FontWeight.normal,
       this.tagStyle});
@@ -58,8 +58,8 @@ class QMTag extends StatelessWidget {
     return tag
         .toText(
           color: textColor,
-          fontSize: fontSize,
-          height: textHeight,
+          fontSize: fontSize ?? 12.fs,
+          height: textHeight ?? 1.4,
           fontFamily: fontFamily,
           fontWeight: fontWeight,
         )

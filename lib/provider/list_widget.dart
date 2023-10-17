@@ -1,9 +1,15 @@
 // ignore_for_file: library_private_types_in_public_api, prefer_const_constructors_in_immutables
 
 import 'package:flutter/material.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
+import 'package:qm_dart_ex/qm_dart_ex.dart';
+
 import 'package:qm_widget/net/net_resp.dart';
 import 'package:qm_widget/provider/page_widget.dart';
+import 'package:qm_widget/pub/scale_util.dart';
 import 'package:qm_widget/widgets/ref_status_widget.dart';
+
+import '../style/qm_color.dart';
 
 class ListWidget<T> extends StatefulWidget {
   const ListWidget({
@@ -17,6 +23,8 @@ class ListWidget<T> extends StatefulWidget {
     this.pageSize = 10,
     this.dataChanged,
     this.appendDataFunc,
+    this.refreshController,
+    this.enablePullUp = true,
   }) : super(key: key);
   final Future<NetResp<List<T>>> Function(int page, int pageSize) loadFunc;
   final Widget Function(BuildContext context, int index, T itemData)
@@ -30,6 +38,9 @@ class ListWidget<T> extends StatefulWidget {
   final EdgeInsetsGeometry? contentPadding;
   final int pageSize;
 
+  final RefreshController? refreshController;
+  final bool enablePullUp;
+
   @override
   _ListWidgetState<T> createState() => _ListWidgetState<T>();
 }
@@ -41,19 +52,31 @@ class _ListWidgetState<T> extends State<ListWidget<T>>
     super.build(context);
     return PageRefWidget<T>(
       widget.loadFunc,
+      refreshController: widget.refreshController,
       pageSize: widget.pageSize,
       autoLoad: widget.autoLoad,
       didGetProvider: widget.didGetProvider,
       dataChanged: widget.dataChanged,
+      enablePullUp: widget.enablePullUp,
       appendDataFunc: widget.appendDataFunc,
       builder: (_, provider) => ListView.separated(
           controller: controller,
           padding: widget.contentPadding,
-          itemBuilder: (ctx, index) =>
-              widget.itemBuilder.call(ctx, index, provider.data[index]),
+          itemBuilder: (ctx, index) => (index < provider.data.length).toWidget(
+                () => widget.itemBuilder.call(ctx, index, provider.data[index]),
+                falseBuilder: () => "已加载完全部"
+                    .toText(
+                      color: QMColor.COLOR_BDBDBD,
+                      fontSize: 14.fs,
+                      height: 20 / 14,
+                      textAlign: TextAlign.center,
+                    )
+                    .expanded
+                    .toRow(),
+              ),
           separatorBuilder: (ctx, idx) =>
               widget.separatorBuilder?.call(ctx, idx) ?? Container(),
-          itemCount: provider.data.length),
+          itemCount: provider.data.length + (provider.isEnd ? 1 : 0)),
     );
   }
 
@@ -73,6 +96,7 @@ class ListRefWidget<T> extends StatefulWidget {
     this.didGetProvider,
     this.pageSize = 10,
     this.dataChanged,
+    this.enablePullUp = true,
   }) : super(key: key);
   final ValueNotifier<RefStatus> refStatus;
   final Future<NetResp<List<T>>> Function(int page, int pageSize) loadFunc;
@@ -83,6 +107,7 @@ class ListRefWidget<T> extends StatefulWidget {
   final bool autoLoad;
   final Function(PageProvider<T> provider)? didGetProvider;
   final int pageSize;
+  final bool enablePullUp;
 
   @override
   _ListRefWidgetState createState() => _ListRefWidgetState<T>();
@@ -94,6 +119,7 @@ class _ListRefWidgetState<T> extends State<ListRefWidget<T>>
   Widget build(BuildContext context) {
     super.build(context);
     return ListWidget<T>(
+      enablePullUp: widget.enablePullUp,
       loadFunc: widget.loadFunc,
       itemBuilder: widget.itemBuilder,
       separatorBuilder: widget.separatorBuilder,
