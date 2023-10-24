@@ -14,6 +14,7 @@ class WTScaffold extends StatelessWidget {
   final List<Widget>? actions;
   final Widget? footer;
   final Color footerBackgroundColor;
+  final Widget? leading;
   const WTScaffold({
     super.key,
     this.body,
@@ -24,6 +25,7 @@ class WTScaffold extends StatelessWidget {
     this.appBarBackgroundColor = QMColor.COLOR_F7F9FA,
     this.footer,
     this.footerBackgroundColor = Colors.white,
+    this.leading,
   });
 
   @override
@@ -32,6 +34,7 @@ class WTScaffold extends StatelessWidget {
         backgroundColor: backgroundColor,
         appBar: QMAppBar(
           title: title,
+          leading: leading,
           systemOverlayStyle: systemOverlayStyle ??
               SystemUiOverlayStyle.dark.copyWith(
                 systemNavigationBarColor: backgroundColor,

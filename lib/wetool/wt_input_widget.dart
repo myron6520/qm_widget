@@ -13,6 +13,7 @@ class WTInputWidget extends StatefulWidget {
   final Widget Function(String title)? titleBuilder;
   final String hint;
   final bool enable;
+  final bool obscureText;
   final TextInputType? keyboardType;
   final TextEditingController? controller;
   final Widget? right;
@@ -41,6 +42,7 @@ class WTInputWidget extends StatefulWidget {
     this.showInputBottomBorder = true,
     this.titleBuilder,
     this.autofocus = false,
+    this.obscureText = false,
   });
 
   @override
@@ -53,6 +55,7 @@ class _WTInputWidgetState extends State<WTInputWidget> {
         focusNode: focusNode,
         enabled: widget.enable,
         autofocus: widget.autofocus,
+        obscureText: widget.obscureText,
         cursorColor: QMColor.COLOR_030319,
         style: TextStyle(
           color: QMColor.COLOR_030319,

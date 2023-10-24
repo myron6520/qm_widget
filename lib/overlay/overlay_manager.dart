@@ -25,7 +25,7 @@ class OverlayManager {
         ].toColumn(),
       ),
     );
-    Overlay.of(context)?.insert(overlay);
+    Overlay.of(context).insert(overlay);
     overlay.markNeedsBuild();
     overlayRef = overlay;
     return overlay;

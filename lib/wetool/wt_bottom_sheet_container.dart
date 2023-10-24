@@ -30,4 +30,11 @@ class WTBottomSheetContailer extends StatelessWidget {
           borderRadius: BorderRadius.vertical(top: Radius.circular(16.s)),
         ));
   }
+
+  Future<T?> show<T>(BuildContext context) => showModalBottomSheet<T>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      builder: (_) => this);
 }
