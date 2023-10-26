@@ -30,9 +30,11 @@ class WTTreeNodeWidget extends StatefulWidget {
 }
 
 class WTTreeNodeController extends ChangeNotifier {
-  bool isExpanded = false;
   int selectedIdx = -1;
-  bool isSelected = false;
+  bool get isSelected => node.isSelected;
+  set isSelected(val) => node.isSelected = val;
+  bool get isExpanded => node.isExpanded;
+  set isExpanded(val) => node.isExpanded = val;
   final WTTreeNode node;
   WTTreeNodeController({required this.node});
   void commit() => notifyListeners();
@@ -42,27 +44,27 @@ class _WTTreeNodeWidgetState extends State<WTTreeNodeWidget> {
   @override
   Widget build(BuildContext context) {
     return Theme(
-      data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+      data: Theme.of(context).copyWith(
+          dividerColor: Colors.transparent,
+          expansionTileTheme: ExpansionTileThemeData(
+            collapsedBackgroundColor: widget.node.collapsedBackgroundColor,
+          )),
       child: ExpansionTile(
         controller: tileController,
         title: widget.node.title
             .toText(
               fontSize: 15.fs,
               height: 20 / 15,
-              color: isExpanded || isSelected
-                  ? QMColor.COLOR_030319
-                  : QMColor.COLOR_8F92A1,
-              fontWeight: isExpanded || isSelected
+              color: widget.node.textColor,
+              fontWeight: (isExpanded || isSelected)
                   ? FontWeight.w500
                   : FontWeight.normal,
             )
             .applyPadding(EdgeInsets.only(left: 14.s)),
-        collapsedBackgroundColor:
-            isSelected ? Colors.white : QMColor.COLOR_F7F9FA,
-        backgroundColor: Colors.white,
         clipBehavior: Clip.hardEdge,
         tilePadding: EdgeInsets.zero,
         childrenPadding: EdgeInsets.zero,
+        backgroundColor: Colors.white,
         initiallyExpanded: isExpanded,
         onExpansionChanged: (val) {
           controller.isSelected = true;
@@ -74,17 +76,7 @@ class _WTTreeNodeWidgetState extends State<WTTreeNodeWidget> {
           widget.onSelectedChanged?.call(controller);
           setState(() {});
         },
-        trailing: widget.node.nodes.isNotEmpty.toWidget(() => RotatedBox(
-              quarterTurns: isExpanded ? 2 : 0,
-              child: SvgPicture.string(
-                WTIcon.ARROW_FILLED,
-                width: 12.s,
-                height: 12.s,
-              ),
-            ).applyBackground(
-              width: 28.s,
-              alignment: Alignment.center,
-            )),
+        trailing: widget.node.trailing,
         children: List.generate(
           1,
           // (idx) => widget.childBuilder?.call() ?? Container(),

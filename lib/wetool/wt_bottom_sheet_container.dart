@@ -6,7 +6,9 @@ import 'package:qm_widget/style/qm_color.dart';
 class WTBottomSheetContailer extends StatelessWidget {
   final String? title;
   final Widget child;
-  const WTBottomSheetContailer({super.key, this.title, required this.child});
+  final Widget Function(Widget)? titleBuilder;
+  const WTBottomSheetContailer(
+      {super.key, this.title, required this.child, this.titleBuilder});
 
   @override
   Widget build(BuildContext context) {
@@ -16,13 +18,15 @@ class WTBottomSheetContailer extends StatelessWidget {
           .toContainer(width: 36.s, height: 4.s)
           .applyRadius(10.s),
       8.s.inColumn,
-      (title != null).toWidget(() => title!
-          .toText(
-            color: QMColor.COLOR_030319,
-            fontSize: 18.fs,
-            fontWeight: FontWeight.w500,
-          )
-          .applyBackground(padding: EdgeInsets.symmetric(vertical: 8.s))),
+      (title != null).toWidget(() => (titleBuilder ?? (p) => p).call(
+            title!
+                .toText(
+                  color: QMColor.COLOR_030319,
+                  fontSize: 18.fs,
+                  fontWeight: FontWeight.w500,
+                )
+                .applyBackground(padding: EdgeInsets.symmetric(vertical: 8.s)),
+          )),
       child
     ].toColumn(mainAxisSize: MainAxisSize.min).toSafe().applyBackground(
             decoration: BoxDecoration(
