@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:qm_dart_ex/qm_dart_ex.dart';
@@ -24,6 +25,7 @@ class WTInputWidget extends StatefulWidget {
   final EdgeInsets? contentPadding;
   final bool showInputBottomBorder;
   final bool autofocus;
+  final int lengthLimiting;
   const WTInputWidget({
     super.key,
     this.title = "",
@@ -43,6 +45,7 @@ class WTInputWidget extends StatefulWidget {
     this.titleBuilder,
     this.autofocus = false,
     this.obscureText = false,
+    this.lengthLimiting = 0,
   });
 
   @override
@@ -61,6 +64,11 @@ class _WTInputWidgetState extends State<WTInputWidget> {
           color: QMColor.COLOR_030319,
           fontSize: 16.fs,
         ),
+        inputFormatters: widget.lengthLimiting > 0
+            ? [
+                LengthLimitingTextInputFormatter(widget.lengthLimiting),
+              ]
+            : null,
         textAlign: widget.textAlign,
         keyboardType: widget.keyboardType,
         decoration: InputDecoration(

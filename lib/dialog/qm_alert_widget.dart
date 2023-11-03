@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qm_dart_ex/qm_dart_ex.dart';
+import 'package:qm_widget/pub/scale_util.dart';
 import 'package:qm_widget/style/qm_color.dart';
 
 import '../button/theme_button.dart';
@@ -8,7 +9,7 @@ class QMHandleStyle {
   String title = '确定';
   Color backgroundColor = QMColor.COLOR_00B276;
   Color highlightColor = QMColor.COLOR_00B276.applyOpacity(0.4);
-  double fontSize = 14;
+  double fontSize = 14.fs;
   Color textColor = Colors.white;
   double textHeight = 24 / 16;
   QMHandleStyle.primary({this.title = "确定"});
@@ -50,7 +51,7 @@ class QMAlertWidget extends StatelessWidget {
     return [
       title.toText(
         color: QMColor.COLOR_030319,
-        fontSize: 18,
+        fontSize: 18.fs,
         height: 24 / 18,
         fontWeight: FontWeight.w500,
       ),
@@ -59,7 +60,7 @@ class QMAlertWidget extends StatelessWidget {
           message
               .toText(
                 color: QMColor.COLOR_8F92A1,
-                fontSize: 14,
+                fontSize: 14.fs,
                 height: 20 / 14,
                 textAlign: TextAlign.center,
                 maxLines: 5,
@@ -76,16 +77,16 @@ class QMAlertWidget extends StatelessWidget {
                               fontSize: el.fontSize,
                               height: el.textHeight,
                             ),
-                            height: 44,
+                            height: 44.s,
                             backgroundColor: el.backgroundColor,
                             highlightColor: el.highlightColor,
-                            borderRadius: 6,
+                            borderRadius: 6.s,
                             onClick: () {
                               Navigator.of(context).pop();
                               onHandleItemClick?.call(handles!.indexOf(el), el);
                             },
                           ).expanded,
-                          12.inRow
+                          12.s.inRow
                         ])
                     .toList()
                   ..removeLast())
@@ -94,28 +95,28 @@ class QMAlertWidget extends StatelessWidget {
               ThemeButton(
                 childBuilder: (_) => "取消".toText(
                   color: QMColor.COLOR_00B276,
-                  fontSize: 16,
+                  fontSize: 16.fs,
                   height: 24 / 16,
                 ),
-                height: 44,
+                height: 44.s,
                 backgroundColor: QMColor.COLOR_F1FBF5,
                 highlightColor: QMColor.COLOR_F1FBF5.applyOpacity(0.4),
-                borderRadius: 6,
+                borderRadius: 6.s,
                 onClick: () {
                   Navigator.of(context).pop();
                 },
               ).expanded,
-              12.inRow,
+              12.s.inRow,
               ThemeButton(
                 childBuilder: (_) => "已完成".toText(
                   color: Colors.white,
-                  fontSize: 16,
+                  fontSize: 16.fs,
                   height: 24 / 16,
                 ),
-                height: 44,
+                height: 44.s,
                 backgroundColor: QMColor.COLOR_00B276,
                 highlightColor: QMColor.COLOR_00B276.applyOpacity(0.4),
-                borderRadius: 6,
+                borderRadius: 6.s,
                 onClick: () {
                   Navigator.of(context).pop();
                   onConfirm?.call();
@@ -124,11 +125,11 @@ class QMAlertWidget extends StatelessWidget {
             ].toRow(),
           ),
     ].toColumn(crossAxisAlignment: CrossAxisAlignment.center).applyBackground(
-          padding: EdgeInsets.all(16),
-          width: 280,
+          padding: EdgeInsets.all(16.s),
+          width: 280.s,
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12.s),
           ),
         );
   }

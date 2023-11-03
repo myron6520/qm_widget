@@ -55,7 +55,9 @@ class _WTTreeNodeWidgetState extends State<WTTreeNodeWidget> {
             .toText(
               fontSize: 15.fs,
               height: 20 / 15,
-              color: widget.node.textColor,
+              color: (isSelected || isExpanded)
+                  ? widget.node.selectedTextColor
+                  : QMColor.COLOR_8F92A1,
               fontWeight: (isExpanded || isSelected)
                   ? FontWeight.w500
                   : FontWeight.normal,
@@ -72,8 +74,8 @@ class _WTTreeNodeWidgetState extends State<WTTreeNodeWidget> {
           if (val) {
             controller.selectedIdx = -1;
           }
-          controller.commit();
           widget.onSelectedChanged?.call(controller);
+          controller.commit();
           setState(() {});
         },
         trailing: widget.node.trailing,

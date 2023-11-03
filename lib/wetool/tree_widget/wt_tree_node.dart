@@ -14,8 +14,7 @@ mixin WTTreeNode {
   set isSelected(bool value) => _isSelected = value;
   Color get collapsedBackgroundColor =>
       (isSelected || isExpanded) ? Colors.white : QMColor.COLOR_F7F9FA;
-  Color get textColor =>
-      (isExpanded || isSelected) ? QMColor.COLOR_030319 : QMColor.COLOR_8F92A1;
+  Color get selectedTextColor => QMColor.COLOR_030319;
   bool _isExpanded = false;
   bool get isExpanded => _isExpanded;
   set isExpanded(bool value) => _isExpanded = value;
