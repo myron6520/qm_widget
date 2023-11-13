@@ -48,7 +48,8 @@ class WTCellWidget extends StatelessWidget {
                       height: 20 / 14)
                   .applyPadding(EdgeInsets.only(top: 4.s)),
             ),
-          ].toColumn(crossAxisAlignment: CrossAxisAlignment.start),
+          ].toColumn(crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center),
           8.s.inRow,
           detail
               .toText(
@@ -60,6 +61,7 @@ class WTCellWidget extends StatelessWidget {
               .expanded,
           12.s.inRow,
         ].toRow().applyBackground(
+            alignment: Alignment.center,
             padding: padding ?? EdgeInsets.symmetric(vertical: 16.s),
             margin: margin ?? EdgeInsets.symmetric(horizontal: 16.s),
             decoration: BoxDecoration(
