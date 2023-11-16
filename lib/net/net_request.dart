@@ -7,6 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:qm_widget/net/net_resp.dart';
 
 class NetRequest {
+  static int codeBadResponse = -1;
+  static int codeSendTimeout = -1001;
+  static int codeReceiveTimeout = -1002;
+  static int codeCancel = -1003;
+  static int codeConnectionError = -1004;
+  static int codeConnectionTimeout = -1005;
+  static int codeBadCertificate = -1006;
+  static int codeUnknown = -1007;
   static String ERROR_UNDEFINED = "通讯异常";
   final Dio _client;
   static NetResp<T> Function<T>(DioError)? onError;
@@ -41,35 +49,48 @@ class NetRequest {
   }
 
   Future<NetResp<T>> handleError<T>(
-    DioError e, {
+    DioException e, {
     NetResp<T> Function(Map dataMap)? convertFunc,
     NetResp<T> Function(Response? res)? respConvertFunc,
   }) async {
     return (NetRequest.onError ??
-            (DioError it) {
-              String msg = it.message;
+            (DioException it) {
+              String msg = it.message ?? "";
               int code = -1;
               switch (it.type) {
-                case DioErrorType.sendTimeout:
+                case DioExceptionType.sendTimeout:
                   msg = "发送超时";
+                  code = codeSendTimeout;
                   break;
-                case DioErrorType.receiveTimeout:
+                case DioExceptionType.receiveTimeout:
                   msg = "接收超时";
+                  code = codeReceiveTimeout;
                   break;
-                case DioErrorType.cancel:
+                case DioExceptionType.cancel:
                   msg = "请求被取消";
+                  code = codeCancel;
                   break;
-                case DioErrorType.connectTimeout:
+                case DioExceptionType.connectionError:
+                  msg = "连接错误";
+                  code = codeConnectionError;
+                  break;
+                case DioExceptionType.connectionTimeout:
                   msg = "连接超时";
+                  code = codeConnectionTimeout;
                   break;
-                case DioErrorType.response:
+                case DioExceptionType.badCertificate:
+                  msg = "证书错误";
+                  code = codeBadCertificate;
+                  break;
+                case DioExceptionType.badResponse:
                   return handleResponse(
                     it.response,
                     convertFunc: convertFunc,
                     respConvertFunc: respConvertFunc,
                   );
-                case DioErrorType.other:
+                case DioExceptionType.unknown:
                   msg = "${it.error}";
+                  code = codeUnknown;
                   break;
               }
               debugPrint("handleError:$it");
@@ -98,7 +119,7 @@ class NetRequest {
         ),
       );
     } catch (e) {
-      if (e is DioError) {
+      if (e is DioException) {
         return handleError(e,
             convertFunc: convertFunc, respConvertFunc: respConvertFunc);
       }
@@ -128,7 +149,7 @@ class NetRequest {
         ),
       );
     } catch (e) {
-      if (e is DioError) {
+      if (e is DioException) {
         return handleError(e,
             convertFunc: convertFunc, respConvertFunc: respConvertFunc);
       }
@@ -164,7 +185,7 @@ class NetRequest {
                   ContentType.parse("application/x-www-form-urlencoded")
                       .value));
     } catch (e) {
-      if (e is DioError) {
+      if (e is DioException) {
         return handleError(e,
             convertFunc: convertFunc, respConvertFunc: respConvertFunc);
       }
@@ -195,7 +216,7 @@ class NetRequest {
             headers: headers,
           ));
     } catch (e) {
-      if (e is DioError) {
+      if (e is DioException) {
         return handleError(e,
             convertFunc: convertFunc, respConvertFunc: respConvertFunc);
       }
@@ -219,7 +240,7 @@ class NetRequest {
           queryParameters: params,
           options: Options(headers: headers));
     } catch (e) {
-      if (e is DioError) {
+      if (e is DioException) {
         return handleError(e,
             convertFunc: convertFunc, respConvertFunc: respConvertFunc);
       }
@@ -243,7 +264,7 @@ class NetRequest {
           queryParameters: params,
           options: Options(headers: headers));
     } catch (e) {
-      if (e is DioError) {
+      if (e is DioException) {
         return handleError(e,
             convertFunc: convertFunc, respConvertFunc: respConvertFunc);
       }

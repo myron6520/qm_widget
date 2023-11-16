@@ -26,6 +26,7 @@ class WTInputWidget extends StatefulWidget {
   final bool showInputBottomBorder;
   final bool autofocus;
   final int lengthLimiting;
+  final void Function(String)? onSubmitted;
   const WTInputWidget({
     super.key,
     this.title = "",
@@ -36,6 +37,7 @@ class WTInputWidget extends StatefulWidget {
     this.right,
     this.textAlign = TextAlign.left,
     this.onInputChanged,
+    this.onSubmitted,
     this.bottomBorderColor = Colors.white,
     this.titleColor = QMColor.COLOR_030319,
     this.titleWidth,
@@ -89,6 +91,7 @@ class _WTInputWidgetState extends State<WTInputWidget> {
           widget.onInputChanged?.call(_);
           setState(() {});
         },
+        onSubmitted: (str) => widget.onSubmitted?.call(str),
       ).expanded;
   @override
   Widget build(BuildContext context) {
