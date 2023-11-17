@@ -10,6 +10,8 @@ import 'package:qm_widget/wetool/wt_icon.dart';
 class WTInputWidget extends StatefulWidget {
   final String title;
   final Color titleColor;
+  final Color tintColor;
+  final Color textColor;
   final double? titleWidth;
   final Widget Function(String title)? titleBuilder;
   final String hint;
@@ -40,6 +42,8 @@ class WTInputWidget extends StatefulWidget {
     this.onSubmitted,
     this.bottomBorderColor = Colors.white,
     this.titleColor = QMColor.COLOR_030319,
+    this.tintColor = QMColor.COLOR_BDBDBD,
+    this.textColor = QMColor.COLOR_030319,
     this.titleWidth,
     this.contentPadding,
     this.left,
@@ -61,9 +65,9 @@ class _WTInputWidgetState extends State<WTInputWidget> {
         enabled: widget.enable,
         autofocus: widget.autofocus,
         obscureText: widget.obscureText,
-        cursorColor: QMColor.COLOR_030319,
+        cursorColor: widget.textColor,
         style: TextStyle(
-          color: QMColor.COLOR_030319,
+          color: widget.textColor,
           fontSize: 16.fs,
         ),
         inputFormatters: widget.lengthLimiting > 0
@@ -79,7 +83,7 @@ class _WTInputWidgetState extends State<WTInputWidget> {
           isCollapsed: true,
           hintText: widget.hint,
           hintStyle: TextStyle(
-            color: QMColor.COLOR_BDBDBD,
+            color: widget.tintColor,
             fontSize: 16.s,
           ),
           disabledBorder: InputBorder.none,
