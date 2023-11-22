@@ -119,6 +119,7 @@ class PageWidget<T> extends StatelessWidget {
     this.checkNoData = true,
     this.pageSize = 10,
     this.appendDataFunc,
+    this.isEndCheckFunc,
   }) : super(key: key);
   final Future<NetResp<List<T>>> Function(int page, int pageSize) loadFunc;
   final Widget Function(BuildContext context, PageProvider<T> provinder)
@@ -132,6 +133,7 @@ class PageWidget<T> extends StatelessWidget {
   final Function(NetResp<List<T>> resp)? dataChanged;
   final bool checkNoData;
   final List<T> Function(List<T>, NetResp<List<T>> resp)? appendDataFunc;
+  final bool Function(NetResp<List<T>> resp)? isEndCheckFunc;
 
   @override
   Widget build(BuildContext context) {
@@ -141,6 +143,7 @@ class PageWidget<T> extends StatelessWidget {
             dataChanged: dataChanged,
             checkNoData: checkNoData,
             appendDataFunc: appendDataFunc,
+            isEndCheckFunc: isEndCheckFunc,
             pageSize: pageSize);
         didGetProvider?.call(p);
         if (autoLoad) {
