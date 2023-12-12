@@ -12,6 +12,7 @@ class WTInputWidget extends StatefulWidget {
   final Color titleColor;
   final Color tintColor;
   final Color textColor;
+  final double? fontSize;
   final double? titleWidth;
   final Widget Function(String title)? titleBuilder;
   final String hint;
@@ -29,6 +30,7 @@ class WTInputWidget extends StatefulWidget {
   final bool autofocus;
   final int lengthLimiting;
   final void Function(String)? onSubmitted;
+  final bool showClearWhenNeeds;
   const WTInputWidget({
     super.key,
     this.title = "",
@@ -52,6 +54,8 @@ class WTInputWidget extends StatefulWidget {
     this.autofocus = false,
     this.obscureText = false,
     this.lengthLimiting = 0,
+    this.fontSize,
+    this.showClearWhenNeeds = true,
   });
 
   @override
@@ -68,7 +72,7 @@ class _WTInputWidgetState extends State<WTInputWidget> {
         cursorColor: widget.textColor,
         style: TextStyle(
           color: widget.textColor,
-          fontSize: 16.fs,
+          fontSize: widget.fontSize ?? 16.fs,
         ),
         inputFormatters: widget.lengthLimiting > 0
             ? [
@@ -84,7 +88,7 @@ class _WTInputWidgetState extends State<WTInputWidget> {
           hintText: widget.hint,
           hintStyle: TextStyle(
             color: widget.tintColor,
-            fontSize: 16.s,
+            fontSize: widget.fontSize ?? 16.s,
           ),
           disabledBorder: InputBorder.none,
           enabledBorder: InputBorder.none,
@@ -118,7 +122,10 @@ class _WTInputWidgetState extends State<WTInputWidget> {
         [
           widget.left ?? Container(),
           buildTextFiled(),
-          (controller.text.isNotEmpty && widget.enable && focusNode.hasFocus)
+          (widget.showClearWhenNeeds &&
+                  controller.text.isNotEmpty &&
+                  widget.enable &&
+                  focusNode.hasFocus)
               .toWidget(
             () => SvgPicture.string(
               WTIcon.INPUT_CLEAR,
