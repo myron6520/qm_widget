@@ -31,6 +31,7 @@ class WTInputWidget extends StatefulWidget {
   final int lengthLimiting;
   final void Function(String)? onSubmitted;
   final bool showClearWhenNeeds;
+  final List<TextInputFormatter>? inputFormatters;
   const WTInputWidget({
     super.key,
     this.title = "",
@@ -56,6 +57,7 @@ class WTInputWidget extends StatefulWidget {
     this.lengthLimiting = 0,
     this.fontSize,
     this.showClearWhenNeeds = true,
+    this.inputFormatters,
   });
 
   @override
@@ -74,11 +76,12 @@ class _WTInputWidgetState extends State<WTInputWidget> {
           color: widget.textColor,
           fontSize: widget.fontSize ?? 16.fs,
         ),
-        inputFormatters: widget.lengthLimiting > 0
-            ? [
-                LengthLimitingTextInputFormatter(widget.lengthLimiting),
-              ]
-            : null,
+        inputFormatters: widget.inputFormatters ??
+            (widget.lengthLimiting > 0
+                ? [
+                    LengthLimitingTextInputFormatter(widget.lengthLimiting),
+                  ]
+                : null),
         textAlign: widget.textAlign,
         keyboardType: widget.keyboardType,
         decoration: InputDecoration(
