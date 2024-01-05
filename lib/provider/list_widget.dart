@@ -25,6 +25,7 @@ class ListWidget<T> extends StatefulWidget {
     this.appendDataFunc,
     this.refreshController,
     this.enablePullUp = true,
+    this.statusWidgetBuilder,
   }) : super(key: key);
   final Future<NetResp<List<T>>> Function(int page, int pageSize) loadFunc;
   final Widget Function(BuildContext context, int index, T itemData)
@@ -40,6 +41,7 @@ class ListWidget<T> extends StatefulWidget {
 
   final RefreshController? refreshController;
   final bool enablePullUp;
+  final Widget? Function(PageProvider<T>)? statusWidgetBuilder;
 
   @override
   _ListWidgetState<T> createState() => _ListWidgetState<T>();
@@ -53,6 +55,7 @@ class _ListWidgetState<T> extends State<ListWidget<T>>
     return PageRefWidget<T>(
       widget.loadFunc,
       refreshController: widget.refreshController,
+      statusWidgetBuilder: widget.statusWidgetBuilder,
       pageSize: widget.pageSize,
       autoLoad: widget.autoLoad,
       didGetProvider: widget.didGetProvider,
@@ -64,19 +67,22 @@ class _ListWidgetState<T> extends State<ListWidget<T>>
           padding: widget.contentPadding,
           itemBuilder: (ctx, index) => (index < provider.data.length).toWidget(
                 () => widget.itemBuilder.call(ctx, index, provider.data[index]),
-                falseBuilder: () => "已加载完全部"
-                    .toText(
-                      color: QMColor.COLOR_BDBDBD,
-                      fontSize: 14.fs,
-                      height: 20 / 14,
-                      textAlign: TextAlign.center,
-                    )
-                    .expanded
-                    .toRow(),
+                falseBuilder: widget.enablePullUp
+                    ? null
+                    : () => "已加载完全部"
+                        .toText(
+                          color: QMColor.COLOR_BDBDBD,
+                          fontSize: 14.fs,
+                          height: 20 / 14,
+                          textAlign: TextAlign.center,
+                        )
+                        .expanded
+                        .toRow(),
               ),
           separatorBuilder: (ctx, idx) =>
               widget.separatorBuilder?.call(ctx, idx) ?? Container(),
-          itemCount: provider.data.length + (provider.isEnd ? 1 : 0)),
+          itemCount: provider.data.length +
+              (provider.isEnd && widget.enablePullUp ? 1 : 0)),
     );
   }
 

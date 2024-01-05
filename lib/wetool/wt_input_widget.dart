@@ -137,6 +137,7 @@ class _WTInputWidgetState extends State<WTInputWidget> {
             ).onClick(
               click: () {
                 controller.clear();
+                widget.onInputChanged?.call("");
                 setState(() {});
               },
             ),

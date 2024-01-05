@@ -71,7 +71,7 @@ class NetRequest {
                   code = codeCancel;
                   break;
                 case DioExceptionType.connectionError:
-                  msg = "连接错误";
+                  msg = "连接错误[${it.error}]";
                   code = codeConnectionError;
                   break;
                 case DioExceptionType.connectionTimeout:

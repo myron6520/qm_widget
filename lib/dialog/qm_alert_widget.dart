@@ -33,6 +33,7 @@ class QMAlertWidget extends StatelessWidget {
   final void Function()? onConfirm;
   final void Function(int idx, QMHandleStyle style)? onHandleItemClick;
   final String title;
+  final Widget? Function(Widget child)? titleBuilder;
   final String message;
   final Widget? Function(String)? messageBuilder;
   final List<QMHandleStyle>? handles;
@@ -44,17 +45,19 @@ class QMAlertWidget extends StatelessWidget {
     this.handles,
     this.onHandleItemClick,
     this.messageBuilder,
+    this.titleBuilder,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var titleWidget = title.toText(
+      color: QMColor.COLOR_030319,
+      fontSize: 18.fs,
+      height: 24 / 18,
+      fontWeight: FontWeight.w500,
+    );
     return [
-      title.toText(
-        color: QMColor.COLOR_030319,
-        fontSize: 18.fs,
-        height: 24 / 18,
-        fontWeight: FontWeight.w500,
-      ),
+      titleBuilder?.call(titleWidget) ?? titleWidget,
       12.inColumn,
       messageBuilder?.call(message) ??
           message

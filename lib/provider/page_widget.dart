@@ -194,8 +194,7 @@ class PageRefWidget<T> extends StatelessWidget {
       this.enablePullUp = true})
       : super(key: key);
   final Future<NetResp<List<T>>> Function(int page, int pageSize) loadFunc;
-  final Widget Function(BuildContext context, PageProvider<T> provinder)
-      builder;
+  final Widget Function(BuildContext context, PageProvider<T> provider) builder;
   final bool sliver;
   final bool autoLoad;
   final Function(PageProvider<T> provider)? didGetProvider;

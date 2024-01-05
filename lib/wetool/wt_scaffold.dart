@@ -10,6 +10,7 @@ class WTScaffold extends StatelessWidget {
   final Color backgroundColor;
   final Color appBarBackgroundColor;
   final String title;
+  final Widget? titleWidget;
   final SystemUiOverlayStyle? systemOverlayStyle;
   final List<Widget>? actions;
   final Widget? footer;
@@ -26,6 +27,7 @@ class WTScaffold extends StatelessWidget {
     this.footer,
     this.footerBackgroundColor = Colors.white,
     this.leading,
+    this.titleWidget,
   });
 
   @override
@@ -33,6 +35,7 @@ class WTScaffold extends StatelessWidget {
         resizeToAvoidBottomInset: false,
         backgroundColor: backgroundColor,
         appBar: QMAppBar(
+          titleWidget: titleWidget,
           title: title,
           leading: leading,
           systemOverlayStyle: systemOverlayStyle ??
