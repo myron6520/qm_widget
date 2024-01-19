@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 enum ButtonState { normal, highlight, selected, disable }
 
 class ButtonDesc {
-  @deprecated
   final Widget? child;
   final Widget? left;
   final Widget? top;
