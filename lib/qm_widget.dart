@@ -22,6 +22,7 @@ export 'package:qm_widget/widgets/mask_widget.dart';
 export 'package:qm_widget/widgets/text_widget.dart';
 export 'package:qm_widget/widgets/qm_app_bar.dart';
 export 'package:qm_widget/widgets/qm_tag.dart';
+export 'package:qm_widget/widgets/waiting_widget.dart';
 
 export 'package:qm_widget/pub/widget_default_builder.dart';
 
