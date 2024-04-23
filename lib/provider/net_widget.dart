@@ -87,9 +87,7 @@ class NetWidget<T> extends StatelessWidget {
         builder: (ctx, provider, __) => RespWidget(
           provider.status,
           sliver: sliver,
-          statusWidgetBuilder: statusWidgetBuilder != null
-              ? (_) => statusWidgetBuilder?.call(provider)
-              : null,
+          statusWidgetBuilder: statusWidgetBuilder != null ? (_) => statusWidgetBuilder?.call(provider) : null,
           builder: (_) => refreshEnable
               ? SmartRefresher(
                   controller: controller,

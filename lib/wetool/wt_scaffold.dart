@@ -10,6 +10,7 @@ class WTScaffold extends StatelessWidget {
   final Color backgroundColor;
   final Color appBarBackgroundColor;
   final String title;
+  final Color tintColor;
   final Widget? titleWidget;
   final SystemUiOverlayStyle? systemOverlayStyle;
   final List<Widget>? actions;
@@ -20,6 +21,7 @@ class WTScaffold extends StatelessWidget {
     super.key,
     this.body,
     this.backgroundColor = QMColor.COLOR_F7F9FA,
+    this.tintColor = QMColor.COLOR_030319,
     this.title = "",
     this.systemOverlayStyle,
     this.actions,
@@ -37,6 +39,7 @@ class WTScaffold extends StatelessWidget {
         appBar: QMAppBar(
           titleWidget: titleWidget,
           title: title,
+          tintColor: tintColor,
           leading: leading,
           systemOverlayStyle: systemOverlayStyle ??
               SystemUiOverlayStyle.dark.copyWith(

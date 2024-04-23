@@ -22,6 +22,7 @@ class WTInputWidget extends StatefulWidget {
   final TextEditingController? controller;
   final Widget? right;
   final Widget? left;
+  final Widget? clearWidget;
   final TextAlign textAlign;
   final void Function(String)? onInputChanged;
   final Color bottomBorderColor;
@@ -32,6 +33,10 @@ class WTInputWidget extends StatefulWidget {
   final void Function(String)? onSubmitted;
   final bool showClearWhenNeeds;
   final List<TextInputFormatter>? inputFormatters;
+  final TextStyle? titleStyle;
+  final TextStyle? textStyle;
+  final TextStyle? hintStyle;
+  final FocusNode? focusNode;
   const WTInputWidget({
     super.key,
     this.title = "",
@@ -50,6 +55,7 @@ class WTInputWidget extends StatefulWidget {
     this.titleWidth,
     this.contentPadding,
     this.left,
+    this.clearWidget,
     this.showInputBottomBorder = true,
     this.titleBuilder,
     this.autofocus = false,
@@ -58,6 +64,10 @@ class WTInputWidget extends StatefulWidget {
     this.fontSize,
     this.showClearWhenNeeds = true,
     this.inputFormatters,
+    this.titleStyle,
+    this.textStyle,
+    this.hintStyle,
+    this.focusNode,
   });
 
   @override
@@ -72,10 +82,11 @@ class _WTInputWidgetState extends State<WTInputWidget> {
         autofocus: widget.autofocus,
         obscureText: widget.obscureText,
         cursorColor: widget.textColor,
-        style: TextStyle(
-          color: widget.textColor,
-          fontSize: widget.fontSize ?? 16.fs,
-        ),
+        style: widget.textStyle ??
+            TextStyle(
+              color: widget.textColor,
+              fontSize: widget.fontSize ?? 16.fs,
+            ),
         inputFormatters: widget.inputFormatters ??
             (widget.lengthLimiting > 0
                 ? [
@@ -89,10 +100,11 @@ class _WTInputWidgetState extends State<WTInputWidget> {
           isDense: true,
           isCollapsed: true,
           hintText: widget.hint,
-          hintStyle: TextStyle(
-            color: widget.tintColor,
-            fontSize: widget.fontSize ?? 16.s,
-          ),
+          hintStyle: widget.hintStyle ??
+              TextStyle(
+                color: widget.tintColor,
+                fontSize: widget.fontSize ?? 16.s,
+              ),
           disabledBorder: InputBorder.none,
           enabledBorder: InputBorder.none,
           border: InputBorder.none,
@@ -115,6 +127,7 @@ class _WTInputWidgetState extends State<WTInputWidget> {
                   color: widget.titleColor,
                   fontSize: 16.fs,
                   height: 24 / 16,
+                  style: widget.titleStyle,
                 )
                 .applyBackground(
                   width: widget.titleWidth ?? 88.s,
@@ -125,16 +138,14 @@ class _WTInputWidgetState extends State<WTInputWidget> {
         [
           widget.left ?? Container(),
           buildTextFiled(),
-          (widget.showClearWhenNeeds &&
-                  controller.text.isNotEmpty &&
-                  widget.enable &&
-                  focusNode.hasFocus)
-              .toWidget(
-            () => SvgPicture.string(
-              WTIcon.INPUT_CLEAR,
-              width: 24.s,
-              height: 24.s,
-            ).onClick(
+          (widget.showClearWhenNeeds && controller.text.isNotEmpty && widget.enable && focusNode.hasFocus).toWidget(
+            () => (widget.clearWidget ??
+                    SvgPicture.string(
+                      WTIcon.INPUT_CLEAR,
+                      width: 24.s,
+                      height: 24.s,
+                    ))
+                .onClick(
               click: () {
                 controller.clear();
                 widget.onInputChanged?.call("");
@@ -147,10 +158,7 @@ class _WTInputWidgetState extends State<WTInputWidget> {
           .toRow()
           .applyBackground(
             decoration: BoxDecoration(
-              border: widget.showInputBottomBorder
-                  ? Border(
-                      bottom: BorderSide(color: bottomBorderColor, width: 1.s))
-                  : null,
+              border: widget.showInputBottomBorder ? Border(bottom: BorderSide(color: bottomBorderColor, width: 1.s)) : null,
             ),
           )
           .expanded,
@@ -158,11 +166,9 @@ class _WTInputWidgetState extends State<WTInputWidget> {
     ].toRow();
   }
 
-  late TextEditingController controller =
-      widget.controller ?? TextEditingController();
-  late FocusNode focusNode = FocusNode();
-  Color get bottomBorderColor =>
-      focusNode.hasFocus ? QMColor.COLOR_00B276 : widget.bottomBorderColor;
+  late TextEditingController controller = widget.controller ?? TextEditingController();
+  late FocusNode focusNode = widget.focusNode ?? FocusNode();
+  Color get bottomBorderColor => focusNode.hasFocus ? QMColor.COLOR_00B276 : widget.bottomBorderColor;
   @override
   void initState() {
     super.initState();
