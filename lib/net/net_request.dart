@@ -25,9 +25,7 @@ class NetRequest {
     NetResp<T> Function(Map dataMap)? convertFunc,
     NetResp<T> Function(Response? res)? respConvertFunc,
   }) {
-    NetResp<T> resp = NetResp(
-        code: res?.statusCode ?? -1,
-        msg: res?.statusMessage ?? ERROR_UNDEFINED);
+    NetResp<T> resp = NetResp(code: res?.statusCode ?? -1, msg: res?.statusMessage ?? ERROR_UNDEFINED);
     if (respConvertFunc != null) {
       return respConvertFunc.call(res);
     }
@@ -118,16 +116,15 @@ class NetRequest {
           headers: headers,
         ),
       );
-    } catch (e) {
+    } catch (e, t) {
+      debugPrint("post error:$t");
       if (e is DioException) {
-        return handleError(e,
-            convertFunc: convertFunc, respConvertFunc: respConvertFunc);
+        return handleError(e, convertFunc: convertFunc, respConvertFunc: respConvertFunc);
       }
       return NetResp(msg: ERROR_UNDEFINED);
     }
 
-    return handleResponse<T>(res,
-        convertFunc: convertFunc, respConvertFunc: respConvertFunc);
+    return handleResponse<T>(res, convertFunc: convertFunc, respConvertFunc: respConvertFunc);
   }
 
   Future<NetResp<T>> put<T>(
@@ -150,14 +147,12 @@ class NetRequest {
       );
     } catch (e) {
       if (e is DioException) {
-        return handleError(e,
-            convertFunc: convertFunc, respConvertFunc: respConvertFunc);
+        return handleError(e, convertFunc: convertFunc, respConvertFunc: respConvertFunc);
       }
       return NetResp(msg: ERROR_UNDEFINED);
     }
 
-    return handleResponse<T>(res,
-        convertFunc: convertFunc, respConvertFunc: respConvertFunc);
+    return handleResponse<T>(res, convertFunc: convertFunc, respConvertFunc: respConvertFunc);
   }
 
   Future<NetResp<T>> form<T>(
@@ -177,21 +172,13 @@ class NetRequest {
           cancelToken: cancelToken,
           onSendProgress: onSendProgress,
           onReceiveProgress: onReceiveProgress,
-          options: Options(
-              headers: headers,
-              followRedirects: false,
-              validateStatus: (code) => (code ?? 0) < 500,
-              contentType:
-                  ContentType.parse("application/x-www-form-urlencoded")
-                      .value));
+          options: Options(headers: headers, followRedirects: false, validateStatus: (code) => (code ?? 0) < 500, contentType: ContentType.parse("application/x-www-form-urlencoded").value));
     } catch (e) {
       if (e is DioException) {
-        return handleError(e,
-            convertFunc: convertFunc, respConvertFunc: respConvertFunc);
+        return handleError(e, convertFunc: convertFunc, respConvertFunc: respConvertFunc);
       }
     }
-    return handleResponse<T>(res,
-        convertFunc: convertFunc, respConvertFunc: respConvertFunc);
+    return handleResponse<T>(res, convertFunc: convertFunc, respConvertFunc: respConvertFunc);
   }
 
   Future<NetResp<T>> download<T>(
@@ -217,12 +204,10 @@ class NetRequest {
           ));
     } catch (e) {
       if (e is DioException) {
-        return handleError(e,
-            convertFunc: convertFunc, respConvertFunc: respConvertFunc);
+        return handleError(e, convertFunc: convertFunc, respConvertFunc: respConvertFunc);
       }
     }
-    return handleResponse<T>(res,
-        convertFunc: convertFunc, respConvertFunc: respConvertFunc);
+    return handleResponse<T>(res, convertFunc: convertFunc, respConvertFunc: respConvertFunc);
   }
 
   Future<NetResp<T>> get<T>(
@@ -235,18 +220,13 @@ class NetRequest {
   }) async {
     Response? res;
     try {
-      res = await client.get(url,
-          cancelToken: cancelToken,
-          queryParameters: params,
-          options: Options(headers: headers));
+      res = await client.get(url, cancelToken: cancelToken, queryParameters: params, options: Options(headers: headers));
     } catch (e) {
       if (e is DioException) {
-        return handleError(e,
-            convertFunc: convertFunc, respConvertFunc: respConvertFunc);
+        return handleError(e, convertFunc: convertFunc, respConvertFunc: respConvertFunc);
       }
     }
-    return handleResponse<T>(res,
-        convertFunc: convertFunc, respConvertFunc: respConvertFunc);
+    return handleResponse<T>(res, convertFunc: convertFunc, respConvertFunc: respConvertFunc);
   }
 
   Future<NetResp<T>> delete<T>(
@@ -259,17 +239,12 @@ class NetRequest {
   }) async {
     Response? res;
     try {
-      res = await client.delete(url,
-          cancelToken: cancelToken,
-          queryParameters: params,
-          options: Options(headers: headers));
+      res = await client.delete(url, cancelToken: cancelToken, queryParameters: params, options: Options(headers: headers));
     } catch (e) {
       if (e is DioException) {
-        return handleError(e,
-            convertFunc: convertFunc, respConvertFunc: respConvertFunc);
+        return handleError(e, convertFunc: convertFunc, respConvertFunc: respConvertFunc);
       }
     }
-    return handleResponse<T>(res,
-        convertFunc: convertFunc, respConvertFunc: respConvertFunc);
+    return handleResponse<T>(res, convertFunc: convertFunc, respConvertFunc: respConvertFunc);
   }
 }
