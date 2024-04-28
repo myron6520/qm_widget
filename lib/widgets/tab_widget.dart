@@ -31,6 +31,7 @@ class TabWidget extends StatefulWidget {
     this.unselectedLabelColor,
     this.indicatorSize = TabBarIndicatorSize.label,
     this.indicatorWeight = 2,
+    this.tabPadding = EdgeInsets.zero,
     this.labelPadding = EdgeInsets.zero,
     this.indicatorPadding = EdgeInsets.zero,
     this.indicatorColor,
@@ -51,6 +52,7 @@ class TabWidget extends StatefulWidget {
   final TabBarIndicatorSize indicatorSize;
   final double indicatorWeight;
   final Color? indicatorColor;
+  final EdgeInsets tabPadding;
   final EdgeInsets labelPadding;
   final EdgeInsets indicatorPadding;
   final double tabHeight;
@@ -68,8 +70,7 @@ class TabWidget extends StatefulWidget {
   _TabWidgetState createState() => _TabWidgetState();
 }
 
-class _TabWidgetState extends State<TabWidget>
-    with SingleTickerProviderStateMixin {
+class _TabWidgetState extends State<TabWidget> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     if (widget.tabs.isEmpty) return Container();
@@ -87,10 +88,10 @@ class _TabWidgetState extends State<TabWidget>
       tabs: widget.tabs,
       controller: tabController,
       indicatorColor: widget.indicatorColor,
+      padding: widget.tabPadding,
     );
     return [
-      (widget.tabBuilder != null).toWidget(() => widget.tabBuilder!.call(tab),
-          falseWidget: tab.applyBackground(height: widget.tabHeight)),
+      (widget.tabBuilder != null).toWidget(() => widget.tabBuilder!.call(tab), falseWidget: tab.applyBackground(height: widget.tabHeight)),
       TabBarView(
         children: List.generate(
             widget.tabs.length,
@@ -101,9 +102,7 @@ class _TabWidgetState extends State<TabWidget>
                 )),
         controller: tabController,
       ).expanded
-    ].toColumn(
-        reversed: widget.reversed,
-        crossAxisAlignment: widget.crossAxisAlignment);
+    ].toColumn(reversed: widget.reversed, crossAxisAlignment: widget.crossAxisAlignment);
   }
 
   late TabController tabController;
@@ -111,8 +110,7 @@ class _TabWidgetState extends State<TabWidget>
   @override
   void initState() {
     super.initState();
-    tabController = TabController(
-        vsync: this, length: widget.tabs.length, initialIndex: widget.index);
+    tabController = TabController(vsync: this, length: widget.tabs.length, initialIndex: widget.index);
     refs = List.generate(
         widget.tabs.length,
         (index) => ValueNotifier(
