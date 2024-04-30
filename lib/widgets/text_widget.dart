@@ -18,7 +18,6 @@ class TextWidget extends StatelessWidget {
   final double? fontSize;
   final double? height;
   final TextAlign? textAlign;
-  final double? textScaleFactor;
   final TextDecoration? decoration;
   final int? maxLines;
   final TextOverflow? overflow;
@@ -41,7 +40,6 @@ class TextWidget extends StatelessWidget {
     this.fontSize,
     this.height,
     this.textAlign,
-    this.textScaleFactor,
     this.decoration,
     this.maxLines,
     this.overflow,
@@ -59,7 +57,6 @@ class TextWidget extends StatelessWidget {
       fontFamily: fontFamily,
       height: height,
       textAlign: textAlign,
-      textScaleFactor: textScaleFactor,
       decoration: decoration,
       maxLines: maxLines,
       overflow: overflow ?? TextOverflow.ellipsis,
@@ -67,20 +64,14 @@ class TextWidget extends StatelessWidget {
       style: style,
     );
     return [
-      (topDrawable != null)
-          .toWidget(() => topDrawable!.applyPadding(topDrawablePadding)),
+      (topDrawable != null).toWidget(() => topDrawable!.applyPadding(topDrawablePadding)),
       [
-        (leftDrawable != null)
-            .toWidget(() => leftDrawable!.applyPadding(leftDrawablePadding)),
+        (leftDrawable != null).toWidget(() => leftDrawable!.applyPadding(leftDrawablePadding)),
         textBuilder?.call(textWidget) ?? textWidget,
-        (rightDrawable != null)
-            .toWidget(() => rightDrawable!.applyPadding(rightDrawablePadding)),
+        (rightDrawable != null).toWidget(() => rightDrawable!.applyPadding(rightDrawablePadding)),
       ].toRow(mainAxisAlignment: MainAxisAlignment.center),
-      (bottomDrawable != null)
-          .toWidget(() => bottomDrawable!.applyPadding(bottomDrawablePadding)),
-    ].toColumn(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center);
+      (bottomDrawable != null).toWidget(() => bottomDrawable!.applyPadding(bottomDrawablePadding)),
+    ].toColumn(mainAxisSize: MainAxisSize.min, mainAxisAlignment: MainAxisAlignment.center);
   }
 }
 
@@ -115,7 +106,6 @@ extension TextWidgetEx on String {
         fontSize: fontSize,
         height: height,
         textAlign: textAlign,
-        textScaleFactor: textScaleFactor,
         decoration: decoration,
         maxLines: maxLines,
         overflow: overflow,

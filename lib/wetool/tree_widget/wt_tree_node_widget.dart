@@ -15,15 +15,7 @@ class WTTreeNodeWidget extends StatefulWidget {
   final void Function(WTTreeNodeController controller)? onCreate;
   final void Function(WTTreeNodeController controller)? onDestroy;
   final void Function(WTTreeNodeController controller)? onSelectedChanged;
-  const WTTreeNodeWidget(
-      {super.key,
-      this.childBuilder,
-      this.controller,
-      required this.node,
-      this.onCreate,
-      this.onDestroy,
-      this.onSelectedChanged,
-      this.onItemClick});
+  const WTTreeNodeWidget({super.key, this.childBuilder, this.controller, required this.node, this.onCreate, this.onDestroy, this.onSelectedChanged, this.onItemClick});
 
   @override
   State<WTTreeNodeWidget> createState() => _WTTreeNodeWidgetState();
@@ -55,12 +47,8 @@ class _WTTreeNodeWidgetState extends State<WTTreeNodeWidget> {
             .toText(
               fontSize: 15.fs,
               height: 20 / 15,
-              color: (isSelected || isExpanded)
-                  ? widget.node.selectedTextColor
-                  : QMColor.COLOR_8F92A1,
-              fontWeight: (isExpanded || isSelected)
-                  ? FontWeight.w500
-                  : FontWeight.normal,
+              color: (isSelected || isExpanded) ? widget.node.selectedTextColor : QMColor.COLOR_8F92A1,
+              fontWeight: (isExpanded || isSelected) ? FontWeight.w500 : FontWeight.normal,
             )
             .applyPadding(EdgeInsets.only(left: 14.s)),
         clipBehavior: Clip.hardEdge,
@@ -87,10 +75,7 @@ class _WTTreeNodeWidgetState extends State<WTTreeNodeWidget> {
             builder: (_, ref) => List.generate(
               widget.node.nodes.length,
               (index) => [
-                (controller.selectedIdx == index
-                        ? QMColor.COLOR_00B276
-                        : Colors.white)
-                    .toContainer(
+                (controller.selectedIdx == index ? QMColor.COLOR_00B276 : Colors.white).toContainer(
                   width: 3.s,
                   height: 16.s,
                 ),
@@ -99,12 +84,8 @@ class _WTTreeNodeWidgetState extends State<WTTreeNodeWidget> {
                     .toText(
                       fontSize: 15.s,
                       height: 20 / 15,
-                      fontWeight: controller.selectedIdx == index
-                          ? FontWeight.w500
-                          : FontWeight.normal,
-                      color: controller.selectedIdx == index
-                          ? QMColor.COLOR_00B276
-                          : QMColor.COLOR_8F92A1,
+                      fontWeight: controller.selectedIdx == index ? FontWeight.w500 : FontWeight.normal,
+                      color: controller.selectedIdx == index ? QMColor.COLOR_00B276 : QMColor.COLOR_8F92A1,
                     )
                     .expanded,
                 28.s.inRow,
@@ -119,11 +100,10 @@ class _WTTreeNodeWidgetState extends State<WTTreeNodeWidget> {
                 widget.onItemClick?.call(index);
                 controller.commit();
               }),
-            ).toColumn().applyChangeNotifier(controller,
-                onChanged: () async => ref.call(() {})),
+            ).toColumn().applyChangeNotifier(controller, onChanged: (_) async => ref.call(() {})),
           ),
         ),
-      ).applyChangeNotifier(controller, onChanged: () async {
+      ).applyChangeNotifier(controller, onChanged: (_) async {
         setState(() {});
         if (controller.isExpanded != tileController.isExpanded) {
           if (controller.isExpanded) {
@@ -136,8 +116,7 @@ class _WTTreeNodeWidgetState extends State<WTTreeNodeWidget> {
     );
   }
 
-  late WTTreeNodeController controller =
-      widget.controller ?? WTTreeNodeController(node: widget.node);
+  late WTTreeNodeController controller = widget.controller ?? WTTreeNodeController(node: widget.node);
   late ExpansionTileController tileController = ExpansionTileController();
   bool get isExpanded => controller.isExpanded;
   bool get isSelected => controller.isSelected;

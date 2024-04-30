@@ -9,14 +9,7 @@ import 'package:qm_dart_ex/qm_dart_ex.dart';
     MaskWidget.show
     * */
 class MaskWidget extends StatelessWidget {
-  const MaskWidget(
-      {Key? key,
-      this.childBuilder,
-      this.barrierColor,
-      this.margin = EdgeInsets.zero,
-      this.padding = EdgeInsets.zero,
-      this.barrierDismissible = true})
-      : super(key: key);
+  const MaskWidget({Key? key, this.childBuilder, this.barrierColor, this.margin = EdgeInsets.zero, this.padding = EdgeInsets.zero, this.barrierDismissible = true}) : super(key: key);
   final bool barrierDismissible;
   final Widget Function()? childBuilder;
   final Color? barrierColor;
@@ -28,14 +21,14 @@ class MaskWidget extends StatelessWidget {
     double w = MediaQuery.of(context).size.width - margin.left - margin.right;
     double h = MediaQuery.of(context).size.height - margin.top - margin.bottom;
     return Container(
-            margin: margin,
-            padding: padding,
-            color: barrierColor ?? Colors.black.applyOpacity(0.4),
-            height: h,
-            width: w,
-            alignment: Alignment.topCenter,
-            child: childBuilder?.call() ?? Container())
-        .onClick(click: () {
+      margin: margin,
+      padding: padding,
+      color: barrierColor ?? Colors.black.applyOpacity(0.4),
+      height: h,
+      width: w,
+      alignment: Alignment.topCenter,
+      child: childBuilder?.call() ?? Container(),
+    ).onTouch(onTap: () {
       if (barrierDismissible) Navigator.of(context).pop();
     }).applyUnconstrainedBox();
   }

@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
-import 'package:qm_dart_ex/extensions/num_ex2.dart';
 import 'package:qm_dart_ex/qm_dart_ex.dart';
 import 'package:qm_widget/net/net_resp.dart';
 import 'package:qm_widget/pub/scale_util.dart';
@@ -48,8 +47,7 @@ class PageProvider<T> extends RespProvider {
   }
 
   Future<NetResp<List<T>>> _loadData() async {
-    Future<NetResp<List<T>>> future =
-        loadFunc.call(_page ?? startPage, pageSize);
+    Future<NetResp<List<T>>> future = loadFunc.call(_page ?? startPage, pageSize);
     NetResp<List<T>> res = await future;
     _loadDataFinished(res);
     return res;
@@ -67,9 +65,7 @@ class PageProvider<T> extends RespProvider {
         status = RespStatus.error;
       } else {
         int len = data.length;
-        data = (appendDataFunc ??
-                (container, resp) => container..addAll(resp.data ?? []))
-            .call(data, res);
+        data = (appendDataFunc ?? (container, resp) => container..addAll(resp.data ?? [])).call(data, res);
         int appendLen = data.length - len;
         // data.addAll(res.data ?? []);
         if (checkNoData && data.isEmpty) {
@@ -122,8 +118,7 @@ class PageWidget<T> extends StatelessWidget {
     this.isEndCheckFunc,
   }) : super(key: key);
   final Future<NetResp<List<T>>> Function(int page, int pageSize) loadFunc;
-  final Widget Function(BuildContext context, PageProvider<T> provinder)
-      builder;
+  final Widget Function(BuildContext context, PageProvider<T> provinder) builder;
   final bool sliver;
   final bool autoLoad;
   final int pageSize;
@@ -139,12 +134,7 @@ class PageWidget<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<PageProvider<T>>(
       create: (_) {
-        var p = PageProvider<T>(loadFunc,
-            dataChanged: dataChanged,
-            checkNoData: checkNoData,
-            appendDataFunc: appendDataFunc,
-            isEndCheckFunc: isEndCheckFunc,
-            pageSize: pageSize);
+        var p = PageProvider<T>(loadFunc, dataChanged: dataChanged, checkNoData: checkNoData, appendDataFunc: appendDataFunc, isEndCheckFunc: isEndCheckFunc, pageSize: pageSize);
         didGetProvider?.call(p);
         if (autoLoad) {
           p.status = RespStatus.loading;
@@ -156,9 +146,7 @@ class PageWidget<T> extends StatelessWidget {
         builder: (ctx, provider, __) => RespWidget(
           provider.status,
           sliver: sliver,
-          statusWidgetBuilder: statusWidgetBuilder != null
-              ? (_) => statusWidgetBuilder!.call(provider)
-              : null,
+          statusWidgetBuilder: statusWidgetBuilder != null ? (_) => statusWidgetBuilder!.call(provider) : null,
           builder: (_) => builder.call(ctx, provider),
           onTap: () {
             if (onStatusWidgetClick != null) {
@@ -175,24 +163,7 @@ class PageWidget<T> extends StatelessWidget {
 }
 
 class PageRefWidget<T> extends StatelessWidget {
-  const PageRefWidget(this.loadFunc,
-      {Key? key,
-      required this.builder,
-      this.sliver = false,
-      this.autoLoad = true,
-      this.didGetProvider,
-      this.statusWidgetBuilder,
-      this.onStatusWidgetClick,
-      this.dataChanged,
-      this.checkNoData = true,
-      this.pageSize = 10,
-      this.refreshColor = Colors.white,
-      this.waterDropColor = QMColor.COLOR_00B276,
-      this.refreshHeader,
-      this.appendDataFunc,
-      this.refreshController,
-      this.enablePullUp = true})
-      : super(key: key);
+  const PageRefWidget(this.loadFunc, {Key? key, required this.builder, this.sliver = false, this.autoLoad = true, this.didGetProvider, this.statusWidgetBuilder, this.onStatusWidgetClick, this.dataChanged, this.checkNoData = true, this.pageSize = 10, this.refreshColor = Colors.white, this.waterDropColor = QMColor.COLOR_00B276, this.refreshHeader, this.appendDataFunc, this.refreshController, this.enablePullUp = true}) : super(key: key);
   final Future<NetResp<List<T>>> Function(int page, int pageSize) loadFunc;
   final Widget Function(BuildContext context, PageProvider<T> provider) builder;
   final bool sliver;
