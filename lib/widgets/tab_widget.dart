@@ -139,6 +139,7 @@ class _TabWidgetState extends State<TabWidget> with SingleTickerProviderStateMix
   @override
   void dispose() {
     tabController.removeListener(indexChanged);
+    tabController.dispose();
     super.dispose();
   }
 }
