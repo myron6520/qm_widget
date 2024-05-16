@@ -64,6 +64,7 @@ class _ListWidgetState<T> extends State<ListWidget<T>>
       appendDataFunc: widget.appendDataFunc,
       builder: (_, provider) => ListView.separated(
           controller: controller,
+          physics: const AlwaysScrollableScrollPhysics(),
           padding: widget.contentPadding,
           itemBuilder: (ctx, index) => (index < provider.data.length).toWidget(
                 () => widget.itemBuilder.call(ctx, index, provider.data[index]),

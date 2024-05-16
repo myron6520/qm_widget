@@ -1,9 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:qm_widget/net/net_request.dart';
 import 'package:qm_widget/net/net_resp.dart';
-import 'client/net_client.dart'
-    if (dart.library.html) "client/net_client_web.dart"
-    if (dart.library.io) "client/net_client_io.dart";
+import 'client/net_client.dart' if (dart.library.html) "client/net_client_web.dart" if (dart.library.io) "client/net_client_io.dart";
 
 class NetAction {
   static NetRequest client = NetRequest(netClient);
@@ -26,7 +24,8 @@ class NetAction {
 
   static Future<NetResp<T>> put<T>(
     String url, {
-    required dynamic params,
+    Object? data,
+    Map<String, dynamic>? queryParameters,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     NetResp<T> Function(Map dataMap)? convertFunc,
@@ -34,7 +33,8 @@ class NetAction {
   }) =>
       client.put<T>(
         url,
-        params: params,
+        data: data,
+        queryParameters: queryParameters,
         cancelToken: cancelToken,
         headers: headers,
         convertFunc: convertFunc,
@@ -50,6 +50,7 @@ class NetAction {
     NetResp<T> Function(Response? res)? respConvertFunc,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
+    String? contentType,
   }) =>
       client.form<T>(
         url,
@@ -60,6 +61,7 @@ class NetAction {
         respConvertFunc: respConvertFunc,
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
+        contentType: contentType,
       );
 
   static Future<NetResp<T>> download<T>(
@@ -101,7 +103,8 @@ class NetAction {
       );
   static Future<NetResp<T>> delete<T>(
     String url, {
-    required Map<String, dynamic> params,
+    Map<String, dynamic>? queryParameters,
+    Object? data,
     CancelToken? cancelToken,
     Map<String, dynamic>? headers,
     NetResp<T> Function(Map dataMap)? convertFunc,
@@ -109,7 +112,8 @@ class NetAction {
   }) =>
       client.delete<T>(
         url,
-        params: params,
+        queryParameters: queryParameters,
+        data: data,
         cancelToken: cancelToken,
         headers: headers,
         convertFunc: convertFunc,
