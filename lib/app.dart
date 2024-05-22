@@ -61,7 +61,7 @@ class App {
           ?.pushAndRemoveUntil(route, (Route<dynamic> route) => false);
 
   static void pop<T extends Object?>({BuildContext? context, T? data}) =>
-      findNavigatorState(context: context)?.pop(data);
+      tryToPop(context: context,data: data);
   static void tryToPop<T extends Object?>({BuildContext? context, T? data}) {
     if (canPop(context: context)) {
       findNavigatorState(context: context)?.pop(data);

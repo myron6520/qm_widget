@@ -37,6 +37,7 @@ class WTInputWidget extends StatefulWidget {
   final TextStyle? textStyle;
   final TextStyle? hintStyle;
   final FocusNode? focusNode;
+  final int? maxLines;
   const WTInputWidget({
     super.key,
     this.title = "",
@@ -68,6 +69,7 @@ class WTInputWidget extends StatefulWidget {
     this.textStyle,
     this.hintStyle,
     this.focusNode,
+    this.maxLines = 1,
   });
 
   @override
@@ -82,6 +84,7 @@ class _WTInputWidgetState extends State<WTInputWidget> {
         autofocus: widget.autofocus,
         obscureText: widget.obscureText,
         cursorColor: widget.textColor,
+        maxLines: widget.maxLines,
         style: widget.textStyle ??
             TextStyle(
               color: widget.textColor,
