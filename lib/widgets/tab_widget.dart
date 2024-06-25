@@ -70,6 +70,30 @@ class TabWidget extends StatefulWidget {
   _TabWidgetState createState() => _TabWidgetState();
 }
 
+class CustomScrollPhysics extends ScrollPhysics {
+  const CustomScrollPhysics({ScrollPhysics? parent}) : super(parent: parent);
+
+  @override
+  CustomScrollPhysics applyTo(ScrollPhysics? ancestor) {
+    return CustomScrollPhysics(parent: buildParent(ancestor));
+  }
+
+  @override
+  double applyPhysicsToUserOffset(ScrollMetrics position, double offset) {
+    // 增加滑动距离的阈值
+    return offset * 0.05;
+  }
+
+  @override
+  Simulation? createBallisticSimulation(ScrollMetrics position, double velocity) {
+    // 当用户停止拖动时，调整滚动速度
+    if (velocity.abs() < 300.0) {
+      return super.createBallisticSimulation(position, velocity * 0.2);
+    }
+    return super.createBallisticSimulation(position, velocity);
+  }
+}
+
 class _TabWidgetState extends State<TabWidget> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
@@ -93,6 +117,8 @@ class _TabWidgetState extends State<TabWidget> with SingleTickerProviderStateMix
     return [
       (widget.tabBuilder != null).toWidget(() => widget.tabBuilder!.call(tab), falseWidget: tab.applyBackground(height: widget.tabHeight)),
       TabBarView(
+        physics: NeverScrollableScrollPhysics(),
+        // physics: CustomScrollPhysics(),
         children: List.generate(
             widget.tabs.length,
             (index) => RefStatusWidget(

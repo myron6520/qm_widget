@@ -20,9 +20,7 @@ class QM {
           valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
         ).applyBackground(height: 20, width: 20),
         ((msg ?? "").isNotEmpty).toWidget(
-          () => msg!
-              .toText(color: Colors.white, fontSize: 12)
-              .applyPadding(const EdgeInsets.only(top: 10)),
+          () => msg!.toText(color: Colors.white, fontSize: 12).applyPadding(const EdgeInsets.only(top: 10)),
         ),
       ]
           .toColumn(mainAxisSize: MainAxisSize.min)

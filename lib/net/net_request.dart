@@ -25,6 +25,7 @@ class NetRequest {
     NetResp<T> Function(Map dataMap)? convertFunc,
     NetResp<T> Function(Response? res)? respConvertFunc,
   }) {
+    debugPrint("resp:${res?.data}");
     NetResp<T> resp = NetResp(code: res?.statusCode ?? -1, msg: res?.statusMessage ?? ERROR_UNDEFINED);
     if (respConvertFunc != null) {
       return respConvertFunc.call(res);
@@ -117,6 +118,8 @@ class NetRequest {
         ),
       );
     } catch (e, t) {
+      debugPrint("post error:$e");
+      debugPrint("post error:${e.runtimeType}");
       debugPrint("post error:$t");
       if (e is DioException) {
         return handleError(e, convertFunc: convertFunc, respConvertFunc: respConvertFunc);

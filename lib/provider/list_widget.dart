@@ -12,24 +12,9 @@ import 'package:qm_widget/widgets/ref_status_widget.dart';
 import '../style/qm_color.dart';
 
 class ListWidget<T> extends StatefulWidget {
-  const ListWidget({
-    Key? key,
-    required this.loadFunc,
-    required this.itemBuilder,
-    this.separatorBuilder,
-    this.autoLoad = true,
-    this.didGetProvider,
-    this.contentPadding = EdgeInsets.zero,
-    this.pageSize = 10,
-    this.dataChanged,
-    this.appendDataFunc,
-    this.refreshController,
-    this.enablePullUp = true,
-    this.statusWidgetBuilder,
-  }) : super(key: key);
+  const ListWidget({Key? key, required this.loadFunc, required this.itemBuilder, this.separatorBuilder, this.autoLoad = true, this.didGetProvider, this.contentPadding = EdgeInsets.zero, this.pageSize = 10, this.dataChanged, this.appendDataFunc, this.refreshController, this.enablePullUp = true, this.statusWidgetBuilder, this.waterDropColor = QMColor.COLOR_00B276}) : super(key: key);
   final Future<NetResp<List<T>>> Function(int page, int pageSize) loadFunc;
-  final Widget Function(BuildContext context, int index, T itemData)
-      itemBuilder;
+  final Widget Function(BuildContext context, int index, T itemData) itemBuilder;
   final Widget Function(BuildContext context, int index)? separatorBuilder;
   final Function(NetResp<List<T>> resp)? dataChanged;
 
@@ -42,13 +27,13 @@ class ListWidget<T> extends StatefulWidget {
   final RefreshController? refreshController;
   final bool enablePullUp;
   final Widget? Function(PageProvider<T>)? statusWidgetBuilder;
+  final Color waterDropColor;
 
   @override
   _ListWidgetState<T> createState() => _ListWidgetState<T>();
 }
 
-class _ListWidgetState<T> extends State<ListWidget<T>>
-    with AutomaticKeepAliveClientMixin<ListWidget<T>> {
+class _ListWidgetState<T> extends State<ListWidget<T>> with AutomaticKeepAliveClientMixin<ListWidget<T>> {
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -62,6 +47,7 @@ class _ListWidgetState<T> extends State<ListWidget<T>>
       dataChanged: widget.dataChanged,
       enablePullUp: widget.enablePullUp,
       appendDataFunc: widget.appendDataFunc,
+      waterDropColor: widget.waterDropColor,
       builder: (_, provider) => ListView.separated(
           controller: controller,
           physics: const AlwaysScrollableScrollPhysics(),
@@ -80,10 +66,8 @@ class _ListWidgetState<T> extends State<ListWidget<T>>
                         .expanded
                         .toRow(),
               ),
-          separatorBuilder: (ctx, idx) =>
-              widget.separatorBuilder?.call(ctx, idx) ?? Container(),
-          itemCount: provider.data.length +
-              (provider.isEnd && widget.enablePullUp ? 1 : 0)),
+          separatorBuilder: (ctx, idx) => widget.separatorBuilder?.call(ctx, idx) ?? Container(),
+          itemCount: provider.data.length + (provider.isEnd && widget.enablePullUp ? 1 : 0)),
     );
   }
 
@@ -107,8 +91,7 @@ class ListRefWidget<T> extends StatefulWidget {
   }) : super(key: key);
   final ValueNotifier<RefStatus> refStatus;
   final Future<NetResp<List<T>>> Function(int page, int pageSize) loadFunc;
-  final Widget Function(BuildContext context, int index, T itemData)
-      itemBuilder;
+  final Widget Function(BuildContext context, int index, T itemData) itemBuilder;
   final Widget Function(BuildContext context, int index)? separatorBuilder;
   final Function(NetResp<List<T>> resp)? dataChanged;
   final bool autoLoad;
@@ -120,8 +103,7 @@ class ListRefWidget<T> extends StatefulWidget {
   _ListRefWidgetState createState() => _ListRefWidgetState<T>();
 }
 
-class _ListRefWidgetState<T> extends State<ListRefWidget<T>>
-    with AutomaticKeepAliveClientMixin<ListRefWidget<T>> {
+class _ListRefWidgetState<T> extends State<ListRefWidget<T>> with AutomaticKeepAliveClientMixin<ListRefWidget<T>> {
   @override
   Widget build(BuildContext context) {
     super.build(context);
