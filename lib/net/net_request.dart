@@ -30,7 +30,7 @@ class NetRequest {
     if (respConvertFunc != null) {
       return respConvertFunc.call(res);
     }
-    if ((res?.statusCode ?? -1) == 200) {
+    if ((res?.statusCode ?? -1) == 200 || res?.data != null) {
       if (convertFunc != null) {
         return convertFunc.call(res?.data);
       } else {
