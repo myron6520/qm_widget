@@ -163,7 +163,26 @@ class PageWidget<T> extends StatelessWidget {
 }
 
 class PageRefWidget<T> extends StatelessWidget {
-  const PageRefWidget(this.loadFunc, {Key? key, required this.builder, this.sliver = false, this.autoLoad = true, this.didGetProvider, this.statusWidgetBuilder, this.onStatusWidgetClick, this.dataChanged, this.checkNoData = true, this.pageSize = 10, this.refreshColor = Colors.white, this.waterDropColor = QMColor.COLOR_00B276, this.refreshHeader, this.appendDataFunc, this.refreshController, this.enablePullUp = true}) : super(key: key);
+  const PageRefWidget(
+    this.loadFunc, {
+    Key? key,
+    required this.builder,
+    this.sliver = false,
+    this.autoLoad = true,
+    this.didGetProvider,
+    this.statusWidgetBuilder,
+    this.onStatusWidgetClick,
+    this.dataChanged,
+    this.checkNoData = true,
+    this.pageSize = 10,
+    this.refreshColor = Colors.white,
+    this.waterDropColor = QMColor.COLOR_00B276,
+    this.refreshHeader,
+    this.appendDataFunc,
+    this.refreshController,
+    this.enablePullUp = true,
+    this.enablePullDown = true,
+  }) : super(key: key);
   final Future<NetResp<List<T>>> Function(int page, int pageSize) loadFunc;
   final Widget Function(BuildContext context, PageProvider<T> provider) builder;
   final bool sliver;
@@ -180,6 +199,7 @@ class PageRefWidget<T> extends StatelessWidget {
   final Color waterDropColor;
   final RefreshController? refreshController;
   final bool enablePullUp;
+  final bool enablePullDown;
 
   @override
   Widget build(BuildContext context) {
@@ -198,7 +218,7 @@ class PageRefWidget<T> extends StatelessWidget {
       builder: (ctx, provider) => SmartRefresher(
         controller: controller,
         // enablePullUp:enablePullUp,
-        enablePullDown: true,
+        enablePullDown: enablePullDown,
         enablePullUp: enablePullUp && !provider.isEnd,
         footer: ClassicFooter(
           loadingText: "",

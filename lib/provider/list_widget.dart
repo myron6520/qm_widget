@@ -12,7 +12,23 @@ import 'package:qm_widget/widgets/ref_status_widget.dart';
 import '../style/qm_color.dart';
 
 class ListWidget<T> extends StatefulWidget {
-  const ListWidget({Key? key, required this.loadFunc, required this.itemBuilder, this.separatorBuilder, this.autoLoad = true, this.didGetProvider, this.contentPadding = EdgeInsets.zero, this.pageSize = 10, this.dataChanged, this.appendDataFunc, this.refreshController, this.enablePullUp = true, this.statusWidgetBuilder, this.waterDropColor = QMColor.COLOR_00B276}) : super(key: key);
+  const ListWidget({
+    Key? key,
+    required this.loadFunc,
+    required this.itemBuilder,
+    this.separatorBuilder,
+    this.autoLoad = true,
+    this.didGetProvider,
+    this.contentPadding = EdgeInsets.zero,
+    this.pageSize = 10,
+    this.dataChanged,
+    this.appendDataFunc,
+    this.refreshController,
+    this.enablePullUp = true,
+    this.enablePullDown = true,
+    this.statusWidgetBuilder,
+    this.waterDropColor = QMColor.COLOR_00B276,
+  }) : super(key: key);
   final Future<NetResp<List<T>>> Function(int page, int pageSize) loadFunc;
   final Widget Function(BuildContext context, int index, T itemData) itemBuilder;
   final Widget Function(BuildContext context, int index)? separatorBuilder;
@@ -26,6 +42,7 @@ class ListWidget<T> extends StatefulWidget {
 
   final RefreshController? refreshController;
   final bool enablePullUp;
+  final bool enablePullDown;
   final Widget? Function(PageProvider<T>)? statusWidgetBuilder;
   final Color waterDropColor;
 
@@ -46,6 +63,7 @@ class _ListWidgetState<T> extends State<ListWidget<T>> with AutomaticKeepAliveCl
       didGetProvider: widget.didGetProvider,
       dataChanged: widget.dataChanged,
       enablePullUp: widget.enablePullUp,
+      enablePullDown: widget.enablePullDown,
       appendDataFunc: widget.appendDataFunc,
       waterDropColor: widget.waterDropColor,
       builder: (_, provider) => ListView.separated(
