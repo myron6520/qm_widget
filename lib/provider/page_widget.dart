@@ -47,7 +47,8 @@ class PageProvider<T> extends RespProvider {
   }
 
   Future<NetResp<List<T>>> _loadData() async {
-    Future<NetResp<List<T>>> future = loadFunc.call(_page ?? startPage, pageSize);
+    Future<NetResp<List<T>>> future =
+        loadFunc.call(_page ?? startPage, pageSize);
     NetResp<List<T>> res = await future;
     _loadDataFinished(res);
     return res;
@@ -65,7 +66,9 @@ class PageProvider<T> extends RespProvider {
         status = RespStatus.error;
       } else {
         int len = data.length;
-        data = (appendDataFunc ?? (container, resp) => container..addAll(resp.data ?? [])).call(data, res);
+        data = (appendDataFunc ??
+                (container, resp) => container..addAll(resp.data ?? []))
+            .call(data, res);
         int appendLen = data.length - len;
         // data.addAll(res.data ?? []);
         if (checkNoData && data.isEmpty) {
@@ -118,7 +121,8 @@ class PageWidget<T> extends StatelessWidget {
     this.isEndCheckFunc,
   }) : super(key: key);
   final Future<NetResp<List<T>>> Function(int page, int pageSize) loadFunc;
-  final Widget Function(BuildContext context, PageProvider<T> provinder) builder;
+  final Widget Function(BuildContext context, PageProvider<T> provinder)
+      builder;
   final bool sliver;
   final bool autoLoad;
   final int pageSize;
@@ -134,7 +138,12 @@ class PageWidget<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<PageProvider<T>>(
       create: (_) {
-        var p = PageProvider<T>(loadFunc, dataChanged: dataChanged, checkNoData: checkNoData, appendDataFunc: appendDataFunc, isEndCheckFunc: isEndCheckFunc, pageSize: pageSize);
+        var p = PageProvider<T>(loadFunc,
+            dataChanged: dataChanged,
+            checkNoData: checkNoData,
+            appendDataFunc: appendDataFunc,
+            isEndCheckFunc: isEndCheckFunc,
+            pageSize: pageSize);
         didGetProvider?.call(p);
         if (autoLoad) {
           p.status = RespStatus.loading;
@@ -146,7 +155,9 @@ class PageWidget<T> extends StatelessWidget {
         builder: (ctx, provider, __) => RespWidget(
           provider.status,
           sliver: sliver,
-          statusWidgetBuilder: statusWidgetBuilder != null ? (_) => statusWidgetBuilder!.call(provider) : null,
+          statusWidgetBuilder: statusWidgetBuilder != null
+              ? (_) => statusWidgetBuilder!.call(provider)
+              : null,
           builder: (_) => builder.call(ctx, provider),
           onTap: () {
             if (onStatusWidgetClick != null) {
@@ -162,7 +173,7 @@ class PageWidget<T> extends StatelessWidget {
   }
 }
 
-class PageRefWidget<T> extends StatelessWidget {
+class PageRefWidget<T> extends StatefulWidget {
   const PageRefWidget(
     this.loadFunc, {
     Key? key,
@@ -202,24 +213,28 @@ class PageRefWidget<T> extends StatelessWidget {
   final bool enablePullDown;
 
   @override
+  State<PageRefWidget<T>> createState() => _PageRefWidgetState<T>();
+}
+
+class _PageRefWidgetState<T> extends State<PageRefWidget<T>> {
+  @override
   Widget build(BuildContext context) {
-    RefreshController controller = refreshController ?? RefreshController();
     return PageWidget<T>(
-      loadFunc,
-      sliver: sliver,
-      autoLoad: autoLoad,
-      didGetProvider: didGetProvider,
-      statusWidgetBuilder: statusWidgetBuilder,
-      onStatusWidgetClick: onStatusWidgetClick,
-      dataChanged: dataChanged,
-      checkNoData: checkNoData,
-      appendDataFunc: appendDataFunc,
-      pageSize: pageSize,
+      widget.loadFunc,
+      sliver: widget.sliver,
+      autoLoad: widget.autoLoad,
+      didGetProvider: widget.didGetProvider,
+      statusWidgetBuilder: widget.statusWidgetBuilder,
+      onStatusWidgetClick: widget.onStatusWidgetClick,
+      dataChanged: widget.dataChanged,
+      checkNoData: widget.checkNoData,
+      appendDataFunc: widget.appendDataFunc,
+      pageSize: widget.pageSize,
       builder: (ctx, provider) => SmartRefresher(
         controller: controller,
         // enablePullUp:enablePullUp,
-        enablePullDown: enablePullDown,
-        enablePullUp: enablePullUp && !provider.isEnd,
+        enablePullDown: widget.enablePullDown,
+        enablePullUp: widget.enablePullUp && !provider.isEnd,
         footer: ClassicFooter(
           loadingText: "",
           noDataText: "",
@@ -234,29 +249,29 @@ class PageRefWidget<T> extends StatelessWidget {
             height: 20.s,
             child: CircularProgressIndicator(
               strokeWidth: 2.0.s,
-              color: waterDropColor,
+              color: widget.waterDropColor,
             ),
           ),
         ),
-        header: refreshHeader ??
+        header: widget.refreshHeader ??
             WaterDropHeader(
-              waterDropColor: waterDropColor,
+              waterDropColor: widget.waterDropColor,
               idleIcon: Icon(
                 Icons.autorenew,
                 size: 16.s,
-                color: refreshColor,
+                color: widget.refreshColor,
               ),
               refresh: SizedBox(
                 width: 20.s,
                 height: 20.s,
                 child: CircularProgressIndicator(
                   strokeWidth: 2.0.s,
-                  color: waterDropColor,
+                  color: widget.waterDropColor,
                 ),
               ),
               complete: Icon(
                 Icons.done,
-                color: waterDropColor,
+                color: widget.waterDropColor,
                 size: 20.s,
               ),
             ),
@@ -270,8 +285,11 @@ class PageRefWidget<T> extends StatelessWidget {
                 await provider.loadMore();
                 controller.loadComplete();
               },
-        child: builder.call(ctx, provider),
+        child: widget.builder.call(ctx, provider),
       ),
     );
   }
+
+  late RefreshController controller =
+      widget.refreshController ?? RefreshController();
 }

@@ -39,7 +39,7 @@ class NetProvider<T> extends RespProvider {
   }
 }
 
-class NetWidget<T> extends StatelessWidget {
+class NetWidget<T> extends StatefulWidget {
   const NetWidget(
     this.loadFunc, {
     Key? key,
@@ -66,6 +66,11 @@ class NetWidget<T> extends StatelessWidget {
   final Color refreshColor;
   final Color waterDropColor;
 
+  @override
+  State<NetWidget<T>> createState() => _NetWidgetState<T>();
+}
+
+class _NetWidgetState<T> extends State<NetWidget<T>> {
   void _loadData(NetProvider<T> provider) {
     provider.status = RespStatus.loading;
     provider.loadData();
@@ -73,12 +78,12 @@ class NetWidget<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    late RefreshController controller = RefreshController();
     return ChangeNotifierProvider<NetProvider<T>>(
       create: (_) {
-        var p = NetProvider<T>(loadFunc: loadFunc, dataChanged: dataChanged);
-        didGetProvider?.call(p);
-        if (autoLoad) {
+        var p = NetProvider<T>(
+            loadFunc: widget.loadFunc, dataChanged: widget.dataChanged);
+        widget.didGetProvider?.call(p);
+        if (widget.autoLoad) {
           _loadData(p);
         }
         return p;
@@ -86,32 +91,34 @@ class NetWidget<T> extends StatelessWidget {
       child: Consumer<NetProvider<T>>(
         builder: (ctx, provider, __) => RespWidget(
           provider.status,
-          sliver: sliver,
-          statusWidgetBuilder: statusWidgetBuilder != null ? (_) => statusWidgetBuilder?.call(provider) : null,
-          builder: (_) => refreshEnable
+          sliver: widget.sliver,
+          statusWidgetBuilder: widget.statusWidgetBuilder != null
+              ? (_) => widget.statusWidgetBuilder?.call(provider)
+              : null,
+          builder: (_) => widget.refreshEnable
               ? SmartRefresher(
                   controller: controller,
                   enablePullUp: false,
                   enablePullDown: true,
-                  header: refreshHeader ??
+                  header: widget.refreshHeader ??
                       WaterDropHeader(
-                        waterDropColor: waterDropColor,
+                        waterDropColor: widget.waterDropColor,
                         idleIcon: Icon(
                           Icons.autorenew,
                           size: 16.s,
-                          color: refreshColor,
+                          color: widget.refreshColor,
                         ),
                         refresh: SizedBox(
                           width: 20.s,
                           height: 20.s,
                           child: CircularProgressIndicator(
                             strokeWidth: 2.0.s,
-                            color: waterDropColor,
+                            color: widget.waterDropColor,
                           ),
                         ),
                         complete: Icon(
                           Icons.done,
-                          color: waterDropColor,
+                          color: widget.waterDropColor,
                           size: 20.s,
                         ),
                       ),
@@ -119,12 +126,14 @@ class NetWidget<T> extends StatelessWidget {
                     await provider.loadData();
                     controller.refreshCompleted(resetFooterState: true);
                   },
-                  child: builder.call(ctx, provider),
+                  child: widget.builder.call(ctx, provider),
                 )
-              : builder.call(ctx, provider),
+              : widget.builder.call(ctx, provider),
           onTap: () => _loadData(provider),
         ),
       ),
     );
   }
+
+  late RefreshController controller = RefreshController();
 }
