@@ -24,8 +24,6 @@ export 'package:qm_widget/widgets/qm_app_bar.dart';
 export 'package:qm_widget/widgets/qm_tag.dart';
 export 'package:qm_widget/widgets/waiting_widget.dart';
 
-export 'package:qm_widget/pub/widget_default_builder.dart';
-
 export 'package:qm_widget/net/net_request.dart';
 export 'package:qm_widget/net/net_action.dart';
 export 'package:qm_widget/net/net_resp.dart';
@@ -33,3 +31,8 @@ export 'package:qm_widget/net/net_resp.dart';
 export 'package:qm_widget/provider/net_widget.dart';
 export 'package:qm_widget/provider/page_widget.dart';
 export 'package:qm_widget/provider/list_widget.dart';
+
+export 'package:qm_widget/pub/widget_default_builder.dart';
+export 'package:qm_widget/pub/notification_center.dart';
+export 'package:qm_widget/pub/page_life_cycle.dart';
+export 'package:qm_widget/pub/scale_util.dart';
