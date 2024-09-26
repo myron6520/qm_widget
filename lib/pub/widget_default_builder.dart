@@ -1,7 +1,5 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'dart:nativewrappers/_internal/vm/lib/ffi_allocation_patch.dart';
-
 import 'package:flutter/material.dart';
 import 'package:qm_dart_ex/qm_dart_ex.dart';
 import 'package:qm_widget/net/net_resp.dart';

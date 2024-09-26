@@ -1,7 +1,5 @@
 // ignore_for_file: unnecessary_overrides, prefer_initializing_formals
 
-import 'dart:nativewrappers/_internal/vm/lib/ffi_allocation_patch.dart';
-
 import 'package:flutter/material.dart';
 import 'package:qm_widget/pub/widget_default_builder.dart';
 import 'package:qm_dart_ex/qm_dart_ex.dart';
