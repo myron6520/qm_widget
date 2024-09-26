@@ -1,5 +1,7 @@
 // ignore_for_file: unnecessary_overrides, prefer_initializing_formals
 
+import 'dart:nativewrappers/_internal/vm/lib/ffi_allocation_patch.dart';
+
 import 'package:flutter/material.dart';
 import 'package:qm_widget/pub/widget_default_builder.dart';
 import 'package:qm_dart_ex/qm_dart_ex.dart';
@@ -79,22 +81,30 @@ class RespWidget extends StatelessWidget {
       this.sliver = false,
       this.builder,
       this.statusWidgetBuilder,
-      this.onTap})
+      this.onTap,
+      this.statusBuilder})
       : super(key: key);
   final bool sliver;
   final Widget Function(BuildContext context)? builder;
   final RespStatus status;
+  @Deprecated("use statusBuilder instead")
   final Widget? Function(RespStatus status)? statusWidgetBuilder;
+  final Widget? Function(RespStatus status, void Function()? onRefresh)?
+      statusBuilder;
   final void Function()? onTap;
 
   Widget buildStatusWidget() =>
-      WidgetDefaultBuilder.respStatusWidgetBuilder.call(status) ?? Container();
+      WidgetDefaultBuilder.statusWidgetBuilder.call(status, onTap) ??
+      WidgetDefaultBuilder.respStatusWidgetBuilder.call(status) ??
+      Container();
   @override
   Widget build(BuildContext context) {
     if (status == RespStatus.ok) {
       return builder?.call(context) ?? Container();
     }
-    var child = statusWidgetBuilder?.call(status) ?? buildStatusWidget();
+    var child = statusBuilder?.call(status, onTap) ??
+        statusWidgetBuilder?.call(status) ??
+        buildStatusWidget();
     var finalChild = sliver ? SliverToBoxAdapter(child: child) : child;
     if (status == RespStatus.loading) {
       return finalChild;
