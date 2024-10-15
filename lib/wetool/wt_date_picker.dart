@@ -10,9 +10,9 @@ import 'package:qm_widget/style/qm_color.dart';
 class WTDatePicker extends StatefulWidget {
   ///yyyy-MM-dd
   final String dateStr;
-  final void Function(int year, int month, int day)? onConfirm;
+  final void Function(int year, int month, int day)? onChanged;
 
-  const WTDatePicker({super.key, this.dateStr = "", this.onConfirm});
+  const WTDatePicker({super.key, this.dateStr = "", this.onChanged});
 
   @override
   State<WTDatePicker> createState() => _WTDatePickerState();
@@ -47,13 +47,16 @@ class _WTDatePickerState extends State<WTDatePicker> {
       (idx) {
         year = idx + 1 + DateTime.now().year - 110;
         setState(() {});
+        widget.onChanged?.call(year, month, day);
       },
       (idx) {
         month = idx + 1;
         setState(() {});
+        widget.onChanged?.call(year, month, day);
       },
       (idx) {
         day = idx + 1;
+        widget.onChanged?.call(year, month, day);
       }
     ];
     return CupertinoPicker(
