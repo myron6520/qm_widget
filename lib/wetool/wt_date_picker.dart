@@ -64,9 +64,9 @@ class _WTDatePickerState extends State<WTDatePicker> {
         onSelectedItemChanged: funcList[type],
         selectionOverlay: Container(
           decoration: BoxDecoration(
-            color: QMColor.COLOR_F7F9FA,
             border: Border.symmetric(
-                horizontal: BorderSide(color: Colors.red, width: 0.5.s)),
+                horizontal:
+                    BorderSide(color: QMColor.COLOR_E0E0E0, width: 0.5.s)),
           ),
         ),
         children: datas[type]
@@ -93,7 +93,7 @@ class _WTDatePickerState extends State<WTDatePicker> {
         buildDatePicker(1).expanded,
         buildDatePicker(2).expanded,
       ].toRow().applyBackground(
-            height: 312.s,
+            height: 240.s,
             padding: EdgeInsets.symmetric(horizontal: 16.s),
             color: Colors.white,
           ),
