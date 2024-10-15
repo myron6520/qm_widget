@@ -57,13 +57,14 @@ class _WTDatePickerState extends State<WTDatePicker> {
       }
     ];
     return CupertinoPicker(
-        itemExtent: 46.s,
+        itemExtent: 48.s,
         looping: true,
         scrollController:
             FixedExtentScrollController(initialItem: idxList[type]),
         onSelectedItemChanged: funcList[type],
         selectionOverlay: Container(
           decoration: BoxDecoration(
+            color: QMColor.COLOR_F7F9FA,
             border: Border.symmetric(
                 horizontal: BorderSide(color: Colors.red, width: 0.5.s)),
           ),
@@ -73,12 +74,12 @@ class _WTDatePickerState extends State<WTDatePicker> {
               (e) => e
                   .toText(
                     color: QMColor.COLOR_030319,
-                    fontSize: 20.fs,
-                    height: 26 / 20,
+                    fontSize: 16.fs,
+                    height: 24 / 16,
                   )
                   .applyBackground(
                     alignment: Alignment.center,
-                    height: 46.s,
+                    height: 48.s,
                   ),
             )
             .toList());
@@ -92,8 +93,8 @@ class _WTDatePickerState extends State<WTDatePicker> {
         buildDatePicker(1).expanded,
         buildDatePicker(2).expanded,
       ].toRow().applyBackground(
-            height: 214.s,
-            padding: EdgeInsets.symmetric(horizontal: 34.s),
+            height: 312.s,
+            padding: EdgeInsets.symmetric(horizontal: 16.s),
             color: Colors.white,
           ),
     ].toColumn();
