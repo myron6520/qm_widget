@@ -30,7 +30,8 @@ class ListWidget<T> extends StatefulWidget {
     this.waterDropColor = QMColor.COLOR_00B276,
   }) : super(key: key);
   final Future<NetResp<List<T>>> Function(int page, int pageSize) loadFunc;
-  final Widget Function(BuildContext context, int index, T itemData) itemBuilder;
+  final Widget Function(BuildContext context, int index, T itemData)
+      itemBuilder;
   final Widget Function(BuildContext context, int index)? separatorBuilder;
   final Function(NetResp<List<T>> resp)? dataChanged;
 
@@ -50,7 +51,8 @@ class ListWidget<T> extends StatefulWidget {
   _ListWidgetState<T> createState() => _ListWidgetState<T>();
 }
 
-class _ListWidgetState<T> extends State<ListWidget<T>> with AutomaticKeepAliveClientMixin<ListWidget<T>> {
+class _ListWidgetState<T> extends State<ListWidget<T>>
+    with AutomaticKeepAliveClientMixin<ListWidget<T>> {
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -84,8 +86,10 @@ class _ListWidgetState<T> extends State<ListWidget<T>> with AutomaticKeepAliveCl
                         .expanded
                         .toRow(),
               ),
-          separatorBuilder: (ctx, idx) => widget.separatorBuilder?.call(ctx, idx) ?? Container(),
-          itemCount: provider.data.length + (provider.isEnd && widget.enablePullUp ? 1 : 0)),
+          separatorBuilder: (ctx, idx) =>
+              widget.separatorBuilder?.call(ctx, idx) ?? Container(),
+          itemCount: provider.data.length +
+              (provider.isEnd && widget.enablePullUp ? 1 : 0)),
     );
   }
 
@@ -106,14 +110,17 @@ class ListRefWidget<T> extends StatefulWidget {
     this.pageSize = 10,
     this.dataChanged,
     this.enablePullUp = true,
+    this.statusWidgetBuilder,
   }) : super(key: key);
   final ValueNotifier<RefStatus> refStatus;
   final Future<NetResp<List<T>>> Function(int page, int pageSize) loadFunc;
-  final Widget Function(BuildContext context, int index, T itemData) itemBuilder;
+  final Widget Function(BuildContext context, int index, T itemData)
+      itemBuilder;
   final Widget Function(BuildContext context, int index)? separatorBuilder;
   final Function(NetResp<List<T>> resp)? dataChanged;
   final bool autoLoad;
   final Function(PageProvider<T> provider)? didGetProvider;
+  final Widget? Function(PageProvider<T>)? statusWidgetBuilder;
   final int pageSize;
   final bool enablePullUp;
 
@@ -121,7 +128,8 @@ class ListRefWidget<T> extends StatefulWidget {
   _ListRefWidgetState createState() => _ListRefWidgetState<T>();
 }
 
-class _ListRefWidgetState<T> extends State<ListRefWidget<T>> with AutomaticKeepAliveClientMixin<ListRefWidget<T>> {
+class _ListRefWidgetState<T> extends State<ListRefWidget<T>>
+    with AutomaticKeepAliveClientMixin<ListRefWidget<T>> {
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -134,6 +142,7 @@ class _ListRefWidgetState<T> extends State<ListRefWidget<T>> with AutomaticKeepA
       pageSize: widget.pageSize,
       dataChanged: widget.dataChanged,
       didGetProvider: (p) => provider = p,
+      statusWidgetBuilder: widget.statusWidgetBuilder,
     ).applyRefStatus(widget.refStatus, () async => provider?.reloadData());
   }
 
