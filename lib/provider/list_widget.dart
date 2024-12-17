@@ -110,6 +110,7 @@ class ListRefWidget<T> extends StatefulWidget {
     this.pageSize = 10,
     this.dataChanged,
     this.enablePullUp = true,
+    this.enablePullDown = true,
     this.statusWidgetBuilder,
   }) : super(key: key);
   final ValueNotifier<RefStatus> refStatus;
@@ -123,7 +124,7 @@ class ListRefWidget<T> extends StatefulWidget {
   final Widget? Function(PageProvider<T>)? statusWidgetBuilder;
   final int pageSize;
   final bool enablePullUp;
-
+  final bool enablePullDown;
   @override
   _ListRefWidgetState createState() => _ListRefWidgetState<T>();
 }
@@ -135,6 +136,7 @@ class _ListRefWidgetState<T> extends State<ListRefWidget<T>>
     super.build(context);
     return ListWidget<T>(
       enablePullUp: widget.enablePullUp,
+      enablePullDown: widget.enablePullDown,
       loadFunc: widget.loadFunc,
       itemBuilder: widget.itemBuilder,
       separatorBuilder: widget.separatorBuilder,
