@@ -14,6 +14,7 @@ import 'package:qm_widget/wetool/wetool.dart';
 
 class WTSearchPage<T> extends StatefulWidget {
   final String searchHint;
+  final String cancelText;
   final void Function()? onCancel;
   final Future<NetResp<List<T>>> Function(
       int page, int pageSize, String keyword) loadFunc;
@@ -25,6 +26,7 @@ class WTSearchPage<T> extends StatefulWidget {
   const WTSearchPage(
       {super.key,
       this.searchHint = "搜索",
+      this.cancelText = "取消",
       this.onCancel,
       required this.loadFunc,
       required this.itemBuilder,
@@ -62,7 +64,7 @@ class _WTSearchPageState<T> extends State<WTSearchPage<T>> {
                     borderRadius: BorderRadius.circular(4.s),
                   ))
               .expanded,
-          "取消"
+          widget.cancelText
               .toText(
                 color: QMColor.COLOR_00B276,
                 fontSize: 16.fs,
