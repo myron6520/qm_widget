@@ -129,7 +129,7 @@ class QMAlertWidget extends StatelessWidget {
           ),
     ].toColumn(crossAxisAlignment: CrossAxisAlignment.center).applyBackground(
           padding: EdgeInsets.all(16.s),
-          width: 280.s,
+          width: MediaQuery.of(context).size.width * 0.8,
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(12.s),
