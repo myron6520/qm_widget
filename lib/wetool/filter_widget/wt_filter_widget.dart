@@ -109,7 +109,7 @@ class _WTFilterWidgetState<T> extends State<WTFilterWidget<T>> {
   @override
   void initState() {
     super.initState();
-    _selectedItems.addAll(widget.options);
+    _selectedItems.addAll(widget.selectedOptions);
     if (!widget.multiple && _selectedItems.length > 1) {
       _selectedItems.removeRange(1, _selectedItems.length);
     }
