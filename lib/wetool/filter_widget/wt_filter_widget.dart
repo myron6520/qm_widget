@@ -5,12 +5,13 @@ import 'package:qm_widget/pub/scale_util.dart';
 
 import '../../style/qm_color.dart';
 
-class WTFilterWidget extends StatefulWidget {
+class WTFilterWidget<T> extends StatefulWidget {
   final String title;
-  final List<String> options;
-  final List<String> selectedOptions;
-  final void Function(List<String>)? onChanged;
+  final List<T> options;
+  final List<T> selectedOptions;
+  final void Function(List<T>)? onChanged;
   final bool multiple;
+  final String Function(T)? getOptionTitle;
   const WTFilterWidget({
     super.key,
     required this.title,
@@ -18,15 +19,16 @@ class WTFilterWidget extends StatefulWidget {
     this.onChanged,
     this.multiple = false,
     this.selectedOptions = const [],
+    this.getOptionTitle,
   });
 
   @override
   State<WTFilterWidget> createState() => _WTFilterWidgetState();
 }
 
-class _WTFilterWidgetState extends State<WTFilterWidget> {
-  Widget buildItemWidget(String item) {
-    return item
+class _WTFilterWidgetState<T> extends State<WTFilterWidget<T>> {
+  Widget buildItemWidget(T item) {
+    return (widget.getOptionTitle?.call(item) ?? item.toString())
         .toText(
           color: _selectedItems.contains(item)
               ? QMColor.COLOR_00B276
@@ -102,7 +104,7 @@ class _WTFilterWidgetState extends State<WTFilterWidget> {
     ].toColumn();
   }
 
-  final List<String> _selectedItems = [];
+  final List<T> _selectedItems = [];
 
   @override
   void initState() {
