@@ -7,6 +7,7 @@ import '../../style/qm_color.dart';
 
 class WTFilterWidget<T> extends StatefulWidget {
   final String title;
+  final int numInRow;
   final List<T> options;
   final List<T> selectedOptions;
   final void Function(List<T>)? onChanged;
@@ -20,6 +21,7 @@ class WTFilterWidget<T> extends StatefulWidget {
     this.multiple = false,
     this.selectedOptions = const [],
     this.getOptionTitle,
+    this.numInRow = 4,
   });
 
   @override
@@ -63,7 +65,7 @@ class _WTFilterWidgetState<T> extends State<WTFilterWidget<T>> {
   }
 
   Widget buildOptionsWidget() {
-    const int numInRow = 4;
+    int numInRow = widget.numInRow;
     int rowCount = widget.options.length ~/ numInRow;
     if (widget.options.length % numInRow > 0) {
       rowCount++;
