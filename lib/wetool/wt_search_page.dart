@@ -15,6 +15,7 @@ import 'package:qm_widget/wetool/wetool.dart';
 class WTSearchPage<T> extends StatefulWidget {
   final String searchHint;
   final String cancelText;
+  final bool autofocus;
   final void Function()? onCancel;
   final Future<NetResp<List<T>>> Function(
       int page, int pageSize, String keyword) loadFunc;
@@ -31,7 +32,8 @@ class WTSearchPage<T> extends StatefulWidget {
       required this.loadFunc,
       required this.itemBuilder,
       this.separatorBuilder,
-      this.statusWidgetBuilder});
+      this.statusWidgetBuilder,
+      this.autofocus = true});
 
   @override
   State<WTSearchPage<T>> createState() => _WTSearchPageState();
@@ -48,6 +50,7 @@ class _WTSearchPageState<T> extends State<WTSearchPage<T>> {
           WTInputWidget(
             hint: widget.searchHint,
             controller: keywordController,
+            autofocus: widget.autofocus,
             contentPadding: EdgeInsets.symmetric(vertical: 8.s),
             showInputBottomBorder: false,
             left: SvgPicture.string(WTIcon.SEARCH, width: 20.s, height: 20.s)
