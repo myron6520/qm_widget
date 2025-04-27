@@ -58,4 +58,14 @@ class StorageManage {
   void clear() {
     _sharedPreferences?.clear();
   }
+
+  void remove(String key) {
+    _sharedPreferences?.remove(key);
+  }
+
+  void removeWithKeys(List<String> keys) {
+    for (String key in keys) {
+      _sharedPreferences?.remove(key);
+    }
+  }
 }
