@@ -36,3 +36,5 @@ export 'package:qm_widget/pub/widget_default_builder.dart';
 export 'package:qm_widget/pub/notification_center.dart';
 export 'package:qm_widget/pub/page_life_cycle.dart';
 export 'package:qm_widget/pub/scale_util.dart';
+
+export 'package:qm_widget/config/storage_manage.dart';
