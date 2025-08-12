@@ -106,7 +106,14 @@ class _WTTreeWidgetState extends State<WTTreeWidget> {
         .map(
           (e) => WTTreeNodeWidget(
             node: e,
-            childBuilder: () => WTTreeContentWidget(node: e),
+            childBuilder: () => [
+              WTTreeContentWidget(node: e),
+              Container(width: 50.s, height: 50.s, color: Colors.red)
+                  .toPositioned(
+                right: 0,
+                top: 0,
+              )
+            ].toStack(),
             onCreate: (p) {
               p.addListener(treeNodeControllerOnChanged);
               controllers[e] = p;
