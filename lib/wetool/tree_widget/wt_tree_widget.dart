@@ -104,33 +104,33 @@ class _WTTreeWidgetState extends State<WTTreeWidget> {
   Widget build(BuildContext context) {
     return widget.nodes
         .map(
-          (e) => WTTreeNodeWidget(
-            node: e,
-            childBuilder: () => [
-              WTTreeContentWidget(node: e),
-              Container(width: 50.s, height: 50.s, color: Colors.red)
-                  .toPositioned(
-                right: 0,
-                top: 0,
-              )
-            ].toStack(),
-            onCreate: (p) {
-              p.addListener(treeNodeControllerOnChanged);
-              controllers[e] = p;
-            },
-            onDestroy: (p) {
-              p.removeListener(treeNodeControllerOnChanged);
-              controllers.remove(e);
-            },
-            onSelectedChanged: (p) {
-              current = p;
-              widget.onNodeClick?.call(p.node, -1);
-              onSelectedChanged(p);
-            },
-            onItemClick: (idx) {
-              widget.onNodeClick?.call(e, idx);
-            },
-          ),
+          (e) => [
+            WTTreeNodeWidget(
+              node: e,
+              childBuilder: () => WTTreeContentWidget(node: e),
+              onCreate: (p) {
+                p.addListener(treeNodeControllerOnChanged);
+                controllers[e] = p;
+              },
+              onDestroy: (p) {
+                p.removeListener(treeNodeControllerOnChanged);
+                controllers.remove(e);
+              },
+              onSelectedChanged: (p) {
+                current = p;
+                widget.onNodeClick?.call(p.node, -1);
+                onSelectedChanged(p);
+              },
+              onItemClick: (idx) {
+                widget.onNodeClick?.call(e, idx);
+              },
+            ),
+            Container(width: 50.s, height: 50.s, color: Colors.red)
+                .toPositioned(
+              right: 0,
+              top: 0,
+            )
+          ].toStack(),
         )
         .toList()
         .toColumn()
