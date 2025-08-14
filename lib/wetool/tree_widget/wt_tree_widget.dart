@@ -9,6 +9,8 @@ import 'package:qm_widget/wetool/tree_widget/wt_tree_node.dart';
 import 'package:qm_widget/wetool/tree_widget/wt_tree_node_widget.dart';
 import 'package:qm_widget/wetool/wt_icon.dart';
 
+class WtTreeWidgetController extends ChangeNotifier {}
+
 class WTTreeWidget extends StatefulWidget {
   final List<WTTreeNode> nodes;
   // final Widget Function(T, bool selected) childBuilder;
@@ -125,11 +127,28 @@ class _WTTreeWidgetState extends State<WTTreeWidget> {
                 widget.onNodeClick?.call(e, idx);
               },
             ),
-            Container(width: 50.s, height: 50.s, color: Colors.red)
-                .toPositioned(
-              right: 0,
-              top: 0,
-            )
+            if (e.bridge.isNotEmpty)
+              e.bridge
+                  .toText(
+                    color: Colors.white,
+                    fontSize: 12.fs,
+                    height: 16 / 12,
+                    fontFamily: "WeChatSansStd",
+                    fontWeight: FontWeight.w500,
+                  )
+                  .applyBackground(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 5.s,
+                      ),
+                      decoration: BoxDecoration(
+                        color: QMColor.COLOR_FA4B55,
+                        borderRadius: BorderRadius.circular(100),
+                        border: Border.all(color: Colors.white, width: 1.fs),
+                      ))
+                  .toPositioned(
+                    right: 0,
+                    top: 0,
+                  )
           ].toStack(),
         )
         .toList()

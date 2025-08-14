@@ -219,7 +219,7 @@
     },
     {
       "name": "qm_dart_ex",
-      "rootUri": "file:///Users/myron/.pub-cache/git/qm_dart_ex-e2f11e2d4382b9b8562e4227ccb792300cd6f95e/",
+      "rootUri": "../../qm_dart_ex",
       "packageUri": "lib/",
       "languageVersion": "2.17"
     },
@@ -368,7 +368,7 @@
       "languageVersion": "2.17"
     }
   ],
-  "generated": "2025-08-12T03:03:06.783261Z",
+  "generated": "2025-08-12T03:26:25.655128Z",
   "generator": "pub",
   "generatorVersion": "3.7.2",
   "flutterRoot": "file:///Volumes/sbmplc/sdk/flutter",

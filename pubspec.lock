@@ -283,11 +283,9 @@ packages:
   qm_dart_ex:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: e2f11e2d4382b9b8562e4227ccb792300cd6f95e
-      url: "https://github.com/myron6520/qm_dart_ex.git"
-    source: git
+      path: "../qm_dart_ex"
+      relative: true
+    source: path
     version: "0.0.1"
   shared_preferences:
     dependency: "direct main"

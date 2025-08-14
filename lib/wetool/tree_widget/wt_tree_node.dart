@@ -29,4 +29,5 @@ mixin WTTreeNode {
         width: 28.s,
         alignment: Alignment.center,
       ));
+  String bridge = "";
 }
