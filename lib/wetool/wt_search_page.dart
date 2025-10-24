@@ -22,18 +22,23 @@ class WTSearchPage<T> extends StatefulWidget {
   final Widget Function(BuildContext context, int index, T itemData)
       itemBuilder;
   final Widget Function(BuildContext context, int index)? separatorBuilder;
+  final Widget? filterBar;
+  final Color? backgroundColor;
 
   final Widget? Function(PageProvider<T>)? statusWidgetBuilder;
-  const WTSearchPage(
-      {super.key,
-      this.searchHint = "搜索",
-      this.cancelText = "取消",
-      this.onCancel,
-      required this.loadFunc,
-      required this.itemBuilder,
-      this.separatorBuilder,
-      this.statusWidgetBuilder,
-      this.autofocus = true});
+  const WTSearchPage({
+    super.key,
+    this.searchHint = "搜索",
+    this.cancelText = "取消",
+    this.onCancel,
+    required this.loadFunc,
+    required this.itemBuilder,
+    this.separatorBuilder,
+    this.statusWidgetBuilder,
+    this.autofocus = true,
+    this.filterBar,
+    this.backgroundColor,
+  });
 
   @override
   State<WTSearchPage<T>> createState() => _WTSearchPageState();
@@ -43,7 +48,7 @@ class _WTSearchPageState<T> extends State<WTSearchPage<T>> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: widget.backgroundColor ?? Colors.white,
       body: [
         [
           16.s.inRow,
@@ -84,6 +89,7 @@ class _WTSearchPageState<T> extends State<WTSearchPage<T>> {
             .applyBackground(
               color: Colors.white,
             ),
+        if (widget.filterBar != null) widget.filterBar!,
         8.s.inColumn,
         ListWidget<T>(
           loadFunc: (page, pageSize) => widget.loadFunc.call(
