@@ -18,6 +18,7 @@ class NetRequest {
   static String ERROR_UNDEFINED = "通讯异常";
   final Dio _client;
   static NetResp<T> Function<T>(DioError)? onError;
+  static void Function<T>(NetResp<T>)? onResp;
   Dio get client => _client;
   NetRequest(this._client);
   NetResp<T> handleResponse<T>(
@@ -123,14 +124,20 @@ class NetRequest {
       debugPrint("post error:${e.runtimeType}");
       debugPrint("post error:$t");
       if (e is DioException) {
-        return handleError(e,
+        final resp = await handleError(e,
             convertFunc: convertFunc, respConvertFunc: respConvertFunc);
+        onResp?.call(resp);
+        return resp;
       }
-      return NetResp(msg: ERROR_UNDEFINED);
+      final resp = NetResp<T>(msg: ERROR_UNDEFINED);
+      onResp?.call(resp);
+      return resp;
     }
 
-    return handleResponse<T>(res,
+    final resp = handleResponse<T>(res,
         convertFunc: convertFunc, respConvertFunc: respConvertFunc);
+    onResp?.call(resp);
+    return resp;
   }
 
   Future<NetResp<T>> put<T>(
@@ -155,14 +162,20 @@ class NetRequest {
       );
     } catch (e) {
       if (e is DioException) {
-        return handleError(e,
+        final resp = await handleError(e,
             convertFunc: convertFunc, respConvertFunc: respConvertFunc);
+        onResp?.call(resp);
+        return resp;
       }
-      return NetResp(msg: ERROR_UNDEFINED);
+      final resp = NetResp<T>(msg: ERROR_UNDEFINED);
+      onResp?.call(resp);
+      return resp;
     }
 
-    return handleResponse<T>(res,
+    final resp = handleResponse<T>(res,
         convertFunc: convertFunc, respConvertFunc: respConvertFunc);
+    onResp?.call(resp);
+    return resp;
   }
 
   Future<NetResp<T>> form<T>(
@@ -192,12 +205,19 @@ class NetRequest {
           ));
     } catch (e) {
       if (e is DioException) {
-        return handleError(e,
+        final resp = await handleError(e,
             convertFunc: convertFunc, respConvertFunc: respConvertFunc);
+        onResp?.call(resp);
+        return resp;
       }
+      final resp = NetResp<T>(msg: ERROR_UNDEFINED);
+      onResp?.call(resp);
+      return resp;
     }
-    return handleResponse<T>(res,
+    final resp = handleResponse<T>(res,
         convertFunc: convertFunc, respConvertFunc: respConvertFunc);
+    onResp?.call(resp);
+    return resp;
   }
 
   Future<NetResp<T>> download<T>(
@@ -223,12 +243,19 @@ class NetRequest {
           ));
     } catch (e) {
       if (e is DioException) {
-        return handleError(e,
+        final resp = await handleError(e,
             convertFunc: convertFunc, respConvertFunc: respConvertFunc);
+        onResp?.call(resp);
+        return resp;
       }
+      final resp = NetResp<T>(msg: ERROR_UNDEFINED);
+      onResp?.call(resp);
+      return resp;
     }
-    return handleResponse<T>(res,
+    final resp = handleResponse<T>(res,
         convertFunc: convertFunc, respConvertFunc: respConvertFunc);
+    onResp?.call(resp);
+    return resp;
   }
 
   Future<NetResp<T>> get<T>(
@@ -247,12 +274,19 @@ class NetRequest {
           options: Options(headers: headers));
     } catch (e) {
       if (e is DioException) {
-        return handleError(e,
+        final resp = await handleError(e,
             convertFunc: convertFunc, respConvertFunc: respConvertFunc);
+        onResp?.call(resp);
+        return resp;
       }
+      final resp = NetResp<T>(msg: ERROR_UNDEFINED);
+      onResp?.call(resp);
+      return resp;
     }
-    return handleResponse<T>(res,
+    final resp = handleResponse<T>(res,
         convertFunc: convertFunc, respConvertFunc: respConvertFunc);
+    onResp?.call(resp);
+    return resp;
   }
 
   Future<NetResp<T>> delete<T>(
@@ -275,11 +309,18 @@ class NetRequest {
       );
     } catch (e) {
       if (e is DioException) {
-        return handleError(e,
+        final resp = await handleError(e,
             convertFunc: convertFunc, respConvertFunc: respConvertFunc);
+        onResp?.call(resp);
+        return resp;
       }
+      final resp = NetResp<T>(msg: ERROR_UNDEFINED);
+      onResp?.call(resp);
+      return resp;
     }
-    return handleResponse<T>(res,
+    final resp = handleResponse<T>(res,
         convertFunc: convertFunc, respConvertFunc: respConvertFunc);
+    onResp?.call(resp);
+    return resp;
   }
 }
