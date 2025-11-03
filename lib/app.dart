@@ -25,15 +25,18 @@ class App {
   static NavigatorState? findNavigatorState({BuildContext? context}) =>
       context == null ? navigatorKey.currentState : Navigator.of(context);
   static Future<T?>? push<T extends Object?>(Widget page,
-          {String? name, BuildContext? context}) =>
+          {String? name, BuildContext? context,Color? barrierColor,bool opaque = true}) =>
       pushRoute<T>(
         PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) => page,
           transitionDuration: Duration.zero,
+          barrierColor: barrierColor,
+          opaque: opaque,
           settings: RouteSettings(name: name ?? page.name),
         ),
         context,
       );
+
 
   static Future<T?>? pushRoute<T extends Object?>(
           Route<T> route, BuildContext? context) =>
