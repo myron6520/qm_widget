@@ -85,7 +85,7 @@ class _WTSearchPageState<T> extends State<WTSearchPage<T>> {
             .applyBackground(
               padding: EdgeInsets.symmetric(vertical: 8.s),
             )
-            .toSafe()
+            .toSafe(bottom: false)
             .applyBackground(
               color: Colors.white,
             ),
