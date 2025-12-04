@@ -34,3 +34,9 @@ google-services.json
 lib/.DS_Store
 .DS_Store
 .DS_Store
+.dart_tool/package_config.json
+.dart_tool/package_config_subset
+.flutter-plugins
+pubspec.lock
+.flutter-plugins-dependencies
+.flutter-plugins

@@ -10,9 +10,12 @@ class ScaleUtil {
   factory ScaleUtil() => getInstance();
   double scale = 1;
   double? fontScale;
+
+  double Function(num) getFsFunc =
+      (val) => (ScaleUtil().fontScale ?? ScaleUtil().scale) * val;
 }
 
 extension ScaleUtilEx on num {
   double get s => ScaleUtil().scale * this;
-  double get fs => (ScaleUtil().fontScale ?? ScaleUtil().scale) * this;
+  double get fs => ScaleUtil().getFsFunc(this);
 }
