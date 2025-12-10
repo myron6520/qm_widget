@@ -85,7 +85,8 @@ class CustomScrollPhysics extends ScrollPhysics {
   }
 
   @override
-  Simulation? createBallisticSimulation(ScrollMetrics position, double velocity) {
+  Simulation? createBallisticSimulation(
+      ScrollMetrics position, double velocity) {
     // 当用户停止拖动时，调整滚动速度
     if (velocity.abs() < 300.0) {
       return super.createBallisticSimulation(position, velocity * 0.2);
@@ -94,7 +95,8 @@ class CustomScrollPhysics extends ScrollPhysics {
   }
 }
 
-class _TabWidgetState extends State<TabWidget> with SingleTickerProviderStateMixin {
+class _TabWidgetState extends State<TabWidget>
+    with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     if (widget.tabs.isEmpty) return Container();
@@ -115,7 +117,8 @@ class _TabWidgetState extends State<TabWidget> with SingleTickerProviderStateMix
       padding: widget.tabPadding,
     );
     return [
-      (widget.tabBuilder != null).toWidget(() => widget.tabBuilder!.call(tab), falseWidget: tab.applyBackground(height: widget.tabHeight)),
+      (widget.tabBuilder != null).toWidget(() => widget.tabBuilder!.call(tab),
+          falseWidget: tab.applyBackground(height: widget.tabHeight)),
       TabBarView(
         physics: NeverScrollableScrollPhysics(),
         // physics: CustomScrollPhysics(),
@@ -128,7 +131,9 @@ class _TabWidgetState extends State<TabWidget> with SingleTickerProviderStateMix
                 )),
         controller: tabController,
       ).expanded
-    ].toColumn(reversed: widget.reversed, crossAxisAlignment: widget.crossAxisAlignment);
+    ].toColumn(
+        reversed: widget.reversed,
+        crossAxisAlignment: widget.crossAxisAlignment);
   }
 
   late TabController tabController;
@@ -136,7 +141,11 @@ class _TabWidgetState extends State<TabWidget> with SingleTickerProviderStateMix
   @override
   void initState() {
     super.initState();
-    tabController = TabController(vsync: this, length: widget.tabs.length, initialIndex: widget.index);
+    tabController = TabController(
+        vsync: this,
+        length: widget.tabs.length,
+        initialIndex: widget.index,
+        animationDuration: Duration.zero);
     refs = List.generate(
         widget.tabs.length,
         (index) => ValueNotifier(
