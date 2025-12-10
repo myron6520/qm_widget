@@ -25,6 +25,7 @@ class WTInputWidget extends StatefulWidget {
   final Widget? clearWidget;
   final TextAlign textAlign;
   final void Function(String)? onInputChanged;
+  final bool needSetState;
   final Color bottomBorderColor;
   final EdgeInsets? contentPadding;
   final bool showInputBottomBorder;
@@ -48,6 +49,7 @@ class WTInputWidget extends StatefulWidget {
     this.right,
     this.textAlign = TextAlign.left,
     this.onInputChanged,
+    this.needSetState = true,
     this.onSubmitted,
     this.bottomBorderColor = Colors.white,
     this.titleColor = QMColor.COLOR_030319,
@@ -179,7 +181,9 @@ class _WTInputWidgetState extends State<WTInputWidget> {
   }
 
   void onInputStateChange() {
-    setState(() {});
+    if(widget.needSetState && mounted){
+      setState(() {});
+    }
   }
 
   @override
