@@ -10,17 +10,19 @@ class QM {
     BuildContext? ctx = context ?? App.navigatorKey.currentContext;
     if (ctx == null) return;
     _loadingShowing = true;
-    showDialog(
+    showGeneralDialog(
       barrierDismissible: false,
       barrierColor: Colors.transparent,
       context: ctx,
-      builder: (_) => [
+      pageBuilder: (_, __, ___) => [
         const CircularProgressIndicator(
           strokeWidth: 1.5,
           valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
         ).applyBackground(height: 20, width: 20),
         ((msg ?? "").isNotEmpty).toWidget(
-          () => msg!.toText(color: Colors.white, fontSize: 12).applyPadding(const EdgeInsets.only(top: 10)),
+          () => msg!
+              .toText(color: Colors.white, fontSize: 12)
+              .applyPadding(const EdgeInsets.only(top: 10)),
         ),
       ]
           .toColumn(mainAxisSize: MainAxisSize.min)

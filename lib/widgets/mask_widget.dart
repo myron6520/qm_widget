@@ -9,7 +9,14 @@ import 'package:qm_dart_ex/qm_dart_ex.dart';
     MaskWidget.show
     * */
 class MaskWidget extends StatelessWidget {
-  const MaskWidget({Key? key, this.childBuilder, this.barrierColor, this.margin = EdgeInsets.zero, this.padding = EdgeInsets.zero, this.barrierDismissible = true}) : super(key: key);
+  const MaskWidget(
+      {Key? key,
+      this.childBuilder,
+      this.barrierColor,
+      this.margin = EdgeInsets.zero,
+      this.padding = EdgeInsets.zero,
+      this.barrierDismissible = true})
+      : super(key: key);
   final bool barrierDismissible;
   final Widget Function()? childBuilder;
   final Color? barrierColor;
@@ -41,6 +48,21 @@ class MaskWidget extends StatelessWidget {
     EdgeInsets margin = EdgeInsets.zero,
     EdgeInsets padding = EdgeInsets.zero,
   }) {
+    return Navigator.of(context).push<T>(
+      PageRouteBuilder(
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
+        opaque: false,
+        barrierColor: Colors.transparent,
+        pageBuilder: (_, __, ___) => MaskWidget(
+          padding: padding,
+          margin: margin,
+          barrierDismissible: barrierDismissible,
+          childBuilder: childBuilder,
+          barrierColor: barrierColor,
+        ),
+      ),
+    );
     return showDialog<T>(
       barrierDismissible: barrierDismissible,
       context: context,
@@ -64,6 +86,21 @@ class MaskWidget extends StatelessWidget {
     EdgeInsets margin = EdgeInsets.zero,
     EdgeInsets padding = EdgeInsets.zero,
   }) {
+    return Navigator.of(context).push<T>(
+      PageRouteBuilder(
+        transitionDuration: Duration.zero,
+        reverseTransitionDuration: Duration.zero,
+        opaque: false,
+        barrierColor: Colors.transparent,
+        pageBuilder: (_, __, ___) => MaskWidget(
+          margin: margin,
+          padding: padding,
+          barrierDismissible: barrierDismissible,
+          childBuilder: childBuilder,
+          barrierColor: barrierColor,
+        ),
+      ),
+    );
     return showDialog<T>(
       barrierDismissible: barrierDismissible,
       context: context,
