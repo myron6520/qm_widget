@@ -15,6 +15,7 @@ class QMAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? leading;
   final Color tintColor;
   final Widget? titleWidget;
+  final void Function()? doBack;
   const QMAppBar(
       {Key? key,
       this.title = "",
@@ -23,7 +24,8 @@ class QMAppBar extends StatelessWidget implements PreferredSizeWidget {
       this.systemOverlayStyle = SystemUiOverlayStyle.dark,
       this.actions,
       this.titleWidget,
-      this.leading})
+      this.leading,
+      this.doBack})
       : super(key: key);
 
   @override
@@ -54,7 +56,11 @@ class QMAppBar extends StatelessWidget implements PreferredSizeWidget {
             alignment: Alignment.center,
           )
               .onClick(click: () {
-            Navigator.of(context).pop();
+            if (doBack != null) {
+              doBack?.call();
+            } else {
+              Navigator.of(context).pop();
+            }
           }),
     );
   }

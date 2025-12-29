@@ -17,6 +17,7 @@ class WTScaffold extends StatelessWidget {
   final Widget? footer;
   final Color footerBackgroundColor;
   final Widget? leading;
+  final void Function()? doBack;
   const WTScaffold({
     super.key,
     this.body,
@@ -30,6 +31,7 @@ class WTScaffold extends StatelessWidget {
     this.footerBackgroundColor = Colors.white,
     this.leading,
     this.titleWidget,
+    this.doBack,
   });
 
   @override
@@ -47,6 +49,7 @@ class WTScaffold extends StatelessWidget {
               ),
           backgroundColor: appBarBackgroundColor,
           actions: actions,
+          doBack: doBack,
         ),
         body: [
           (body ?? Container()).expanded,
