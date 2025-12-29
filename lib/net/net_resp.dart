@@ -1,5 +1,6 @@
 // ignore_for_file: unnecessary_overrides, prefer_initializing_formals
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:qm_widget/pub/widget_default_builder.dart';
 import 'package:qm_dart_ex/qm_dart_ex.dart';
@@ -13,6 +14,7 @@ class NetResp<T> {
   bool Function(int code, String msg) respCheckFunc = ((c, _) => c == RESP_OK);
   bool get isOK => respCheckFunc.call(code, msg);
   String get info => "$msg {code:$code}";
+  RequestOptions? requestOptions;
   NetResp(
       {T? data,
       int code = -1,

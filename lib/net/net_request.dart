@@ -27,14 +27,15 @@ class NetRequest {
     NetResp<T> Function(Response? res)? respConvertFunc,
   }) {
     NetResp<T> resp = NetResp(
-        code: res?.statusCode ?? -1,
-        msg: res?.statusMessage ?? ERROR_UNDEFINED);
+        code: res?.statusCode ?? -1, msg: res?.statusMessage ?? ERROR_UNDEFINED)
+      ..requestOptions = res?.requestOptions;
     if (respConvertFunc != null) {
-      return respConvertFunc.call(res);
+      return respConvertFunc.call(res)..requestOptions = res?.requestOptions;
     }
     if ((res?.statusCode ?? -1) == 200 && res?.data != null) {
       if (convertFunc != null) {
-        return convertFunc.call(res?.data);
+        return convertFunc.call(res?.data)
+          ..requestOptions = res?.requestOptions;
       } else {
         resp.data = res?.data as T;
       }
@@ -43,9 +44,11 @@ class NetRequest {
         return convertFunc.call({
           "code": res?.statusCode ?? -1,
           "message": res?.statusMessage ?? "",
-        });
+        })
+          ..requestOptions = res?.requestOptions;
       }
     }
+
     return resp;
   }
 
@@ -84,18 +87,20 @@ class NetRequest {
                   code = codeBadCertificate;
                   break;
                 case DioExceptionType.badResponse:
+                  debugPrint("handleError:${it.requestOptions}");
                   return handleResponse(
                     it.response,
                     convertFunc: convertFunc,
                     respConvertFunc: respConvertFunc,
-                  );
+                  )..requestOptions = it.requestOptions;
                 case DioExceptionType.unknown:
                   msg = "${it.error}";
                   code = codeUnknown;
                   break;
               }
               debugPrint("handleError:$it");
-              return NetResp<T>(msg: msg, code: code);
+              return NetResp<T>(msg: msg, code: code)
+                ..requestOptions = it.requestOptions;
             })
         .call(e);
   }
