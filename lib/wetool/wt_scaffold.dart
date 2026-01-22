@@ -18,6 +18,7 @@ class WTScaffold extends StatelessWidget {
   final Color footerBackgroundColor;
   final Widget? leading;
   final void Function()? doBack;
+  final Widget? endDrawer;
   const WTScaffold({
     super.key,
     this.body,
@@ -32,12 +33,14 @@ class WTScaffold extends StatelessWidget {
     this.leading,
     this.titleWidget,
     this.doBack,
+    this.endDrawer,
   });
 
   @override
   Widget build(BuildContext context) => Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: backgroundColor,
+        endDrawer: endDrawer,
         appBar: QMAppBar(
           titleWidget: titleWidget,
           title: title,

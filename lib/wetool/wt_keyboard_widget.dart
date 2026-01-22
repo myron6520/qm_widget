@@ -145,8 +145,10 @@ class _WTKeyboardWidgetState extends State<WTKeyboardWidget> {
             ..removeLast())
           .toRow(mainAxisAlignment: MainAxisAlignment.center);
   Widget buildAlphabetWidget(BoxConstraints constraints) {
-    double minWidget =
-        (constraints.maxWidth - 24.s * widget.screenScale * 2 - 16 * 9) / 10;
+    double minWidget = (constraints.maxWidth -
+            24.s * widget.screenScale * 2 -
+            16.s * widget.screenScale * 9) /
+        10;
     return [
       buildLineWidget([
         ["Q", KeyboardKeyType.normal],
@@ -174,7 +176,7 @@ class _WTKeyboardWidgetState extends State<WTKeyboardWidget> {
       ], itemWidth: minWidget),
       16.inColumn,
       buildLineWidget([
-        ["123", KeyboardKeyType.switcher],
+        if (widget.showSwitcher) ["123", KeyboardKeyType.switcher],
         ["Z", KeyboardKeyType.normal],
         ["X", KeyboardKeyType.normal],
         ["C", KeyboardKeyType.normal],
@@ -185,7 +187,7 @@ class _WTKeyboardWidgetState extends State<WTKeyboardWidget> {
         ["", KeyboardKeyType.del],
       ]),
       (16.s * widget.screenScale).inColumn,
-      buildConfirmWidget(constraints),
+      // buildConfirmWidget(constraints),
     ].toColumn();
   }
 
