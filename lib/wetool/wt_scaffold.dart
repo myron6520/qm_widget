@@ -19,6 +19,7 @@ class WTScaffold extends StatelessWidget {
   final Widget? leading;
   final void Function()? doBack;
   final Widget? endDrawer;
+  final bool resizeToAvoidBottomInset;
   const WTScaffold({
     super.key,
     this.body,
@@ -34,11 +35,12 @@ class WTScaffold extends StatelessWidget {
     this.titleWidget,
     this.doBack,
     this.endDrawer,
+    this.resizeToAvoidBottomInset = false,
   });
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: resizeToAvoidBottomInset,
         backgroundColor: backgroundColor,
         endDrawer: endDrawer,
         appBar: QMAppBar(

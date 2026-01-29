@@ -55,6 +55,7 @@ class QMAlertWidget extends StatelessWidget {
       fontSize: 18.fs,
       height: 24 / 18,
       fontWeight: FontWeight.w500,
+      textAlign: TextAlign.center,
     );
     return [
       titleBuilder?.call(titleWidget) ?? titleWidget,
