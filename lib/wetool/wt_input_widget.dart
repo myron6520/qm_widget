@@ -143,7 +143,11 @@ class _WTInputWidgetState extends State<WTInputWidget> {
         [
           widget.left ?? Container(),
           buildTextFiled(),
-          (widget.showClearWhenNeeds && controller.text.isNotEmpty && widget.enable && focusNode.hasFocus).toWidget(
+          (widget.showClearWhenNeeds &&
+                  controller.text.isNotEmpty &&
+                  widget.enable &&
+                  focusNode.hasFocus)
+              .toWidget(
             () => (widget.clearWidget ??
                     SvgPicture.string(
                       WTIcon.INPUT_CLEAR,
@@ -163,7 +167,10 @@ class _WTInputWidgetState extends State<WTInputWidget> {
           .toRow()
           .applyBackground(
             decoration: BoxDecoration(
-              border: widget.showInputBottomBorder ? Border(bottom: BorderSide(color: bottomBorderColor, width: 1.s)) : null,
+              border: widget.showInputBottomBorder
+                  ? Border(
+                      bottom: BorderSide(color: bottomBorderColor, width: 1.s))
+                  : null,
             ),
           )
           .expanded,
@@ -171,9 +178,11 @@ class _WTInputWidgetState extends State<WTInputWidget> {
     ].toRow();
   }
 
-  late TextEditingController controller = widget.controller ?? TextEditingController();
+  late TextEditingController controller =
+      widget.controller ?? TextEditingController();
   late FocusNode focusNode = widget.focusNode ?? FocusNode();
-  Color get bottomBorderColor => focusNode.hasFocus ? QMColor.COLOR_00B276 : widget.bottomBorderColor;
+  Color get bottomBorderColor =>
+      focusNode.hasFocus ? QMColor.COLOR_00B276 : widget.bottomBorderColor;
   @override
   void initState() {
     super.initState();
@@ -181,7 +190,7 @@ class _WTInputWidgetState extends State<WTInputWidget> {
   }
 
   void onInputStateChange() {
-    if(widget.needSetState && mounted){
+    if (widget.needSetState && mounted) {
       setState(() {});
     }
   }
