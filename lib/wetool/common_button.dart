@@ -16,6 +16,8 @@ class CommonButton extends StatefulWidget {
   final double? radius;
   final Color bgColor;
   final BorderSide? border;
+  final bool fixedHeight;
+  final Widget? child;
 
   const CommonButton(
       {Key? key,
@@ -29,7 +31,9 @@ class CommonButton extends StatefulWidget {
       this.fontSize,
       this.fontWeight = FontWeight.w600,
       this.textHeight,
-      this.border})
+      this.border,
+      this.fixedHeight = false,
+      this.child})
       : super(key: key);
 
   @override
@@ -42,7 +46,8 @@ class _CommonButtonState extends State<CommonButton> {
     return Container(
         width: widget.width ?? double.maxFinite,
         height: widget.height,
-        constraints: BoxConstraints(minHeight: 44.s),
+        constraints:
+            widget.fixedHeight ? null : BoxConstraints(minHeight: 44.s),
         child: ElevatedButton(
           // splashColor: Colors.transparent,
           // highlightColor: Colors.transparent,
@@ -56,11 +61,12 @@ class _CommonButtonState extends State<CommonButton> {
             elevation: 0,
           ),
 
-          child: CommonTextWidget.text(widget.text,
-              color: widget.textColor,
-              size: widget.fontSize ?? 16.fs,
-              h: widget.textHeight ?? 1.4,
-              weight: widget.fontWeight),
+          child: widget.child ??
+              CommonTextWidget.text(widget.text,
+                  color: widget.textColor,
+                  size: widget.fontSize ?? 16.fs,
+                  h: widget.textHeight ?? 1.4,
+                  weight: widget.fontWeight),
           onPressed: widget.pressed,
         ));
   }
