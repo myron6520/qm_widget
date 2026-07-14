@@ -1,7 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api, prefer_const_constructors_in_immutables
 
 import 'package:flutter/material.dart';
-import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
+import 'package:flutter_smart_refresh/flutter_smart_refresh.dart';
 import 'package:qm_dart_ex/qm_dart_ex.dart';
 
 import 'package:qm_widget/net/net_resp.dart';
