@@ -217,79 +217,116 @@ class PageRefWidget<T> extends StatefulWidget {
 }
 
 class _PageRefWidgetState<T> extends State<PageRefWidget<T>> {
+  late final RefreshController controller;
+  late final bool _ownsController;
+
+  @override
+  void initState() {
+    super.initState();
+    _ownsController = widget.refreshController == null;
+    controller = widget.refreshController ??
+        RefreshController(autoCleanup: false);
+  }
+
+  @override
+  void dispose() {
+    if (_ownsController) {
+      controller.dispose();
+    }
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return PageWidget<T>(
-      widget.loadFunc,
-      sliver: widget.sliver,
-      autoLoad: widget.autoLoad,
-      didGetProvider: widget.didGetProvider,
-      statusWidgetBuilder: widget.statusWidgetBuilder,
-      onStatusWidgetClick: widget.onStatusWidgetClick,
-      dataChanged: widget.dataChanged,
-      checkNoData: widget.checkNoData,
-      appendDataFunc: widget.appendDataFunc,
-      pageSize: widget.pageSize,
-      builder: (ctx, provider) => SmartRefresher(
-        controller: controller,
-        // enablePullUp:enablePullUp,
-        enablePullDown: widget.enablePullDown,
-        enablePullUp: widget.enablePullUp && !provider.isEnd,
-        footer: ClassicFooter(
-          loadingText: "",
-          noDataText: "",
-          outerBuilder: (child) => child,
-          noMoreIcon: "已加载完全部".toText(
-            color: QMColor.COLOR_BDBDBD,
-            fontSize: 14.fs,
-            height: 20 / 14,
-          ),
-          loadingIcon: SizedBox(
-            width: 20.s,
-            height: 20.s,
-            child: CircularProgressIndicator(
-              strokeWidth: 2.0.s,
-              color: widget.waterDropColor,
+    return ChangeNotifierProvider<PageProvider<T>>(
+      create: (_) {
+        var p = PageProvider<T>(
+          widget.loadFunc,
+          dataChanged: widget.dataChanged,
+          checkNoData: widget.checkNoData,
+          appendDataFunc: widget.appendDataFunc,
+          pageSize: widget.pageSize,
+        );
+        widget.didGetProvider?.call(p);
+        if (widget.autoLoad) {
+          p.status = RespStatus.loading;
+          p.reloadData();
+        }
+        return p;
+      },
+      child: Consumer<PageProvider<T>>(
+        builder: (ctx, provider, __) => SmartRefresher(
+          controller: controller,
+          enablePullDown: widget.enablePullDown,
+          enablePullUp: widget.enablePullUp && !provider.isEnd,
+          footer: ClassicFooter(
+            loadingText: "",
+            noDataText: "",
+            outerBuilder: (child) => child,
+            noMoreIcon: "已加载完全部".toText(
+              color: QMColor.COLOR_BDBDBD,
+              fontSize: 14.fs,
+              height: 20 / 14,
+            ),
+            loadingIcon: SizedBox(
+              width: 20.s,
+              height: 20.s,
+              child: CircularProgressIndicator(
+                strokeWidth: 2.0.s,
+                color: widget.waterDropColor,
+              ),
             ),
           ),
-        ),
-        header: widget.refreshHeader ??
-            WaterDropHeader(
-              waterDropColor: widget.waterDropColor,
-              idleIcon: Icon(
-                Icons.autorenew,
-                size: 16.s,
-                color: widget.refreshColor,
-              ),
-              refresh: SizedBox(
-                width: 20.s,
-                height: 20.s,
-                child: CircularProgressIndicator(
-                  strokeWidth: 2.0.s,
+          header: widget.refreshHeader ??
+              WaterDropHeader(
+                waterDropColor: widget.waterDropColor,
+                idleIcon: Icon(
+                  Icons.autorenew,
+                  size: 16.s,
+                  color: widget.refreshColor,
+                ),
+                refresh: SizedBox(
+                  width: 20.s,
+                  height: 20.s,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2.0.s,
+                    color: widget.waterDropColor,
+                  ),
+                ),
+                complete: Icon(
+                  Icons.done,
                   color: widget.waterDropColor,
+                  size: 20.s,
                 ),
               ),
-              complete: Icon(
-                Icons.done,
-                color: widget.waterDropColor,
-                size: 20.s,
-              ),
-            ),
-        onRefresh: () async {
-          await provider.reloadData();
-          controller.refreshCompleted(resetFooterState: true);
-        },
-        onLoading: provider.isEnd
-            ? null
-            : () async {
-                await provider.loadMore();
-                controller.loadComplete();
-              },
-        child: widget.builder.call(ctx, provider),
+          onRefresh: () async {
+            await provider.reloadData();
+            controller.refreshCompleted(resetFooterState: true);
+          },
+          onLoading: provider.isEnd
+              ? null
+              : () async {
+                  await provider.loadMore();
+                  controller.loadComplete();
+                },
+          child: RespWidget(
+            provider.status,
+            sliver: widget.sliver,
+            statusWidgetBuilder: widget.statusWidgetBuilder != null
+                ? (_) => widget.statusWidgetBuilder!.call(provider)
+                : null,
+            builder: (_) => widget.builder.call(ctx, provider),
+            onTap: () {
+              if (widget.onStatusWidgetClick != null) {
+                widget.onStatusWidgetClick!.call(provider);
+              } else {
+                provider.status = RespStatus.loading;
+                provider.reloadData();
+              }
+            },
+          ),
+        ),
       ),
     );
   }
-
-  late RefreshController controller =
-      widget.refreshController ?? RefreshController();
 }

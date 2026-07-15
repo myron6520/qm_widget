@@ -71,6 +71,14 @@ class NetWidget<T> extends StatefulWidget {
 }
 
 class _NetWidgetState<T> extends State<NetWidget<T>> {
+  late final RefreshController controller = RefreshController(autoCleanup: false);
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   void _loadData(NetProvider<T> provider) {
     provider.status = RespStatus.loading;
     provider.loadData();
@@ -89,51 +97,53 @@ class _NetWidgetState<T> extends State<NetWidget<T>> {
         return p;
       },
       child: Consumer<NetProvider<T>>(
-        builder: (ctx, provider, __) => RespWidget(
-          provider.status,
-          sliver: widget.sliver,
-          statusWidgetBuilder: widget.statusWidgetBuilder != null
-              ? (_) => widget.statusWidgetBuilder?.call(provider)
-              : null,
-          builder: (_) => widget.refreshEnable
-              ? SmartRefresher(
-                  controller: controller,
-                  enablePullUp: false,
-                  enablePullDown: true,
-                  header: widget.refreshHeader ??
-                      WaterDropHeader(
-                        waterDropColor: widget.waterDropColor,
-                        idleIcon: Icon(
-                          Icons.autorenew,
-                          size: 16.s,
-                          color: widget.refreshColor,
-                        ),
-                        refresh: SizedBox(
-                          width: 20.s,
-                          height: 20.s,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2.0.s,
-                            color: widget.waterDropColor,
-                          ),
-                        ),
-                        complete: Icon(
-                          Icons.done,
-                          color: widget.waterDropColor,
-                          size: 20.s,
-                        ),
-                      ),
-                  onRefresh: () async {
-                    await provider.loadData();
-                    controller.refreshCompleted(resetFooterState: true);
-                  },
-                  child: widget.builder.call(ctx, provider),
-                )
-              : widget.builder.call(ctx, provider),
-          onTap: () => _loadData(provider),
-        ),
+        builder: (ctx, provider, __) {
+          final content = RespWidget(
+            provider.status,
+            sliver: widget.sliver,
+            statusWidgetBuilder: widget.statusWidgetBuilder != null
+                ? (_) => widget.statusWidgetBuilder?.call(provider)
+                : null,
+            builder: (_) => widget.builder.call(ctx, provider),
+            onTap: () => _loadData(provider),
+          );
+          if (!widget.refreshEnable) {
+            return content;
+          }
+          return SmartRefresher(
+            controller: controller,
+            enablePullUp: false,
+            enablePullDown: true,
+            header: widget.refreshHeader ??
+                WaterDropHeader(
+                  waterDropColor: widget.waterDropColor,
+                  idleIcon: Icon(
+                    Icons.autorenew,
+                    size: 16.s,
+                    color: widget.refreshColor,
+                  ),
+                  refresh: SizedBox(
+                    width: 20.s,
+                    height: 20.s,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2.0.s,
+                      color: widget.waterDropColor,
+                    ),
+                  ),
+                  complete: Icon(
+                    Icons.done,
+                    color: widget.waterDropColor,
+                    size: 20.s,
+                  ),
+                ),
+            onRefresh: () async {
+              await provider.loadData();
+              controller.refreshCompleted(resetFooterState: true);
+            },
+            child: content,
+          );
+        },
       ),
     );
   }
-
-  late RefreshController controller = RefreshController();
 }
