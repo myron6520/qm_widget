@@ -37,6 +37,7 @@ class QMAlertWidget extends StatelessWidget {
   final String message;
   final Widget? Function(String)? messageBuilder;
   final List<QMHandleStyle>? handles;
+  final TextAlign messageAlign;
   const QMAlertWidget({
     Key? key,
     this.onConfirm,
@@ -46,6 +47,7 @@ class QMAlertWidget extends StatelessWidget {
     this.onHandleItemClick,
     this.messageBuilder,
     this.titleBuilder,
+    this.messageAlign = TextAlign.center,
   }) : super(key: key);
 
   @override
@@ -66,7 +68,7 @@ class QMAlertWidget extends StatelessWidget {
                 color: QMColor.COLOR_8F92A1,
                 fontSize: 14.fs,
                 height: 20 / 14,
-                textAlign: TextAlign.center,
+                textAlign: messageAlign,
                 maxLines: 5,
               )
               .expanded
