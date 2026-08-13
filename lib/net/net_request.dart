@@ -15,7 +15,7 @@ class NetRequest {
   static int codeConnectionTimeout = -1005;
   static int codeBadCertificate = -1006;
   static int codeUnknown = -1007;
-  static String ERROR_UNDEFINED = "通讯异常";
+  static String ERROR_UNDEFINED = "通讯异常，请重试";
   final Dio _client;
   static NetResp<T> Function<T>(DioError)? onError;
   static void Function<T>(NetResp<T>)? onResp;
@@ -95,6 +95,7 @@ class NetRequest {
                   )..requestOptions = it.requestOptions;
                 case DioExceptionType.unknown:
                   msg = "${it.error}";
+                  msg = ERROR_UNDEFINED;
                   code = codeUnknown;
                   break;
               }
@@ -215,6 +216,7 @@ class NetRequest {
         onResp?.call(resp);
         return resp;
       }
+
       final resp = NetResp<T>(msg: ERROR_UNDEFINED);
       onResp?.call(resp);
       return resp;
