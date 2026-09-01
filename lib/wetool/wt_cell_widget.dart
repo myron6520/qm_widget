@@ -20,6 +20,8 @@ class WTCellWidget extends StatelessWidget {
   final EdgeInsets? padding;
   final EdgeInsets? margin;
   final double? rightSpan;
+  final Color? backgroundColor;
+  final Color? borderColor;
   const WTCellWidget({
     Key? key,
     required this.title,
@@ -33,6 +35,8 @@ class WTCellWidget extends StatelessWidget {
     this.titleColor = QMColor.COLOR_030319,
     this.titleBuilder,
     this.detailBuilder,
+    this.backgroundColor,
+    this.borderColor,
   }) : super(key: key);
 
   @override
@@ -68,11 +72,12 @@ class WTCellWidget extends StatelessWidget {
             padding: padding ?? EdgeInsets.symmetric(vertical: 16.s),
             margin: margin ?? EdgeInsets.symmetric(horizontal: 16.s),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: backgroundColor ?? Colors.white,
               border: showBottomLine
                   ? Border(
-                      bottom:
-                          BorderSide(color: QMColor.COLOR_F2F2F2, width: 0.5.s))
+                      bottom: BorderSide(
+                          color: borderColor ?? QMColor.COLOR_F2F2F2,
+                          width: 0.5.s))
                   : null,
             )),
         (right ??
