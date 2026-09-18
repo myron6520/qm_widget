@@ -89,4 +89,16 @@ class WTIcon {
       '''<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M7 4.3335C7 4.88578 7.44772 5.3335 8 5.3335C8.55228 5.3335 9 4.88578 9 4.3335C9 3.78121 8.55228 3.3335 8 3.3335C7.44772 3.3335 7 3.78121 7 4.3335ZM7 12.3335C7 12.8858 7.44771 13.3335 8 13.3335C8.55228 13.3335 9 12.8858 9 12.3335C9 11.7812 8.55228 11.3335 8 11.3335C7.44771 11.3335 7 11.7812 7 12.3335ZM8 9.3335C7.44772 9.3335 7 8.88578 7 8.3335C7 7.78121 7.44772 7.3335 8 7.3335C8.55228 7.3335 9 7.78121 9 8.3335C9 8.88578 8.55228 9.3335 8 9.3335Z" fill="#8F92A1"/>
 </svg>''';
+  static String STEPPER_SUBTRACT = '''
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M6.66667 12H17.3333" stroke="#141615" stroke-width="1.5" stroke-linecap="round"/>
+</svg>
+
+''';
+  static String STEPPER_ADD =
+      '''<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M6.66666 12H17.3333M12 6.66663V17.3333" stroke="#141615" stroke-width="1.5" stroke-linecap="round"/>
+</svg>
+
+''';
 }

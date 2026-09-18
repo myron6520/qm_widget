@@ -22,6 +22,7 @@ class WTCellWidget extends StatelessWidget {
   final double? rightSpan;
   final Color? backgroundColor;
   final Color? borderColor;
+  final double? detailRightSpan;
   const WTCellWidget({
     Key? key,
     required this.title,
@@ -37,6 +38,7 @@ class WTCellWidget extends StatelessWidget {
     this.detailBuilder,
     this.backgroundColor,
     this.borderColor,
+    this.detailRightSpan,
   }) : super(key: key);
 
   @override
@@ -66,7 +68,7 @@ class WTCellWidget extends StatelessWidget {
                     textAlign: TextAlign.right,
                   ))
               .expanded,
-          12.s.inRow,
+          (detailRightSpan ?? 12.s).inRow,
         ].toRow().applyBackground(
             alignment: Alignment.center,
             padding: padding ?? EdgeInsets.symmetric(vertical: 16.s),
