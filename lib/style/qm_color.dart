@@ -10,6 +10,7 @@ class QMColor {
   static const Color COLOR_F2F2F2 = Color(0xFFF2F2F2);
   static const Color COLOR_EBEDEC = Color(0xFFEBEDEC);
   static const Color COLOR_F7F9FA = Color(0xFFF7F9FA);
+  static const Color COLOR_E3F7F3 = Color(0xFFE3F7F3);
   static const Color COLOR_8F92A1 = Color(0xFF8F92A1);
   static const Color COLOR_BDBDBD = Color(0xFFBDBDBD);
   static const Color COLOR_00B276 = Color(0xFF00B276);
@@ -38,4 +39,6 @@ class QMColor {
   static const Color COLOR_8B8D8C = Color(0xFF8B8D8C);
   static const Color COLOR_D9D9D9 = Color(0xFFD9D9D9);
   static const Color COLOR_FFC01F = Color(0xFFFFC01F);
+  static const Color COLOR_444645 = Color(0xFF444645);
+  static const Color COLOR_E4E5E5 = Color(0xFFE4E5E5);
 }

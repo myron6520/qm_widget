@@ -23,6 +23,8 @@ export 'package:qm_widget/widgets/text_widget.dart';
 export 'package:qm_widget/widgets/qm_app_bar.dart';
 export 'package:qm_widget/widgets/qm_tag.dart';
 export 'package:qm_widget/widgets/waiting_widget.dart';
+export 'package:qm_widget/widgets/status_bar_style_widget.dart';
+export 'package:qm_widget/wetool/wt_gradient_scaffold.dart';
 
 export 'package:qm_widget/net/net_request.dart';
 export 'package:qm_widget/net/net_action.dart';
