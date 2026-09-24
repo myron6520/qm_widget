@@ -41,6 +41,9 @@ class TabWidget extends StatefulWidget {
     this.crossAxisAlignment = CrossAxisAlignment.center,
     this.onIndexChanged,
     this.onCreated,
+    this.disableAutoScroll = true,
+    this.tabAlignment,
+    this.physics,
   }) : super(key: key);
   final int index;
   final List<Widget> tabs;
@@ -65,9 +68,34 @@ class TabWidget extends StatefulWidget {
   final CrossAxisAlignment crossAxisAlignment;
   final void Function(int index, ChangeState state)? onIndexChanged;
   final void Function(TabController controller)? onCreated;
+  final bool disableAutoScroll;
+  final TabAlignment? tabAlignment;
+  final ScrollPhysics? physics;
 
   @override
   _TabWidgetState createState() => _TabWidgetState();
+}
+
+/// 禁止由程序驱动的滚动（例如 TabBar 点击时内部触发的 DrivenScrollActivity 居中滚动），
+/// 同时保留用户手势拖拽滑动能力
+class NoProgrammaticScrollPhysics extends ScrollPhysics {
+  const NoProgrammaticScrollPhysics({super.parent});
+
+  @override
+  NoProgrammaticScrollPhysics applyTo(ScrollPhysics? ancestor) {
+    return NoProgrammaticScrollPhysics(parent: buildParent(ancestor));
+  }
+
+  @override
+  double applyBoundaryConditions(ScrollMetrics position, double value) {
+    if (position is ScrollPosition) {
+      final activity = (position as dynamic).activity;
+      if (activity is DrivenScrollActivity) {
+        return value - position.pixels;
+      }
+    }
+    return super.applyBoundaryConditions(position, value);
+  }
 }
 
 class CustomScrollPhysics extends ScrollPhysics {
@@ -102,6 +130,12 @@ class _TabWidgetState extends State<TabWidget>
     if (widget.tabs.isEmpty) return Container();
     TabBar tab = TabBar(
       isScrollable: widget.isScrollable,
+      tabAlignment: widget.tabAlignment ??
+          (widget.isScrollable ? TabAlignment.start : null),
+      physics: widget.physics ??
+          (widget.disableAutoScroll
+              ? const NoProgrammaticScrollPhysics()
+              : null),
       labelPadding: widget.labelPadding,
       indicatorSize: widget.indicatorSize,
       indicatorPadding: widget.indicatorPadding,
