@@ -190,6 +190,7 @@ class PageRefWidget<T> extends StatefulWidget {
     this.waterDropColor = QMColor.COLOR_00B276,
     this.refreshHeader,
     this.appendDataFunc,
+    this.isEndCheckFunc,
     this.refreshController,
     this.enablePullUp = true,
     this.enablePullDown = true,
@@ -203,6 +204,7 @@ class PageRefWidget<T> extends StatefulWidget {
   final Function(PageProvider<T>)? onStatusWidgetClick;
   final Function(NetResp<List<T>> resp)? dataChanged;
   final List<T> Function(List<T>, NetResp<List<T>> resp)? appendDataFunc;
+  final bool Function(NetResp<List<T>> resp)? isEndCheckFunc;
   final bool checkNoData;
   final int pageSize;
   final Widget? refreshHeader;
@@ -249,6 +251,7 @@ class _PageRefWidgetState<T> extends State<PageRefWidget<T>> {
       dataChanged: widget.dataChanged,
       checkNoData: widget.checkNoData,
       appendDataFunc: widget.appendDataFunc,
+      isEndCheckFunc: widget.isEndCheckFunc,
       pageSize: widget.pageSize,
       builder: (ctx, provider) => SmartRefresher(
         controller: controller,

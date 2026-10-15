@@ -7,8 +7,14 @@ class WTBottomSheetContailer extends StatelessWidget {
   final String? title;
   final Widget child;
   final Widget Function(Widget)? titleBuilder;
-  const WTBottomSheetContailer(
-      {super.key, this.title, required this.child, this.titleBuilder});
+  final Color backgroundColor;
+  const WTBottomSheetContailer({
+    super.key,
+    this.title,
+    required this.child,
+    this.titleBuilder,
+    this.backgroundColor = Colors.white,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +36,7 @@ class WTBottomSheetContailer extends StatelessWidget {
       child
     ].toColumn(mainAxisSize: MainAxisSize.min).toSafe().applyBackground(
             decoration: BoxDecoration(
-          color: Colors.white,
+          color: backgroundColor,
           borderRadius: BorderRadius.vertical(top: Radius.circular(16.s)),
         ));
   }

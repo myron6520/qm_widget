@@ -28,6 +28,7 @@ class ListWidget<T> extends StatefulWidget {
     this.enablePullDown = true,
     this.statusWidgetBuilder,
     this.waterDropColor = QMColor.COLOR_00B276,
+    this.isEndCheckFunc,
   }) : super(key: key);
   final Future<NetResp<List<T>>> Function(int page, int pageSize) loadFunc;
   final Widget Function(BuildContext context, int index, T itemData)
@@ -46,6 +47,7 @@ class ListWidget<T> extends StatefulWidget {
   final bool enablePullDown;
   final Widget? Function(PageProvider<T>)? statusWidgetBuilder;
   final Color waterDropColor;
+  final bool Function(NetResp<List<T>> resp)? isEndCheckFunc;
 
   @override
   _ListWidgetState<T> createState() => _ListWidgetState<T>();
@@ -67,6 +69,7 @@ class _ListWidgetState<T> extends State<ListWidget<T>>
       enablePullUp: widget.enablePullUp,
       enablePullDown: widget.enablePullDown,
       appendDataFunc: widget.appendDataFunc,
+      isEndCheckFunc: widget.isEndCheckFunc,
       waterDropColor: widget.waterDropColor,
       builder: (_, provider) => ListView.separated(
           controller: controller,
